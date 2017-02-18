@@ -140,6 +140,7 @@
 		B621C3BC1E503A25008AB327 /* Tag */ = {
 			isa = PBXGroup;
 			children = (
+				B655FF1E1E58ED3F008040E9 /* Model */,
 				B621C3FB1E5123E8008AB327 /* Resources */,
 				B621C3BD1E503A25008AB327 /* AppDelegate.swift */,
 				B621C3BF1E503A25008AB327 /* ViewController.swift */,
@@ -149,10 +150,7 @@
 				B621C3C61E503A25008AB327 /* LaunchScreen.storyboard */,
 				B621C3C91E503A25008AB327 /* Info.plist */,
 				B621C3EB1E503AE2008AB327 /* GoogleService-Info.plist */,
-				B621C3F31E510AE2008AB327 /* Sweet.swift */,
-				B621C3F51E510B14008AB327 /* User.swift */,
 				B621C3F71E510B44008AB327 /* LoginViewController.swift */,
-				B621C3F91E51139F008AB327 /* Settings.swift */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -182,6 +180,16 @@
 				B621C3FC1E51241C008AB327 /* NoPic.gif */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		B655FF1E1E58ED3F008040E9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B621C3F91E51139F008AB327 /* Settings.swift */,
+				B621C3F31E510AE2008AB327 /* Sweet.swift */,
+				B621C3F51E510B14008AB327 /* User.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		DEEAE2DB45901EFC537C3835 /* Pods */ = {
