@@ -23,6 +23,7 @@ struct User {
     let friends: [String]
     
     init (snapshot:FIRDataSnapshot) {
+        
         itemRef = snapshot.ref
         
         let snapshotValue = snapshot.value as? NSDictionary
