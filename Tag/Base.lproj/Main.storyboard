@@ -116,7 +116,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Events" id="dLl-OH-yIe">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="Xcg-io-jNi"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="Xcg-io-jNi">
+                            <connections>
+                                <action selector="addEvent:" destination="HSM-hd-2uH" id="Ysj-OB-4Xd"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D3m-Oq-oXa" userLabel="First Responder" sceneMemberID="firstResponder"/>

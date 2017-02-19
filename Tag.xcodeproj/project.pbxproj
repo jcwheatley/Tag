@@ -23,6 +23,7 @@
 		B621C3FA1E51139F008AB327 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621C3F91E51139F008AB327 /* Settings.swift */; };
 		B621C3FD1E51241C008AB327 /* NoPic.gif in Resources */ = {isa = PBXBuildFile; fileRef = B621C3FC1E51241C008AB327 /* NoPic.gif */; };
 		B621C3FF1E514689008AB327 /* gav.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B621C3FE1E514689008AB327 /* gav.jpg */; };
+		B6336D411E592B4700996CC1 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6336D401E592B4700996CC1 /* Event.swift */; };
 		B655FF201E59189A008040E9 /* MyEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B655FF1F1E59189A008040E9 /* MyEventsView.swift */; };
 		D5863FD8FEF17D8C5E51D6DC /* Pods_Tag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E422EE05B4CCB23B573457A /* Pods_Tag.framework */; };
 		DDE6DDAF18FCCE40CAA652DA /* Pods_TagUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0BD98E60F0DBE7FC93638C /* Pods_TagUITests.framework */; };
@@ -73,6 +74,7 @@
 		B621C3F91E51139F008AB327 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B621C3FC1E51241C008AB327 /* NoPic.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = NoPic.gif; sourceTree = "<group>"; };
 		B621C3FE1E514689008AB327 /* gav.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gav.jpg; sourceTree = "<group>"; };
+		B6336D401E592B4700996CC1 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		B655FF1F1E59189A008040E9 /* MyEventsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventsView.swift; sourceTree = "<group>"; };
 		C803A3A002B864CB86C3B94B /* Pods-Tag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tag.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tag/Pods-Tag.debug.xcconfig"; sourceTree = "<group>"; };
 		CEE506921665EE1EB1DB532A /* Pods-TagTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TagTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TagTests/Pods-TagTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				B621C3F91E51139F008AB327 /* Settings.swift */,
 				B621C3F31E510AE2008AB327 /* Sweet.swift */,
 				B621C3F51E510B14008AB327 /* User.swift */,
+				B6336D401E592B4700996CC1 /* Event.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -504,6 +507,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B621C3F81E510B44008AB327 /* LoginViewController.swift in Sources */,
+				B6336D411E592B4700996CC1 /* Event.swift in Sources */,
 				B621C3EE1E510A02008AB327 /* SweetsTableViewController.swift in Sources */,
 				B621C3C01E503A25008AB327 /* ViewController.swift in Sources */,
 				B655FF201E59189A008040E9 /* MyEventsView.swift in Sources */,
