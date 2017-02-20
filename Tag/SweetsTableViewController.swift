@@ -48,6 +48,10 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
         try! FIRAuth.auth()!.signOut()
         self.performSegue(withIdentifier: "loginSegue", sender: self)
     }
+    @IBAction func Logout(_ sender: Any) {
+        try! FIRAuth.auth()!.signOut()
+        self.performSegue(withIdentifier: "loginSegue", sender: self)
+    }
     
     func startObservingDB () {
         dbRefSweet.observe(.value, with: { (snapshot:FIRDataSnapshot) in

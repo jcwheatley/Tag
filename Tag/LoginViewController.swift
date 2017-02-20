@@ -20,6 +20,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.setHidesBackButton(true, animated:true);
         dbRefUser = FIRDatabase.database().reference().child("users")
     // Do any additional setup after loading the view.
     }
@@ -43,7 +44,7 @@ class LoginViewController: UIViewController {
                                 print("your error: " + error.localizedDescription)
                             } else {
                                 let currentUser = FIRAuth.auth()?.currentUser
-                                let userRef = self.dbRefUser.child((currentUser!.displayName)!)
+                                let userRef = self.dbRefUser.child((currentUser!.uid))
                                 let user = User(uid: (currentUser?.uid)!, email: (currentUser?.email)!, username: (currentUser?.displayName)!, profilePicture: (currentUser?.photoURL?.absoluteString)!)
                                 userRef.setValue(user.toAnyObject())
                             }

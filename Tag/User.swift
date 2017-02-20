@@ -17,7 +17,7 @@ struct User {
     let username:String
     let facebookID:String
     let profilePicture:String
-    let userEvents: [String]
+    let myEvents:[String]
     let taggedEvents: [String]
     let settings: Settings
     let friends: [String]
@@ -50,7 +50,7 @@ struct User {
         }else {
             self.profilePicture = ""
         }
-        self.userEvents = []
+        self.myEvents = []
         self.taggedEvents = []
         self.settings = Settings()
         self.friends = []
@@ -62,7 +62,7 @@ struct User {
         self.username = username
         self.facebookID = ""
         self.profilePicture = profilePicture
-        self.userEvents = []
+        self.myEvents = []
         self.taggedEvents = []
         self.settings = Settings()
         self.friends = []

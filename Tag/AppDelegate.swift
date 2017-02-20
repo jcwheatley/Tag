@@ -11,8 +11,12 @@ import Firebase
 import FirebaseAuth
 
 extension UIViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
+        
         view.addGestureRecognizer(tap)
     }
     
@@ -39,8 +43,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //        })
         return true
     }
+//    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+//        return UIInterfaceOrientationMask(rawValue: UInt(checkOrientation(viewController: self.window?.rootViewController)))
+//    }
+    
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask(rawValue: UInt(checkOrientation(viewController: self.window?.rootViewController)))
+    }
+    
+    func checkOrientation(viewController:UIViewController?)-> Int{
+        
+        if(viewController == nil){
+            
+            return Int(UIInterfaceOrientationMask.all.rawValue)//All means all orientation
+            
+        }else {
+            
+            return Int(UIInterfaceOrientationMask.portrait.rawValue)
+    }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -65,22 +85,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func checkOrientation(viewController:UIViewController?)-> Int{
-        
-        if(viewController == nil){
-            
-            return Int(UIInterfaceOrientationMask.all.rawValue)//All means all orientation
-            
-        }else {
-            
-            return Int(UIInterfaceOrientationMask.portrait.rawValue)
-            
-        }
-        //        else{
-        //
-        //            return checkOrientation(viewController: viewController!.presentedViewController)
-        //        }
-    }
+//    func checkOrientation(viewController:UIViewController?)-> Int{
+//        
+//        if(viewController == nil){
+//            
+//            return Int(UIInterfaceOrientationMask.all.rawValue)//All means all orientation
+//            
+//        }else {
+//            
+//            return Int(UIInterfaceOrientationMask.portrait.rawValue)
+//            
+//        }
+//        //        else{
+//        //
+//        //            return checkOrientation(viewController: viewController!.presentedViewController)
+//        //        }
+//    }
     
     
 }

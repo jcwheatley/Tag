@@ -18,34 +18,42 @@ class MyEventsView: UITableViewController {
         dbRefEvent = FIRDatabase.database().reference().child("events")
         
     }
-    @IBAction func addEvent(_ sender: Any) {
-        let eventAlert = UIAlertController(title: "New Event", message: "Create Your Event", preferredStyle: .alert)
-        eventAlert.addTextField { (textField:UITextField) in
-            textField.placeholder = "Event Name"
-        }
-        eventAlert.addTextField { (textField:UITextField) in
-            textField.placeholder = "Event Details"
-        }
-        eventAlert.addTextField { (textField:UITextField) in
-            textField.placeholder = "Location"
-        }
-        eventAlert.addTextField { (textField:UITextField) in
-            textField.placeholder = "Location"
-        }
-        eventAlert.addTextField { (textField:UITextField) in
-            textField.placeholder = "Private Event"
-        }
-        eventAlert.addTextField { (textField:UITextField) in
-            textField.placeholder = "Add Picture"
-        }
-        eventAlert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action:UIAlertAction) in
-            let eventName = eventAlert.textFields?[0]
-            let eventDetails = eventAlert.textFields?[1]
-            let location = eventAlert.textFields?[2]
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        }))
-        self.present(eventAlert, animated: true, completion: nil)
     }
+//    @IBAction func addEvent(_ sender: Any) {
+//        let eventAlert = UIAlertController(title: "New Event", message: "Create Your Event", preferredStyle: .alert)
+//        
+//    
+//        eventAlert.addTextField { (textField:UITextField) in
+//            textField.placeholder = "Event Name"
+//        }
+//        eventAlert.addTextField { (textField:UITextField) in
+//            textField.placeholder = "Event Details"
+//        }
+//        eventAlert.addTextField { (textField:UITextField) in
+//            textField.placeholder = "Location"
+//        }
+//        eventAlert.addTextField { (textField:UITextField) in
+//            textField.placeholder = "Add Picture"
+//        }
+//        eventAlert.addAction(UIAlertAction(title: "Create Public Event", style: .default, handler: { (action:UIAlertAction) in
+//            let eventName = eventAlert.textFields?[0]
+//            let eventDetails = eventAlert.textFields?[1]
+//            let location = eventAlert.textFields?[2]
+//        
+//        }))
+//        eventAlert.addAction(UIAlertAction(title: "Create Private Event", style: .default, handler: { (action:UIAlertAction) in
+//            
+//        }))
+//        eventAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action:UIAlertAction) in
+//            
+//        }))
+//        self.present(eventAlert, animated: true, completion: nil)
+//    }
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
