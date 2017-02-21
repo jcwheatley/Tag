@@ -29,7 +29,8 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var inputLocation: UITextField!
     @IBOutlet weak var inputPrivate: UISwitch!
     @IBOutlet weak var inputPicture: UIImageView!
-    @IBOutlet weak var inputTime: UITextField!
+    @IBOutlet weak var inputTime: UIDatePicker!
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -43,7 +44,7 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func createEvent(_ sender: Any) {
-        if (inputEventSummary.text == "" || inputEventName.text == "" || inputLocation.text == "" || inputTime.text == ""){
+        if (inputEventSummary.text == "" || inputEventName.text == "" || inputLocation.text == "" || inputTime.description == ""){
             let errorAlert = UIAlertController(title: "Error", message: "Please fill in required information.", preferredStyle: .alert)
             errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action:UIAlertAction) in
                 errorAlert.dismiss(animated: true, completion: nil)
@@ -55,11 +56,11 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
             let eventName = inputEventName.text
             let eventSummary = inputEventSummary.text
             let eventLocation = inputLocation.text
-            let eventTime = inputTime.text
+            let eventTime = inputTime.date.description
             let isPrivate = inputPrivate.isOn
             let eventOwner = FIRAuth.auth()?.currentUser?.uid
             let eventPicture = inputPicture.image
-            let event = Event(eventName: eventName!, owner: eventOwner!, eventSummary: eventSummary!, location: eventLocation!, privateEvent: isPrivate, eventPicture: "temp", time: eventTime!)
+            let event = Event(eventName: eventName!, owner: eventOwner!, eventSummary: eventSummary!, location: eventLocation!, privateEvent: isPrivate, eventPicture: "temp", time: eventTime)
             eventRef.setValue(event.toAnyObject())
             let userRef = self.dbRefUser.child(eventOwner!)
             let userMyEvents = userRef.child("myEvents")

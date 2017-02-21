@@ -51,6 +51,7 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
     @IBAction func Logout(_ sender: Any) {
         try! FIRAuth.auth()!.signOut()
         self.performSegue(withIdentifier: "loginSegue", sender: self)
+        currentUser
     }
     
     func startObservingDB () {
@@ -173,7 +174,7 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
     
     func  imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         var image = info[UIImagePickerControllerOriginalImage]as! UIImage
-        image = self.resizeImage(image: image, targetSize: CGSize(width: 100, height: 100))
+        image = ImageHelper.resizeImage(image: image, targetSize: CGSize(width: 100, height: 100))
         let data = UIImagePNGRepresentation(image)
         let picName = (currentUser?.displayName)! + ".png"
         let picRef = storageRef.child(profilePicStoragePath+picName)
@@ -202,30 +203,6 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
         dismiss(animated: true, completion: nil)
     }
     
-    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
-        let size = image.size
-        
-        let widthRatio  = targetSize.width  / image.size.width
-        let heightRatio = targetSize.height / image.size.height
-        
-        // Figure out what our orientation is, and use that to form the rectangle
-        var newSize: CGSize
-//        if(widthRatio > heightRatio) {
-//            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-//        } else {
-//            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
-//        }
-        newSize = CGSize(width: targetSize.width,  height: targetSize.width)
-        // This is the rect that we've calculated out and this is what is actually used below
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-        
-        // Actually do the resizing to the rect using the ImageContext stuff
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage!
-    }
+    
     
 }
