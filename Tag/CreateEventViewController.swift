@@ -31,6 +31,11 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var inputPicture: UIImageView!
     @IBOutlet weak var inputTime: UIDatePicker!
     
+    @IBAction func manageEvents(_ sender: Any) {
+        
+        
+        self.performSegue(withIdentifier: "returnToMyEvents", sender: self)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
