@@ -45,6 +45,7 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         inputEventName.resignFirstResponder()
         inputEventSummary.resignFirstResponder()
+        inputLocation.resignFirstResponder()
         return false
     }
     
