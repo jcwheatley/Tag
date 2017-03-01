@@ -8,53 +8,73 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
+import FirebaseStorage
 
-class MyEventsView: UITableViewController {
+class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var dbRefEvent:FIRDatabaseReference!
+    var dbRefUser:FIRDatabaseReference!
+    var storageRef:FIRStorageReference!
+    var events = [Event]()
+    var users = [User]()
+    let storage = FIRStorage.storage()
+    let currentUser = FIRAuth.auth()?.currentUser
+    let imagePicker = UIImagePickerController()
+    let profilePicStoragePath = "Images/ProfileImage/"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        imagePicker.delegate = self;
         dbRefEvent = FIRDatabase.database().reference().child("events")
+        dbRefUser = FIRDatabase.database().reference().child("users")
+        storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
+        startObservingDB()
         
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.startObservingDB()
         
     }
-//    @IBAction func addEvent(_ sender: Any) {
-//        let eventAlert = UIAlertController(title: "New Event", message: "Create Your Event", preferredStyle: .alert)
-//        
-//    
-//        eventAlert.addTextField { (textField:UITextField) in
-//            textField.placeholder = "Event Name"
-//        }
-//        eventAlert.addTextField { (textField:UITextField) in
-//            textField.placeholder = "Event Details"
-//        }
-//        eventAlert.addTextField { (textField:UITextField) in
-//            textField.placeholder = "Location"
-//        }
-//        eventAlert.addTextField { (textField:UITextField) in
-//            textField.placeholder = "Add Picture"
-//        }
-//        eventAlert.addAction(UIAlertAction(title: "Create Public Event", style: .default, handler: { (action:UIAlertAction) in
-//            let eventName = eventAlert.textFields?[0]
-//            let eventDetails = eventAlert.textFields?[1]
-//            let location = eventAlert.textFields?[2]
-//        
-//        }))
-//        eventAlert.addAction(UIAlertAction(title: "Create Private Event", style: .default, handler: { (action:UIAlertAction) in
-//            
-//        }))
-//        eventAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action:UIAlertAction) in
-//            
-//        }))
-//        self.present(eventAlert, animated: true, completion: nil)
-//    }
     
+    func startObservingDB () {
+        dbRefEvent.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+            var newEvents = [Event]()
+            
+            
+            for event in snapshot.children {
+                let eventObject = Event(snapshot: event as! FIRDataSnapshot)
+                if (eventObject.owner == self.currentUser?.uid){
+                    newEvents.append(eventObject)
+                }
+            }
+            self.events = newEvents
+            self.tableView.reloadData()
+            
+        }) { (error:Error) in
+            print(error.localizedDescription)
+        }
+        dbRefUser.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+            var newUsers = [User]()
+            
+            //todo: seems like this is not actually creating users
+            for user in snapshot.children {
+                let userObject = User(snapshot: user as! FIRDataSnapshot)
+                newUsers.append(userObject)
+            }
+            
+            self.users = newUsers
+            self.tableView.reloadData()
+            
+        }) { (error:Error) in
+            print(error.localizedDescription)
+        }
+    }
     
-    
+    @IBAction func mainPress(_ sender: Any) {
+        self.performSegue(withIdentifier: "segueToMain", sender: self)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -64,67 +84,44 @@ class MyEventsView: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return events.count
     }
     
-    /*
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-     
-     // Configure the cell...
-     
-     return cell
-     }
-     */
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
+        //        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "LabelCell")
+        
+        let event = events[indexPath.row]
+        cell.textLabel?.text = event.eventName
+        cell.detailTextLabel?.text = event.eventSummary
+        //todo change to event pic
+        let profilePic = currentUser?.photoURL?.absoluteString
+        if (true){
+            //  let imageRef = storageRef.child((currentUser?.photoURL?.absoluteString)!)
+            let imageRef = storageRef.child(profilePic!)
+            //imageRef.data(withMaxSize: 1 * 1024 * 1024) { data, error in
+            imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
+                if let error = error {
+                    print(error)
+                } else {
+                    let image = UIImage(data: data!)
+                    cell.imageView?.image = image
+                }
+            }
+        }
+        cell.layoutSubviews()
+        return cell
+    }
     
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            let event = events[indexPath.row]
+            event.itemRef?.removeValue()
+        }
+    }
     
 }

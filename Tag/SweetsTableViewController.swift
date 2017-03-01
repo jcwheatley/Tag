@@ -15,10 +15,10 @@ import FirebaseStorage
 class SweetsTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
-    var dbRefSweet:FIRDatabaseReference!
+    var dbRefEvents:FIRDatabaseReference!
     var dbRefUser:FIRDatabaseReference!
     var storageRef:FIRStorageReference!
-    var sweets = [Sweet]()
+    var events = [Event]()
     var users = [User]()
     let storage = FIRStorage.storage()
     let currentUser = FIRAuth.auth()?.currentUser
@@ -28,7 +28,7 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker.delegate = self;
-        dbRefSweet = FIRDatabase.database().reference().child("sweet-items")
+        dbRefEvents = FIRDatabase.database().reference().child("events")
         dbRefUser = FIRDatabase.database().reference().child("users")
         storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
         startObservingDB()
@@ -38,6 +38,7 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
         imagePicker.sourceType = .photoLibrary
         imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
         present(imagePicker, animated: true, completion: nil)
+        self.startObservingDB()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -51,19 +52,18 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
     @IBAction func Logout(_ sender: Any) {
         try! FIRAuth.auth()!.signOut()
         self.performSegue(withIdentifier: "loginSegue", sender: self)
-        currentUser
     }
     
     func startObservingDB () {
-        dbRefSweet.observe(.value, with: { (snapshot:FIRDataSnapshot) in
-            var newSweets = [Sweet]()
+        dbRefEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+            var newEvents = [Event]()
             
             
-            for sweet in snapshot.children {
-                let sweetObject = Sweet(snapshot: sweet as! FIRDataSnapshot)
-                newSweets.append(sweetObject)
+            for event in snapshot.children {
+                let eventObject = Event(snapshot: event as! FIRDataSnapshot)
+                newEvents.append(eventObject)
             }
-            self.sweets = newSweets
+            self.events = newEvents
             self.tableView.reloadData()
             
         }) { (error:Error) in
@@ -75,7 +75,7 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
             //todo: seems like this is not actually creating users
             for user in snapshot.children {
                 let userObject = User(snapshot: user as! FIRDataSnapshot)
-                newUsers.append(userObject)
+                    newUsers.append(userObject)
             }
             
             self.users = newUsers
@@ -84,21 +84,6 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
         }) { (error:Error) in
             print(error.localizedDescription)
         }
-    }
-    @IBAction func addSweet(_ sender: Any) {
-        let sweetAlert = UIAlertController(title: "New Sweet", message: "Eneter your Sweet", preferredStyle: .alert)
-        sweetAlert.addTextField { (textField:UITextField) in
-            textField.placeholder = "Your sweet"
-        }
-        sweetAlert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action:UIAlertAction) in
-            if let sweetContent = sweetAlert.textFields?.first?.text{
-                let sweetRef = self.dbRefSweet.child(sweetContent.lowercased())
-                let autoID = sweetRef.childByAutoId().key
-                let sweet = Sweet(content: sweetContent, addedByUser: (self.currentUser?.displayName)!, key: autoID)
-                sweetRef.setValue(sweet.toAnyObject())
-            }
-        }))
-        self.present(sweetAlert, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -114,22 +99,26 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("sweets count : " + sweets.count.description)
-        return sweets.count
+        return events.count
+        
         
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
-        //        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "LabelCell")
+        let event = events[indexPath.row]
+        cell.textLabel?.text = event.eventName
         
-        let sweet = sweets[indexPath.row]
-        cell.textLabel?.text = sweet.content
-        cell.detailTextLabel?.text = sweet.addedByUser
+        dbRefUser.child(event.owner).observe(.value, with: { (snapshot:FIRDataSnapshot) in
+            let user = snapshot
+            let userObject = User(snapshot: user)
+            let name = userObject.username
+            cell.textLabel?.text = event.eventName
+            cell.detailTextLabel?.text = name
+        })
         var profilePic = profilePicStoragePath + "NoPic.gif"
         for user in users{
-            print(sweets.count)
-            if user.username == sweet.addedByUser{
+            if user.uid == event.owner{
                 profilePic = user.profilePicture
             }
             
@@ -147,30 +136,13 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
                 }
             }
         }
-        
-        
-        
         cell.layoutSubviews()
         return cell
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete{
-            let sweet = sweets[indexPath.row]
-            if (sweet.addedByUser == currentUser?.displayName){
-                sweet.itemRef?.removeValue()
-            }
-            else{
-                let sorryAlert = UIAlertController(title: "Sorry", message: "You cannot delete someone else's message", preferredStyle: .alert)
-                sorryAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action:UIAlertAction) in
-                    sorryAlert.dismiss(animated: true, completion: nil)
-                }))
-                self.present(sorryAlert, animated: true, completion: nil)
-            }
-        }
         
     }
-    
     
     func  imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         var image = info[UIImagePickerControllerOriginalImage]as! UIImage

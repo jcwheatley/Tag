@@ -80,6 +80,8 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
             self.performSegue(withIdentifier: "returnToMyEvents", sender: self)
         }
     }
+    
+
     @IBAction func changePicture(_ sender: Any) {
     }
     
