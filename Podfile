@@ -11,6 +11,9 @@ target 'Tag' do
   pod ‘Firebase/Database’
   pod 'Firebase/Storage'
   pod 'CCAutocomplete'
+  pod 'GooglePlaces'
+  pod 'GooglePlacePicker'
+  pod 'GoogleMaps'
 
   target 'TagTests' do
     inherit! :search_paths

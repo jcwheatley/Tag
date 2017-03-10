@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import GooglePlaces
 
 extension UIViewController {
     func hideKeyboard()
@@ -36,6 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FIRApp.configure()
+        GMSPlacesClient.provideAPIKey("AIzaSyBP8Y5Nu5GhTtUFCxsO_AZxIV5pTVwI5Hw")
+        
         //        FIRAuth.auth()?.signIn(withEmail: "gavinrob92@gmail.com", password: "123456", completion: { (user, error) in
         //            if error == nil{
         //                print("login error")
@@ -43,9 +46,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //        })
         return true
     }
-//    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-//        return UIInterfaceOrientationMask(rawValue: UInt(checkOrientation(viewController: self.window?.rootViewController)))
-//    }
+    //    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+    //        return UIInterfaceOrientationMask(rawValue: UInt(checkOrientation(viewController: self.window?.rootViewController)))
+    //    }
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask(rawValue: UInt(checkOrientation(viewController: self.window?.rootViewController)))
@@ -60,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }else {
             
             return Int(UIInterfaceOrientationMask.portrait.rawValue)
-    }
+        }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -85,22 +88,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-//    func checkOrientation(viewController:UIViewController?)-> Int{
-//        
-//        if(viewController == nil){
-//            
-//            return Int(UIInterfaceOrientationMask.all.rawValue)//All means all orientation
-//            
-//        }else {
-//            
-//            return Int(UIInterfaceOrientationMask.portrait.rawValue)
-//            
-//        }
-//        //        else{
-//        //
-//        //            return checkOrientation(viewController: viewController!.presentedViewController)
-//        //        }
-//    }
+    //    func checkOrientation(viewController:UIViewController?)-> Int{
+    //
+    //        if(viewController == nil){
+    //
+    //            return Int(UIInterfaceOrientationMask.all.rawValue)//All means all orientation
+    //
+    //        }else {
+    //
+    //            return Int(UIInterfaceOrientationMask.portrait.rawValue)
+    //
+    //        }
+    //        //        else{
+    //        //
+    //        //            return checkOrientation(viewController: viewController!.presentedViewController)
+    //        //        }
+    //    }
     
     
 }

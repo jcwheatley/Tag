@@ -16,6 +16,7 @@ struct Event {
     let time:String
     let owner:String
     let location:String
+    let placeID:String
     let eventSummary:String
     let privateEvent:Bool
     let eventPicture:String
@@ -50,6 +51,12 @@ struct Event {
             self.location = ""
         }
         
+        if let placeID = snapshotValue!["placeID"] as? String{
+            self.placeID = placeID
+        }else {
+            self.placeID = ""
+        }
+        
         if let time = snapshotValue!["location"] as? String{
             self.time = time
         }else {
@@ -69,11 +76,12 @@ struct Event {
         }
         self.taggedUsers = []
     }
-    init (eventName:String, owner:String, eventSummary:String, location:String, privateEvent:Bool, eventPicture:String, time:String) {
+    init (eventName:String, owner:String, eventSummary:String, location:String, placeID:String, privateEvent:Bool, eventPicture:String, time:String) {
         self.eventName = eventName
         self.owner = owner
         self.eventSummary = eventSummary
         self.location = location
+        self.placeID = placeID
         self.privateEvent = privateEvent
         self.eventPicture = eventPicture
         self.time = time
@@ -82,7 +90,7 @@ struct Event {
     }
     func toAnyObject() -> NSDictionary {
         
-        return ["eventName":eventName, "owner":owner, "eventSummary":eventSummary, "location":location, "privateEvent":privateEvent, "eventPicture":eventPicture, "time":time]
+        return ["eventName":eventName, "owner":owner, "eventSummary":eventSummary, "location":location, "placeID": placeID, "privateEvent":privateEvent, "eventPicture":eventPicture, "time":time]
         
     }
     

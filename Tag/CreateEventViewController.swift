@@ -9,14 +9,14 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import GooglePlaces
 
 //this just gets rid of keyboard when tapped outside of textfield
 
 class CreateEventViewController: UIViewController, UITextFieldDelegate {
-    
-    
     var dbRefEvent:FIRDatabaseReference!
     var dbRefUser:FIRDatabaseReference!
+    var placeID:String = "-1"
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboard()
@@ -48,6 +48,12 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
         inputLocation.resignFirstResponder()
         return false
     }
+    // Present the Autocomplete view controller when the button is pressed.
+    @IBAction func autocompleteClicked(_ sender: UITextField) {
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = self
+        present(autocompleteController, animated: true, completion: nil)
+    }
     
     @IBAction func createEvent(_ sender: Any) {
         if (inputEventSummary.text == "" || inputEventName.text == "" || inputLocation.text == "" || inputTime.description == ""){
@@ -66,7 +72,7 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
             let isPrivate = inputPrivate.isOn
             let eventOwner = FIRAuth.auth()?.currentUser?.uid
             let eventPicture = inputPicture.image
-            let event = Event(eventName: eventName!, owner: eventOwner!, eventSummary: eventSummary!, location: eventLocation!, privateEvent: isPrivate, eventPicture: "temp", time: eventTime)
+            let event = Event(eventName: eventName!, owner: eventOwner!, eventSummary: eventSummary!, location: eventLocation!, placeID: placeID, privateEvent: isPrivate, eventPicture: "temp", time: eventTime)
             eventRef.setValue(event.toAnyObject())
             let userRef = self.dbRefUser.child(eventOwner!)
             let userMyEvents = userRef.child("myEvents")
@@ -81,7 +87,7 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-
+    
     @IBAction func changePicture(_ sender: Any) {
     }
     
@@ -95,6 +101,40 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
      }
      */
     
+}
+
+extension CreateEventViewController: GMSAutocompleteViewControllerDelegate {
+    
+    // Handle the user's selection.
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        self.placeID = place.placeID
+   
+        print("Place name: \(place.name)")
+        print("Place address: \(place.formattedAddress)")
+        print("Place attributions: \(place.attributions)")
+        placeID = place.placeID
+        inputLocation.text = place.formattedAddress
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        // TODO: handle the error.
+        print("Error: ", error.localizedDescription)
+    }
+    
+    // User canceled the operation.
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // Turn the network activity indicator on and off again.
+    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
     
     
 }
