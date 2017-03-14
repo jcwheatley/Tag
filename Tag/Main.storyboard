@@ -327,7 +327,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.47450980390000003" green="0.1019607843" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.16636571288108826" green="0.58593189716339111" blue="0.93200993537902832" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="textShadowColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -391,8 +391,8 @@
         <image name="TagIcon.png" width="5006" height="5006"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jcX-bq-5C5"/>
         <segue reference="nvO-mS-1XD"/>
-        <segue reference="uyo-M8-qre"/>
+        <segue reference="jcX-bq-5C5"/>
+        <segue reference="RlT-rq-ftw"/>
     </inferredMetricsTieBreakers>
 </document>
