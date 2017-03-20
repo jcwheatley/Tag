@@ -95,7 +95,7 @@ class MainViewController: UIViewController {
             let i = Int(arc4random_uniform(UInt32(events.count)))
             //make sure that we arent filling up the view with the same event
             let event = events[i]
-            if (event.itemRef?.description != currentEvent){
+            if (event.itemRef?.description != currentEvent && event.owner != currentUser?.uid){
                 eventTitle.text = event.eventName
                 
                 for user in users{
