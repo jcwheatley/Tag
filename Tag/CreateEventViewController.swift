@@ -17,8 +17,22 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     var dbRefEvent:FIRDatabaseReference!
     var dbRefUser:FIRDatabaseReference!
     var placeID:String = "-1"
+    var event:Event?
     override func viewDidLoad() {
         super.viewDidLoad()
+        if (event != nil){
+            inputEventName.text = event?.eventName
+            inputEventSummary.text = event?.eventSummary
+            inputLocation.text = event?.location
+            inputPrivate.setOn((event?.privateEvent)!, animated: false)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+            let date = dateFormatter.date(from: (event?.time)!)
+            inputTime.setDate(date!, animated: false)
+            createButton.setTitle("Update",for: .normal)
+            
+            
+        }
         self.hideKeyboard()
         dbRefEvent = FIRDatabase.database().reference().child("events")
         dbRefUser = FIRDatabase.database().reference().child("users")
@@ -30,12 +44,14 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var inputPrivate: UISwitch!
     @IBOutlet weak var inputPicture: UIImageView!
     @IBOutlet weak var inputTime: UIDatePicker!
+    @IBOutlet weak var createButton: UIButton!
     
     @IBAction func manageEvents(_ sender: Any) {
         
         
         self.performSegue(withIdentifier: "returnToMyEvents", sender: self)
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -56,36 +72,44 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func createEvent(_ sender: Any) {
-        if (inputEventSummary.text == "" || inputEventName.text == "" || inputLocation.text == "" || inputTime.description == ""){
-            let errorAlert = UIAlertController(title: "Error", message: "Please fill in required information.", preferredStyle: .alert)
-            errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action:UIAlertAction) in
-                errorAlert.dismiss(animated: true, completion: nil)
-            }))
-            self.present(errorAlert, animated: true, completion: nil)
-        }else{
-            
-            let eventRef = self.dbRefEvent.childByAutoId()
-            let eventName = inputEventName.text
-            let eventSummary = inputEventSummary.text
-            let eventLocation = inputLocation.text
-            let eventTime = inputTime.date.description
-            let isPrivate = inputPrivate.isOn
-            let eventOwner = FIRAuth.auth()?.currentUser?.uid
-            let eventPicture = inputPicture.image
-            let event = Event(eventName: eventName!, owner: eventOwner!, eventSummary: eventSummary!, location: eventLocation!, placeID: placeID, privateEvent: isPrivate, eventPicture: "temp", time: eventTime)
-            eventRef.setValue(event.toAnyObject())
-            let userRef = self.dbRefUser.child(eventOwner!)
-            let userMyEvents = userRef.child("myEvents")
-            userMyEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
-                userMyEvents.removeAllObservers()
-                let count = snapshot.childrenCount
-                let userNewEvent = userMyEvents.child(count.description)
-                userNewEvent.setValue(eventRef.key)
+            if (inputEventSummary.text == "" || inputEventName.text == "" || inputLocation.text == "" || inputTime.description == ""){
+                let errorAlert = UIAlertController(title: "Error", message: "Please fill in required information.", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action:UIAlertAction) in
+                    errorAlert.dismiss(animated: true, completion: nil)
+                }))
+                self.present(errorAlert, animated: true, completion: nil)
+            }else{
+                let eventRef:FIRDatabaseReference
+                if (self.event == nil){
+                eventRef = self.dbRefEvent.childByAutoId()
+                }
+                else{
+                eventRef = (self.event?.itemRef)!
+                }
                 
-            })
-            self.performSegue(withIdentifier: "returnToMyEvents", sender: self)
-        }
+                let eventName = inputEventName.text
+                let eventSummary = inputEventSummary.text
+                let eventLocation = inputLocation.text
+                let eventTime = inputTime.date.description
+                let isPrivate = inputPrivate.isOn
+                let eventOwner = FIRAuth.auth()?.currentUser?.uid
+                let eventPicture = inputPicture.image
+                let event = Event(eventName: eventName!, owner: eventOwner!, eventSummary: eventSummary!, location: eventLocation!, placeID: placeID, privateEvent: isPrivate, eventPicture: "temp", time: eventTime)
+                eventRef.setValue(event.toAnyObject())
+                let userRef = self.dbRefUser.child(eventOwner!)
+                let userMyEvents = userRef.child("myEvents")
+                userMyEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+                    userMyEvents.removeAllObservers()
+                    let count = snapshot.childrenCount
+                    let userNewEvent = userMyEvents.child(count.description)
+                    userNewEvent.setValue(eventRef.key)
+                    
+                })
+                self.performSegue(withIdentifier: "returnToMyEvents", sender: self)
+            }
     }
+    
+    
     
     
     @IBAction func changePicture(_ sender: Any) {
@@ -108,7 +132,7 @@ extension CreateEventViewController: GMSAutocompleteViewControllerDelegate {
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         self.placeID = place.placeID
-   
+        
         print("Place name: \(place.name)")
         print("Place address: \(place.formattedAddress)")
         print("Place attributions: \(place.attributions)")

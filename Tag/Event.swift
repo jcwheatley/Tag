@@ -57,7 +57,7 @@ struct Event {
             self.placeID = ""
         }
         
-        if let time = snapshotValue!["location"] as? String{
+        if let time = snapshotValue!["time"] as? String{
             self.time = time
         }else {
             self.time = ""

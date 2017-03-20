@@ -32,7 +32,7 @@ class LoginViewController: UIViewController {
             if let user = user{
                 if (needsLogin){
                     print("Welcome " + user.email!)
-                    self.performSegue(withIdentifier: "segue", sender: self)
+                    self.performSegue(withIdentifier: "segueToMain", sender: self)
                     needsLogin = false
                     
                     let changeRequest = user.profileChangeRequest()

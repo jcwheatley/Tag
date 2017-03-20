@@ -91,6 +91,20 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
         return events.count
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "editEventSegue") {
+            let secondViewController = segue.destination as! CreateEventViewController
+            let event = sender as! Event
+            secondViewController.event = event
+            
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let event = events[indexPath.row]
+        self.performSegue(withIdentifier: "editEventSegue", sender: event)
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
         //        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "LabelCell")
@@ -115,6 +129,12 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
         }
         cell.layoutSubviews()
         return cell
+    }
+    @IBAction func newEvent(_ sender: Any) {
+        self.performSegue(withIdentifier: "toNewEvent", sender:self)
+    }
+    @IBAction func toMain(_ sender: Any) {
+        self.performSegue(withIdentifier: "toMain", sender:self)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

@@ -22,6 +22,10 @@
 		B621C3FA1E51139F008AB327 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621C3F91E51139F008AB327 /* Settings.swift */; };
 		B621C3FD1E51241C008AB327 /* NoPic.gif in Resources */ = {isa = PBXBuildFile; fileRef = B621C3FC1E51241C008AB327 /* NoPic.gif */; };
 		B621C3FF1E514689008AB327 /* gav.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B621C3FE1E514689008AB327 /* gav.jpg */; };
+		B62277791E7F2F32009974FA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62277781E7F2F32009974FA /* MainViewController.swift */; };
+		B622777F1E7F83A9009974FA /* noEventPic.png in Resources */ = {isa = PBXBuildFile; fileRef = B622777E1E7F83A9009974FA /* noEventPic.png */; };
+		B62277811E7F8CCD009974FA /* loadingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62277801E7F8CCD009974FA /* loadingHelper.swift */; };
+		B62277831E7F9A5F009974FA /* alertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62277821E7F9A5F009974FA /* alertHelper.swift */; };
 		B626C5211E5CECAF00CC89D0 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B626C5201E5CECAF00CC89D0 /* ImageHelper.swift */; };
 		B6336D411E592B4700996CC1 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6336D401E592B4700996CC1 /* Event.swift */; };
 		B6336D431E5B594A00996CC1 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6336D421E5B594A00996CC1 /* CreateEventViewController.swift */; };
@@ -77,6 +81,10 @@
 		B621C3F91E51139F008AB327 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B621C3FC1E51241C008AB327 /* NoPic.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = NoPic.gif; sourceTree = "<group>"; };
 		B621C3FE1E514689008AB327 /* gav.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gav.jpg; sourceTree = "<group>"; };
+		B62277781E7F2F32009974FA /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		B622777E1E7F83A9009974FA /* noEventPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noEventPic.png; sourceTree = "<group>"; };
+		B62277801E7F8CCD009974FA /* loadingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loadingHelper.swift; sourceTree = "<group>"; };
+		B62277821E7F9A5F009974FA /* alertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = alertHelper.swift; sourceTree = "<group>"; };
 		B626C5201E5CECAF00CC89D0 /* ImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		B6336D401E592B4700996CC1 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		B6336D421E5B594A00996CC1 /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
@@ -188,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				B6336D441E5B689900996CC1 /* TagIcon.png */,
+				B622777E1E7F83A9009974FA /* noEventPic.png */,
 				B621C3FE1E514689008AB327 /* gav.jpg */,
 				B621C3FC1E51241C008AB327 /* NoPic.gif */,
 			);
@@ -198,6 +207,8 @@
 			isa = PBXGroup;
 			children = (
 				B626C5201E5CECAF00CC89D0 /* ImageHelper.swift */,
+				B62277801E7F8CCD009974FA /* loadingHelper.swift */,
+				B62277821E7F9A5F009974FA /* alertHelper.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -222,6 +233,7 @@
 				B621C3ED1E510A02008AB327 /* SweetsTableViewController.swift */,
 				B6336D421E5B594A00996CC1 /* CreateEventViewController.swift */,
 				B6336D461E5B988600996CC1 /* SettingsViewController.swift */,
+				B62277781E7F2F32009974FA /* MainViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -362,6 +374,7 @@
 				B621C3FF1E514689008AB327 /* gav.jpg in Resources */,
 				B621C3C81E503A25008AB327 /* LaunchScreen.storyboard in Resources */,
 				B621C3EC1E503AE2008AB327 /* GoogleService-Info.plist in Resources */,
+				B622777F1E7F83A9009974FA /* noEventPic.png in Resources */,
 				B621C3C51E503A25008AB327 /* Assets.xcassets in Resources */,
 				B6336D451E5B689900996CC1 /* TagIcon.png in Resources */,
 				B621C3FD1E51241C008AB327 /* NoPic.gif in Resources */,
@@ -528,7 +541,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B621C3F81E510B44008AB327 /* LoginViewController.swift in Sources */,
+				B62277791E7F2F32009974FA /* MainViewController.swift in Sources */,
 				B6336D411E592B4700996CC1 /* Event.swift in Sources */,
+				B62277831E7F9A5F009974FA /* alertHelper.swift in Sources */,
 				B6336D471E5B988600996CC1 /* SettingsViewController.swift in Sources */,
 				B621C3EE1E510A02008AB327 /* SweetsTableViewController.swift in Sources */,
 				B621C3C01E503A25008AB327 /* ViewController.swift in Sources */,
@@ -538,6 +553,7 @@
 				B6336D431E5B594A00996CC1 /* CreateEventViewController.swift in Sources */,
 				B621C3F61E510B14008AB327 /* User.swift in Sources */,
 				B621C3BE1E503A25008AB327 /* AppDelegate.swift in Sources */,
+				B62277811E7F8CCD009974FA /* loadingHelper.swift in Sources */,
 				B626C5211E5CECAF00CC89D0 /* ImageHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
