@@ -18,6 +18,8 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     var dbRefUser:FIRDatabaseReference!
     var placeID:String = "-1"
     var event:Event?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if (event != nil){
@@ -132,6 +134,8 @@ extension CreateEventViewController: GMSAutocompleteViewControllerDelegate {
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         self.placeID = place.placeID
+        
+        
         
         print("Place name: \(place.name)")
         print("Place address: \(place.formattedAddress)")

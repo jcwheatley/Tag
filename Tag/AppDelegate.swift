@@ -44,6 +44,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //                print("login error")
         //            }
         //        })
+        
+        
+        
+        
+        //******* STYLING *******//
+        
+        let primaryColor = UIColor(red: 8/255, green: 28/255, blue: 156/255, alpha: 1.0) /* #081c9c */
+        let secondaryColor = UIColor(red: 227/255, green: 201/255, blue: 0/255, alpha: 1.0)
+        //let accentColor = UIColor(red: <#T##CGFloat#>, green: <#T##CGFloat#>, blue: <#T##CGFloat#>, alpha: <#T##CGFloat#>)
+        
+        //Navigation Bar color
+        UINavigationBar.appearance().barTintColor = primaryColor
+        
+        
+        //Search bar text color - for some reason when adding this like the "search" text moved up (out of center from the cursor.
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+        
+        //Nav Bar Title Color
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+        //Navigation Back button color
+        UINavigationBar.appearance().tintColor = secondaryColor
+        
+        //Nav Bar ItemButton color (items on nav bar other than back button
+        UIBarButtonItem.appearance().tintColor = secondaryColor
+        
+        //***** END STYLING *****//
+        
+        
+        
+        
         return true
     }
     //    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
