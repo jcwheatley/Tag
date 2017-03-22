@@ -16,7 +16,9 @@ struct Event {
     let time:String
     let owner:String
     let location:String
-    let placeID:String
+    let locationID:String
+    let meetingLocation:String
+    let meetingLocationID:String
     let eventSummary:String
     let privateEvent:Bool
     let eventPicture:String
@@ -51,10 +53,22 @@ struct Event {
             self.location = ""
         }
         
-        if let placeID = snapshotValue!["placeID"] as? String{
-            self.placeID = placeID
+        if let locationID = snapshotValue!["locationID"] as? String{
+            self.locationID = locationID
         }else {
-            self.placeID = ""
+            self.locationID = ""
+        }
+        
+        if let meetingLocation = snapshotValue!["meetingLocation"] as? String{
+            self.meetingLocation = meetingLocation
+        }else {
+            self.meetingLocation = ""
+        }
+        
+        if let meetinglocationID = snapshotValue!["meetinglocationID"] as? String{
+            self.meetingLocationID = meetinglocationID
+        }else {
+            self.meetingLocationID = ""
         }
         
         if let time = snapshotValue!["time"] as? String{
@@ -76,12 +90,14 @@ struct Event {
         }
         self.taggedUsers = []
     }
-    init (eventName:String, owner:String, eventSummary:String, location:String, placeID:String, privateEvent:Bool, eventPicture:String, time:String) {
+    init (eventName:String, owner:String, eventSummary:String, location:String, locationID:String, meetingLocation:String, meetingLocationID:String, privateEvent:Bool, eventPicture:String, time:String) {
         self.eventName = eventName
         self.owner = owner
         self.eventSummary = eventSummary
         self.location = location
-        self.placeID = placeID
+        self.locationID = locationID
+        self.meetingLocation = location
+        self.meetingLocationID = locationID
         self.privateEvent = privateEvent
         self.eventPicture = eventPicture
         self.time = time
@@ -90,7 +106,7 @@ struct Event {
     }
     func toAnyObject() -> NSDictionary {
         
-        return ["eventName":eventName, "owner":owner, "eventSummary":eventSummary, "location":location, "placeID": placeID, "privateEvent":privateEvent, "eventPicture":eventPicture, "time":time]
+        return ["eventName":eventName, "owner":owner, "eventSummary":eventSummary, "location":location, "locationID": locationID, "meetingLocation":meetingLocation, "meetingLocationID":meetingLocationID, "privateEvent":privateEvent, "eventPicture":eventPicture, "time":time]
         
     }
     

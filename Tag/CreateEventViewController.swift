@@ -16,7 +16,7 @@ import GooglePlaces
 class CreateEventViewController: UIViewController, UITextFieldDelegate {
     var dbRefEvent:FIRDatabaseReference!
     var dbRefUser:FIRDatabaseReference!
-    var placeID:String = "-1"
+    var locationID:String = "-1"
     var event:Event?
     
     
@@ -32,10 +32,11 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
             let date = dateFormatter.date(from: (event?.time)!)
             inputTime.setDate(date!, animated: false)
             createButton.setTitle("Update",for: .normal)
-            
+           
             
         }
         self.hideKeyboard()
+        toggleMeetingLocation()
         dbRefEvent = FIRDatabase.database().reference().child("events")
         dbRefUser = FIRDatabase.database().reference().child("users")
         // Do any additional setup after loading the view.
@@ -47,6 +48,8 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var inputPicture: UIImageView!
     @IBOutlet weak var inputTime: UIDatePicker!
     @IBOutlet weak var createButton: UIButton!
+    @IBOutlet weak var hasMeetingLocation: UISwitch!
+    @IBOutlet weak var inputMeetingLocation: UITextField!
     
     @IBAction func manageEvents(_ sender: Any) {
         
@@ -66,6 +69,19 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
         inputLocation.resignFirstResponder()
         return false
     }
+    
+    func toggleMeetingLocation(){
+        if (!hasMeetingLocation.isOn){
+            inputMeetingLocation.isHidden = true
+        }
+        else{
+            inputMeetingLocation.isHidden = false
+        }
+    }
+    
+    @IBAction func actionSlide(_ sender: Any) {
+        toggleMeetingLocation()
+    }
     // Present the Autocomplete view controller when the button is pressed.
     @IBAction func autocompleteClicked(_ sender: UITextField) {
         let autocompleteController = GMSAutocompleteViewController()
@@ -74,41 +90,41 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func createEvent(_ sender: Any) {
-            if (inputEventSummary.text == "" || inputEventName.text == "" || inputLocation.text == "" || inputTime.description == ""){
-                let errorAlert = UIAlertController(title: "Error", message: "Please fill in required information.", preferredStyle: .alert)
-                errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action:UIAlertAction) in
-                    errorAlert.dismiss(animated: true, completion: nil)
-                }))
-                self.present(errorAlert, animated: true, completion: nil)
-            }else{
-                let eventRef:FIRDatabaseReference
-                if (self.event == nil){
+        if (inputEventSummary.text == "" || inputEventName.text == "" || inputLocation.text == "" || inputTime.description == ""){
+            let errorAlert = UIAlertController(title: "Error", message: "Please fill in required information.", preferredStyle: .alert)
+            errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action:UIAlertAction) in
+                errorAlert.dismiss(animated: true, completion: nil)
+            }))
+            self.present(errorAlert, animated: true, completion: nil)
+        }else{
+            let eventRef:FIRDatabaseReference
+            if (self.event == nil){
                 eventRef = self.dbRefEvent.childByAutoId()
-                }
-                else{
-                eventRef = (self.event?.itemRef)!
-                }
-                
-                let eventName = inputEventName.text
-                let eventSummary = inputEventSummary.text
-                let eventLocation = inputLocation.text
-                let eventTime = inputTime.date.description
-                let isPrivate = inputPrivate.isOn
-                let eventOwner = FIRAuth.auth()?.currentUser?.uid
-                let eventPicture = inputPicture.image
-                let event = Event(eventName: eventName!, owner: eventOwner!, eventSummary: eventSummary!, location: eventLocation!, placeID: placeID, privateEvent: isPrivate, eventPicture: "temp", time: eventTime)
-                eventRef.setValue(event.toAnyObject())
-                let userRef = self.dbRefUser.child(eventOwner!)
-                let userMyEvents = userRef.child("myEvents")
-                userMyEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
-                    userMyEvents.removeAllObservers()
-                    let count = snapshot.childrenCount
-                    let userNewEvent = userMyEvents.child(count.description)
-                    userNewEvent.setValue(eventRef.key)
-                    
-                })
-                self.performSegue(withIdentifier: "returnToMyEvents", sender: self)
             }
+            else{
+                eventRef = (self.event?.itemRef)!
+            }
+            
+            let eventName = inputEventName.text
+            let eventSummary = inputEventSummary.text
+            let eventLocation = inputLocation.text
+            let eventTime = inputTime.date.description
+            let isPrivate = inputPrivate.isOn
+            let eventOwner = FIRAuth.auth()?.currentUser?.uid
+            let eventPicture = inputPicture.image
+            let event = Event(eventName: eventName!, owner: eventOwner!, eventSummary: eventSummary!, location: eventLocation!, locationID: locationID, meetingLocation: "temp", meetingLocationID:"temp", privateEvent: isPrivate, eventPicture: "temp", time: eventTime)
+            eventRef.setValue(event.toAnyObject())
+            let userRef = self.dbRefUser.child(eventOwner!)
+            let userMyEvents = userRef.child("myEvents")
+            userMyEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+                userMyEvents.removeAllObservers()
+                let count = snapshot.childrenCount
+                let userNewEvent = userMyEvents.child(count.description)
+                userNewEvent.setValue(eventRef.key)
+                
+            })
+            self.performSegue(withIdentifier: "returnToMyEvents", sender: self)
+        }
     }
     
     
@@ -133,14 +149,14 @@ extension CreateEventViewController: GMSAutocompleteViewControllerDelegate {
     
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        self.placeID = place.placeID
+        self.locationID = place.placeID
         
         
         
         print("Place name: \(place.name)")
         print("Place address: \(place.formattedAddress)")
         print("Place attributions: \(place.attributions)")
-        placeID = place.placeID
+        locationID = place.placeID
         inputLocation.text = place.formattedAddress
         dismiss(animated: true, completion: nil)
     }

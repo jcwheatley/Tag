@@ -17,4 +17,12 @@ class AlertHelper {
         }))
         ui.present(errorAlert, animated: true, completion: nil)
     }
+    
+    static func noMoreEvents(ui:UIViewController){
+        let errorAlert = UIAlertController(title: "Sorry", message: "There are no more events to View", preferredStyle: .alert)
+        errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action:UIAlertAction) in
+            errorAlert.dismiss(animated: true, completion: nil)
+        }))
+        ui.present(errorAlert, animated: true, completion: nil)
+    }
 }

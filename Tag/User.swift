@@ -13,14 +13,15 @@ import FirebaseDatabase
 struct User {
     let itemRef:FIRDatabaseReference?
     let uid:String
-    let email:String
-    let username:String
-    let facebookID:String
-    let profilePicture:String
-    let myEvents:[String]
-    let taggedEvents: [String]
-    let settings: Settings
-    let friends: [String]
+    var email:String
+    var username:String
+    var facebookID:String
+    var profilePicture:String
+    var myEvents:[String]
+    var taggedEvents: [String]
+    var discardedEvents:[String]
+    var settings: Settings
+    var friends: [String]
     
     init (snapshot:FIRDataSnapshot) {
         
@@ -54,6 +55,7 @@ struct User {
         self.taggedEvents = []
         self.settings = Settings()
         self.friends = []
+        self.discardedEvents = []
         self.facebookID = ""
     }
     init (uid:String, email:String, username:String, profilePicture:String) {
@@ -66,6 +68,7 @@ struct User {
         self.taggedEvents = []
         self.settings = Settings()
         self.friends = []
+        self.discardedEvents = []
         self.itemRef=nil
     }
     func toAnyObject() -> NSDictionary {

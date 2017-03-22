@@ -91,11 +91,10 @@ class MainViewController: UIViewController {
     func fillView(){
         
         if events.count > 0{
-            
             let i = Int(arc4random_uniform(UInt32(events.count)))
             //make sure that we arent filling up the view with the same event
             let event = events[i]
-            if (event.itemRef?.description != currentEvent && event.owner != currentUser?.uid){
+            if (event.itemRef?.key != currentEvent && event.owner != currentUser?.uid){
                 eventTitle.text = event.eventName
                 
                 for user in users{
@@ -130,8 +129,12 @@ class MainViewController: UIViewController {
                 
                 eventTime.text = dateString
                 eventDescription.text = event.eventSummary
-                currentEvent = (event.itemRef?.description())!
+                currentEvent = (event.itemRef?.key)!
             }
+            else if events.count == 1{
+                AlertHelper.noMoreEvents(ui: self)
+            }
+                
             else{
                 fillView()
             }
@@ -145,6 +148,21 @@ class MainViewController: UIViewController {
     @IBAction func refresh(_ sender: Any) {
         self.fillView()
     }
+    @IBAction func discardEvent(_ sender: Any) {
+        var curUser = SortHelper.getCurrentUser(currentUser: (currentUser?.uid)!, users: users)
+        curUser.discardedEvents.append(currentEvent)
+        let userRef = self.dbRefUser.child(curUser.uid)
+        let userMyDiscardedEvents = userRef.child("discardedEvents")
+        userMyDiscardedEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+            userMyDiscardedEvents.removeAllObservers()
+            let count = snapshot.childrenCount
+            let userNewEvent = userMyDiscardedEvents.child(count.description)
+            userNewEvent.setValue(self.currentEvent)
+            
+        })
+        
+        self.fillView()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -153,7 +171,18 @@ class MainViewController: UIViewController {
         self.performSegue(withIdentifier: "toManage", sender: self)
     }
     @IBAction func tagAlong(_ sender: Any) {
-        AlertHelper.notImplemented(ui: self)
+        var curUser = SortHelper.getCurrentUser(currentUser: (currentUser?.uid)!, users: users)
+        curUser.taggedEvents.append(currentEvent)
+        let userRef = self.dbRefUser.child(curUser.uid)
+        let userMyTaggedEvents = userRef.child("taggedEvents")
+        userMyTaggedEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+            userMyTaggedEvents.removeAllObservers()
+            let count = snapshot.childrenCount
+            let userNewEvent = userMyTaggedEvents.child(count.description)
+            userNewEvent.setValue(self.currentEvent)
+            
+        })
+        self.fillView()
     }
     
     
