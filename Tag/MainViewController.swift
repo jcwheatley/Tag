@@ -24,6 +24,9 @@ class MainViewController: UIViewController {
     let profilePicStoragePath = "Images/ProfileImage/"
     var currentEvent = "-1"
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         LoadingHelper.loading(ui: self)
@@ -33,6 +36,18 @@ class MainViewController: UIViewController {
         startObservingDB()
         
         // Do any additional setup after loading the view.
+        
+        let settingsView = SwipeDownSettingsViewController(nibName: "SwipeDownSettingsViewController", bundle: nil)
+        
+        var frame1 = settingsView.view.frame
+        frame1.origin.x = self.view.frame.size.width
+        settingsView.view.frame = frame1
+        
+        self.addChildViewController(settingsView)
+        self.scrollView.addSubview(settingsView.view)
+        settingsView.didMove(toParentViewController: self)
+        
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width * 2, height: self.view.frame.size.height)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -48,6 +63,8 @@ class MainViewController: UIViewController {
     @IBOutlet weak var eventLocation: UILabel!
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var userImage: UIImageView!
+    
+    
     
     
     //creates arrays of events and users
@@ -117,6 +134,10 @@ class MainViewController: UIViewController {
                     }
                 }
                 
+                self.view.bringSubview(toFront: eventTitle)
+                self.view.bringSubview(toFront: eventLocation)
+                self.view.bringSubview(toFront: eventTime)
+                self.view.bringSubview(toFront: scrollView)
                 
                 eventLocation.text = event.location
                 
