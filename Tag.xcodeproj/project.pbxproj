@@ -34,6 +34,7 @@
 		B6336D491E5B9D8E00996CC1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6336D481E5B9D8E00996CC1 /* Main.storyboard */; };
 		B655FF201E59189A008040E9 /* MyEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B655FF1F1E59189A008040E9 /* MyEventsView.swift */; };
 		B67045561E8185DF00AC9BF9 /* SortHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67045551E8185DF00AC9BF9 /* SortHelper.swift */; };
+		B69A1F8E1E84B14100B6F1DB /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */; };
 		D5863FD8FEF17D8C5E51D6DC /* Pods_Tag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E422EE05B4CCB23B573457A /* Pods_Tag.framework */; };
 		DDE6DDAF18FCCE40CAA652DA /* Pods_TagUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0BD98E60F0DBE7FC93638C /* Pods_TagUITests.framework */; };
 /* End PBXBuildFile section */
@@ -94,6 +95,7 @@
 		B6336D481E5B9D8E00996CC1 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B655FF1F1E59189A008040E9 /* MyEventsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventsView.swift; sourceTree = "<group>"; };
 		B67045551E8185DF00AC9BF9 /* SortHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortHelper.swift; sourceTree = "<group>"; };
+		B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
 		C803A3A002B864CB86C3B94B /* Pods-Tag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tag.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tag/Pods-Tag.debug.xcconfig"; sourceTree = "<group>"; };
 		CEE506921665EE1EB1DB532A /* Pods-TagTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TagTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TagTests/Pods-TagTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EC8F41619EC70F71A694D02E /* Pods-TagTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TagTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TagTests/Pods-TagTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				B62277801E7F8CCD009974FA /* LoadingHelper.swift */,
 				B62277821E7F9A5F009974FA /* AlertHelper.swift */,
 				B67045551E8185DF00AC9BF9 /* SortHelper.swift */,
+				B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -556,6 +559,7 @@
 				B621C3FA1E51139F008AB327 /* Settings.swift in Sources */,
 				B6336D431E5B594A00996CC1 /* CreateEventViewController.swift in Sources */,
 				B621C3F61E510B14008AB327 /* User.swift in Sources */,
+				B69A1F8E1E84B14100B6F1DB /* UserHelper.swift in Sources */,
 				B621C3BE1E503A25008AB327 /* AppDelegate.swift in Sources */,
 				B62277811E7F8CCD009974FA /* LoadingHelper.swift in Sources */,
 				B626C5211E5CECAF00CC89D0 /* ImageHelper.swift in Sources */,
