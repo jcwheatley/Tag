@@ -71,6 +71,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Nav Bar ItemButton color (items on nav bar other than back button
         UIBarButtonItem.appearance().tintColor = secondaryColor
         
+        
+        
+        
         //***** END STYLING *****//
         
         

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A38BF001E83CBD900DFCF47 /* SwipeDownSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38BEFE1E83CBD900DFCF47 /* SwipeDownSettingsViewController.swift */; };
+		1A38BF011E83CBD900DFCF47 /* SwipeDownSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A38BEFF1E83CBD900DFCF47 /* SwipeDownSettingsViewController.xib */; };
 		473677B4496F3D79545D5630 /* Pods_TagTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60411AAC28EFA6356796D75D /* Pods_TagTests.framework */; };
 		B621C3BE1E503A25008AB327 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621C3BD1E503A25008AB327 /* AppDelegate.swift */; };
 		B621C3C01E503A25008AB327 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621C3BF1E503A25008AB327 /* ViewController.swift */; };
@@ -57,6 +59,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A38BEFE1E83CBD900DFCF47 /* SwipeDownSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeDownSettingsViewController.swift; sourceTree = "<group>"; };
+		1A38BEFF1E83CBD900DFCF47 /* SwipeDownSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SwipeDownSettingsViewController.xib; sourceTree = "<group>"; };
 		36029215C49145989BD4525F /* Pods-Tag.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tag.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tag/Pods-Tag.release.xcconfig"; sourceTree = "<group>"; };
 		3D0BD98E60F0DBE7FC93638C /* Pods_TagUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TagUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B2302CD915C57D99177ECA5 /* Pods-TagUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TagUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TagUITests/Pods-TagUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -240,6 +244,8 @@
 				B6336D421E5B594A00996CC1 /* CreateEventViewController.swift */,
 				B6336D461E5B988600996CC1 /* SettingsViewController.swift */,
 				B62277781E7F2F32009974FA /* MainViewController.swift */,
+				1A38BEFE1E83CBD900DFCF47 /* SwipeDownSettingsViewController.swift */,
+				1A38BEFF1E83CBD900DFCF47 /* SwipeDownSettingsViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -378,6 +384,7 @@
 			files = (
 				B6336D491E5B9D8E00996CC1 /* Main.storyboard in Resources */,
 				B621C3FF1E514689008AB327 /* gav.jpg in Resources */,
+				1A38BF011E83CBD900DFCF47 /* SwipeDownSettingsViewController.xib in Resources */,
 				B621C3C81E503A25008AB327 /* LaunchScreen.storyboard in Resources */,
 				B621C3EC1E503AE2008AB327 /* GoogleService-Info.plist in Resources */,
 				B622777F1E7F83A9009974FA /* noEventPic.png in Resources */,
@@ -555,6 +562,7 @@
 				B621C3EE1E510A02008AB327 /* SweetsTableViewController.swift in Sources */,
 				B621C3C01E503A25008AB327 /* ViewController.swift in Sources */,
 				B655FF201E59189A008040E9 /* MyEventsView.swift in Sources */,
+				1A38BF001E83CBD900DFCF47 /* SwipeDownSettingsViewController.swift in Sources */,
 				B621C3F41E510AE2008AB327 /* Sweet.swift in Sources */,
 				B621C3FA1E51139F008AB327 /* Settings.swift in Sources */,
 				B6336D431E5B594A00996CC1 /* CreateEventViewController.swift in Sources */,

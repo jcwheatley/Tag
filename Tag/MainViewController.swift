@@ -26,12 +26,9 @@ class MainViewController: UIViewController {
     let profilePicStoragePath = "Images/ProfileImage/"
     var currentEvent = "-1"
     
-<<<<<<< Updated upstream
-=======
-   
     
     
->>>>>>> Stashed changes
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         LoadingHelper.loading(ui: self)
@@ -42,9 +39,6 @@ class MainViewController: UIViewController {
         eventImage.isUserInteractionEnabled = true
         eventImage.addGestureRecognizer(tapGestureRecognizer)
         
-<<<<<<< Updated upstream
-        // Do any additional setup after loading the view.
-=======
         
         let settingsView = SwipeDownSettingsViewController(nibName: "SwipeDownSettingsViewController", bundle: nil)
         
@@ -58,7 +52,6 @@ class MainViewController: UIViewController {
         
         self.scrollView.contentSize = CGSize(width: self.view.frame.width * 2, height: self.view.frame.size.height)
         
->>>>>>> Stashed changes
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,6 +67,8 @@ class MainViewController: UIViewController {
     @IBOutlet weak var eventLocation: UILabel!
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var userImage: UIImageView!
+    
+    
     
     
     //creates arrays of events and users
@@ -146,6 +141,10 @@ class MainViewController: UIViewController {
                     }
                 }
                 
+                self.view.bringSubview(toFront: eventTitle)
+                self.view.bringSubview(toFront: eventLocation)
+                self.view.bringSubview(toFront: eventTime)
+                self.view.bringSubview(toFront: scrollView)
                 
                 eventLocation.text = event.location
                 
@@ -219,7 +218,7 @@ class MainViewController: UIViewController {
     {
         let tappedImage = tapGestureRecognizer.view as! UIImageView
         
-       print("it worked!!")
+        print("it worked!!")
     }
     
     func startObservingDBCompletion(){
