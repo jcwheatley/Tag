@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="LgM-fV-DXd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="LgM-fV-DXd">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -153,9 +153,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" id="KkE-tB-mRX">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Tagged Events"/>
+                                <segment title="Hosted Events"/>
+                                <segment title="All Events"/>
+                            </segments>
+                            <connections>
+                                <action selector="controlAction:" destination="HSM-hd-2uH" eventType="valueChanged" id="8Fs-uf-ymB"/>
+                            </connections>
+                        </segmentedControl>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LabelCell" textLabel="ueA-6H-wQt" detailTextLabel="ygy-cc-oIf" rowHeight="100" style="IBUITableViewCellStyleSubtitle" id="FJK-ha-hWF">
-                                <rect key="frame" x="0.0" y="28" width="414" height="100"/>
+                                <rect key="frame" x="0.0" y="58" width="414" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FJK-ha-hWF" id="RDN-fs-4wR">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="99"/>
@@ -202,6 +214,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="filter" destination="KkE-tB-mRX" id="dDe-u2-cBF"/>
                         <segue destination="kJv-bq-9Fh" kind="show" identifier="toNewEvent" id="IRL-fD-zX7"/>
                         <segue destination="kJv-bq-9Fh" kind="show" identifier="editEventSegue" id="QpW-nn-om5"/>
                         <segue destination="Wsd-3f-TMl" kind="show" identifier="toMain" id="w7g-Dt-I8z"/>
@@ -220,18 +233,18 @@
                         <viewControllerLayoutGuide type="bottom" id="J2n-Zh-CTU"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="15q-aS-76O">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not a member yet?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qT-R4-KrE">
-                                <rect key="frame" x="103" y="253" width="207" height="57"/>
+                                <rect key="frame" x="103" y="229" width="207" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQI-xy-5Zz">
-                                <rect key="frame" x="122" y="216" width="168" height="33"/>
+                                <rect key="frame" x="122" y="196" width="168" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <state key="normal" title="Login">
@@ -242,7 +255,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RuH-qx-eVb">
-                                <rect key="frame" x="150" y="325" width="112" height="50"/>
+                                <rect key="frame" x="150" y="295" width="112" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Sign Up"/>
@@ -267,7 +280,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LgM-fV-DXd" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="At8-x7-xzD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="At8-x7-xzD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -387,7 +400,11 @@
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="LZA-fI-DFB">
-                        <barButtonItem key="leftBarButtonItem" title="Tagged Events" style="plain" id="btC-lK-nfL"/>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" style="plain" id="btC-lK-nfL">
+                            <connections>
+                                <action selector="logout:" destination="Wsd-3f-TMl" id="vwJ-eu-muh"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Manage" style="plain" id="PZM-qf-ATG">
                             <connections>
                                 <action selector="toManage:" destination="Wsd-3f-TMl" id="LAG-DE-5wU"/>
@@ -399,13 +416,14 @@
                     <connections>
                         <outlet property="eventDescription" destination="hPE-7e-hkE" id="uCI-Af-0j1"/>
                         <outlet property="eventHost" destination="NhQ-ua-jpo" id="MgM-ZB-dap"/>
-                        <outlet property="eventImage" destination="iJv-3B-Lka" id="jR4-zT-7z8"/>
+                        <outlet property="eventImage" destination="iJv-3B-Lka" id="buB-Pt-e02"/>
                         <outlet property="eventLocation" destination="s82-Ap-cuT" id="hHj-Ic-eUP"/>
                         <outlet property="eventTime" destination="7rX-yk-UEw" id="MhC-qE-dFQ"/>
                         <outlet property="eventTitle" destination="ZWh-KA-ahf" id="sDr-sU-GCI"/>
                         <outlet property="scrollView" destination="1AD-do-PcF" id="Pt7-sG-Eje"/>
                         <outlet property="userImage" destination="sgo-no-Wal" id="mEm-Gd-U5j"/>
                         <segue destination="HSM-hd-2uH" kind="show" identifier="toManage" id="VYF-4i-pa7"/>
+                        <segue destination="law-HB-Kaz" kind="show" identifier="logoutSegue" id="IEd-5B-NFs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5GK-tJ-0Hk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -420,8 +438,9 @@
         <image name="noEventPic.png" width="162" height="194"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QpW-nn-om5"/>
-        <segue reference="VYF-4i-pa7"/>
         <segue reference="w7g-Dt-I8z"/>
+        <segue reference="VYF-4i-pa7"/>
+        <segue reference="QpW-nn-om5"/>
+        <segue reference="IEd-5B-NFs"/>
     </inferredMetricsTieBreakers>
 </document>

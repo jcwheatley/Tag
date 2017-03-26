@@ -19,12 +19,14 @@ class MainViewController: UIViewController {
     var storageRef:FIRStorageReference!
     var events = [Event]()
     var users = [User]()
+    var sorter:SortHelper!
+    var currentUser:User!
     let storage = FIRStorage.storage()
-    let currentUser = FIRAuth.auth()?.currentUser
+    let currentUserFIR = FIRAuth.auth()?.currentUser
     let profilePicStoragePath = "Images/ProfileImage/"
     var currentEvent = "-1"
     
-    @IBOutlet weak var scrollView: UIScrollView!
+   
     
     
     override func viewDidLoad() {
@@ -33,9 +35,10 @@ class MainViewController: UIViewController {
         dbRefEvents = FIRDatabase.database().reference().child("events")
         dbRefUser = FIRDatabase.database().reference().child("users")
         storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
-        startObservingDB()
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        eventImage.isUserInteractionEnabled = true
+        eventImage.addGestureRecognizer(tapGestureRecognizer)
         
-        // Do any additional setup after loading the view.
         
         let settingsView = SwipeDownSettingsViewController(nibName: "SwipeDownSettingsViewController", bundle: nil)
         
@@ -48,14 +51,15 @@ class MainViewController: UIViewController {
         settingsView.didMove(toParentViewController: self)
         
         self.scrollView.contentSize = CGSize(width: self.view.frame.width * 2, height: self.view.frame.size.height)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.startObservingDB()
+        startObservingDBCompletion()
     }
     
-    
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var eventTime: UILabel!
     @IBOutlet weak var eventDescription: UITextView!
@@ -68,7 +72,7 @@ class MainViewController: UIViewController {
     
     
     //creates arrays of events and users
-    func startObservingDB () {
+    func startObservingDB (completion: @escaping () -> Void) {
         dbRefEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
             var newEvents = [Event]()
             
@@ -83,6 +87,7 @@ class MainViewController: UIViewController {
             
         }) { (error:Error) in
             print(error.localizedDescription)
+            
         }
         dbRefUser.observe(.value, with: { (snapshot:FIRDataSnapshot) in
             var newUsers = [User]()
@@ -92,26 +97,28 @@ class MainViewController: UIViewController {
                 let userObject = User(snapshot: user as! FIRDataSnapshot)
                 newUsers.append(userObject)
             }
-            
             self.users = newUsers
-            self.fillView()
+            completion()
             //self.tableView.reloadData()
             
         }) { (error:Error) in
             print(error.localizedDescription)
         }
-        
-        
+        //more filtering
         
     }
     
+    
     func fillView(){
-        
-        if events.count > 0{
+        if events.count == 0{
+            LoadingHelper.doneLoading(ui: self)
+            AlertHelper.notImplemented(ui: self)
+        }
+        else{
             let i = Int(arc4random_uniform(UInt32(events.count)))
             //make sure that we arent filling up the view with the same event
             let event = events[i]
-            if (event.itemRef?.key != currentEvent && event.owner != currentUser?.uid){
+            if (event.itemRef?.key != currentEvent){
                 eventTitle.text = event.eventName
                 
                 for user in users{
@@ -151,17 +158,16 @@ class MainViewController: UIViewController {
                 eventTime.text = dateString
                 eventDescription.text = event.eventSummary
                 currentEvent = (event.itemRef?.key)!
+            }else if(events.count == 1){
+                //only one left
+                AlertHelper.notImplemented(ui: self)
+                return
             }
-            else if events.count == 1{
-                AlertHelper.noMoreEvents(ui: self)
-            }
-                
             else{
                 fillView()
             }
+            LoadingHelper.doneLoading(ui: self)
         }
-        
-        LoadingHelper.doneLoading(ui: self)
     }
     
     
@@ -170,9 +176,8 @@ class MainViewController: UIViewController {
         self.fillView()
     }
     @IBAction func discardEvent(_ sender: Any) {
-        var curUser = SortHelper.getCurrentUser(currentUser: (currentUser?.uid)!, users: users)
-        curUser.discardedEvents.append(currentEvent)
-        let userRef = self.dbRefUser.child(curUser.uid)
+        currentUser.discardedEvents.append(currentEvent)
+        let userRef = self.dbRefUser.child(currentUser.uid)
         let userMyDiscardedEvents = userRef.child("discardedEvents")
         userMyDiscardedEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
             userMyDiscardedEvents.removeAllObservers()
@@ -181,8 +186,7 @@ class MainViewController: UIViewController {
             userNewEvent.setValue(self.currentEvent)
             
         })
-        
-        self.fillView()
+        startObservingDBCompletion()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -191,10 +195,14 @@ class MainViewController: UIViewController {
     @IBAction func toManage(_ sender: Any) {
         self.performSegue(withIdentifier: "toManage", sender: self)
     }
+    @IBAction func logout(_ sender: Any) {
+        try! FIRAuth.auth()!.signOut()
+        self.performSegue(withIdentifier: "logoutSegue", sender: self)
+    }
     @IBAction func tagAlong(_ sender: Any) {
-        var curUser = SortHelper.getCurrentUser(currentUser: (currentUser?.uid)!, users: users)
-        curUser.taggedEvents.append(currentEvent)
-        let userRef = self.dbRefUser.child(curUser.uid)
+        
+        currentUser.taggedEvents.append(currentEvent)
+        let userRef = self.dbRefUser.child(currentUser.uid)
         let userMyTaggedEvents = userRef.child("taggedEvents")
         userMyTaggedEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
             userMyTaggedEvents.removeAllObservers()
@@ -203,19 +211,25 @@ class MainViewController: UIViewController {
             userNewEvent.setValue(self.currentEvent)
             
         })
-        self.fillView()
+        startObservingDBCompletion()
     }
     
+    func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let tappedImage = tapGestureRecognizer.view as! UIImageView
+        
+       print("it worked!!")
+    }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+    func startObservingDBCompletion(){
+        self.startObservingDB(completion: {
+            self.sorter = SortHelper(currentUser: (self.currentUserFIR?.uid)!, users: self.users)
+            self.currentUser = self.sorter.currentUser
+            self.events = self.sorter.allButUserEvents(myevents: self.events)
+            self.events = self.sorter.allButDiscardedEvents(myevents: self.events)
+            self.events = self.sorter.allButTaggedEvents(myevents: self.events)
+            self.fillView()
+        })
+    }
 }
 
