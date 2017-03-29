@@ -21,11 +21,16 @@ class SettingsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    @IBAction func logout(_ sender: Any) {
-        try! FIRAuth.auth()!.signOut()
-        self.performSegue(withIdentifier: "logoutSegue", sender: self)
-    }
+//    @IBAction func logout(_ sender: Any) {
+//        try! FIRAuth.auth()!.signOut()
+//        self.performSegue(withIdentifier: "logoutSegue", sender: self)
+//    }
     
+    @IBAction func logoutFromSettings(_ sender: Any) {
+        try! FIRAuth.auth()!.signOut()
+        self.performSegue(withIdentifier: "logoutFromSettingsSegue", sender: self)
+        
+    }
     
 
     /*

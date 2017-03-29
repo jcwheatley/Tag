@@ -37,6 +37,7 @@
 		B655FF201E59189A008040E9 /* MyEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B655FF1F1E59189A008040E9 /* MyEventsView.swift */; };
 		B67045561E8185DF00AC9BF9 /* SortHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67045551E8185DF00AC9BF9 /* SortHelper.swift */; };
 		B69A1F8E1E84B14100B6F1DB /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */; };
+		B6BA131C1E8C33EE008E4605 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BA131B1E8C33EE008E4605 /* MapViewController.swift */; };
 		D5863FD8FEF17D8C5E51D6DC /* Pods_Tag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E422EE05B4CCB23B573457A /* Pods_Tag.framework */; };
 		DDE6DDAF18FCCE40CAA652DA /* Pods_TagUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0BD98E60F0DBE7FC93638C /* Pods_TagUITests.framework */; };
 /* End PBXBuildFile section */
@@ -100,6 +101,7 @@
 		B655FF1F1E59189A008040E9 /* MyEventsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventsView.swift; sourceTree = "<group>"; };
 		B67045551E8185DF00AC9BF9 /* SortHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortHelper.swift; sourceTree = "<group>"; };
 		B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
+		B6BA131B1E8C33EE008E4605 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C803A3A002B864CB86C3B94B /* Pods-Tag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tag.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tag/Pods-Tag.debug.xcconfig"; sourceTree = "<group>"; };
 		CEE506921665EE1EB1DB532A /* Pods-TagTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TagTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TagTests/Pods-TagTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EC8F41619EC70F71A694D02E /* Pods-TagTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TagTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TagTests/Pods-TagTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				B62277781E7F2F32009974FA /* MainViewController.swift */,
 				1A38BEFE1E83CBD900DFCF47 /* SwipeDownSettingsViewController.swift */,
 				1A38BEFF1E83CBD900DFCF47 /* SwipeDownSettingsViewController.xib */,
+				B6BA131B1E8C33EE008E4605 /* MapViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -560,6 +563,7 @@
 				B62277831E7F9A5F009974FA /* AlertHelper.swift in Sources */,
 				B6336D471E5B988600996CC1 /* SettingsViewController.swift in Sources */,
 				B621C3EE1E510A02008AB327 /* SweetsTableViewController.swift in Sources */,
+				B6BA131C1E8C33EE008E4605 /* MapViewController.swift in Sources */,
 				B621C3C01E503A25008AB327 /* ViewController.swift in Sources */,
 				B655FF201E59189A008040E9 /* MyEventsView.swift in Sources */,
 				1A38BF001E83CBD900DFCF47 /* SwipeDownSettingsViewController.swift in Sources */,

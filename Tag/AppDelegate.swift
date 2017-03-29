@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import GooglePlaces
+import GoogleMaps
 
 extension UIViewController {
     func hideKeyboard()
@@ -38,6 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FIRApp.configure()
         GMSPlacesClient.provideAPIKey("AIzaSyBP8Y5Nu5GhTtUFCxsO_AZxIV5pTVwI5Hw")
+        GMSServices.provideAPIKey("AIzaSyBP8Y5Nu5GhTtUFCxsO_AZxIV5pTVwI5Hw")
+        //AIzaSyACtrHzlQOeBSRGjAEBdpKB2pZcy6PGGKQ
         
         //        FIRAuth.auth()?.signIn(withEmail: "gavinrob92@gmail.com", password: "123456", completion: { (user, error) in
         //            if error == nil{

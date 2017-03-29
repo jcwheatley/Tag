@@ -40,17 +40,17 @@ class MainViewController: UIViewController {
         eventImage.addGestureRecognizer(tapGestureRecognizer)
         
         
-        let settingsView = SwipeDownSettingsViewController(nibName: "SwipeDownSettingsViewController", bundle: nil)
+        //let settingsView = SwipeDownSettingsViewController(nibName: "SwipeDownSettingsViewController", bundle: nil)
         
-        var frame1 = settingsView.view.frame
-        frame1.origin.x = self.view.frame.size.width
-        settingsView.view.frame = frame1
+        //var frame1 = settingsView.view.frame
+        //frame1.origin.x = self.view.frame.size.width
+        //settingsView.view.frame = frame1
         
-        self.addChildViewController(settingsView)
-        self.scrollView.addSubview(settingsView.view)
-        settingsView.didMove(toParentViewController: self)
+        //self.addChildViewController(settingsView)
+        //self.scrollView.addSubview(settingsView.view)
+        //settingsView.didMove(toParentViewController: self)
         
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width * 2, height: self.view.frame.size.height)
+        //self.scrollView.contentSize = CGSize(width: self.view.frame.width * 2, height: self.view.frame.size.height)
         
     }
     
@@ -65,6 +65,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var eventDescription: UITextView!
     @IBOutlet weak var eventHost: UILabel!
     @IBOutlet weak var eventLocation: UILabel!
+    @IBOutlet weak var eventLocationBtn: UIButton!
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var userImage: UIImageView!
     
@@ -144,7 +145,7 @@ class MainViewController: UIViewController {
                 self.view.bringSubview(toFront: eventTitle)
                 self.view.bringSubview(toFront: eventLocation)
                 self.view.bringSubview(toFront: eventTime)
-                self.view.bringSubview(toFront: scrollView)
+                //self.view.bringSubview(toFront: scrollView)
                 
                 eventLocation.text = event.location
                 
@@ -199,6 +200,13 @@ class MainViewController: UIViewController {
         try! FIRAuth.auth()!.signOut()
         self.performSegue(withIdentifier: "logoutSegue", sender: self)
     }
+    
+    @IBAction func toMap(_ sender: Any) {
+        self.performSegue(withIdentifier: "toMapSegue", sender: self)
+    }
+    
+    
+    
     @IBAction func tagAlong(_ sender: Any) {
         
         currentUser.taggedEvents.append(currentEvent)

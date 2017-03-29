@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -144,6 +145,35 @@
             </objects>
             <point key="canvasLocation" x="2334.375" y="-195"/>
         </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="eMO-wI-omM">
+            <objects>
+                <viewController id="EAN-cb-Zqg" customClass="SettingsViewController" customModule="Tag" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eoQ-pe-qmW"/>
+                        <viewControllerLayoutGuide type="bottom" id="rH0-dJ-fQv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WFG-EB-QrE">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7i-WP-3rr">
+                                <rect key="frame" x="172" y="236" width="55" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Log Out"/>
+                                <connections>
+                                    <action selector="logoutFromSettings:" destination="EAN-cb-Zqg" eventType="touchUpInside" id="L8C-JH-x6X"/>
+                                    <segue destination="law-HB-Kaz" kind="show" identifier="logoutFromSettingsSegue" id="sqO-Sm-hRc"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IAe-xW-iGS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="507" y="-59"/>
+        </scene>
         <!--Manage-->
         <scene sceneID="1zQ-yn-JQj">
             <objects>
@@ -170,18 +200,18 @@
                                 <rect key="frame" x="0.0" y="58" width="414" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FJK-ha-hWF" id="RDN-fs-4wR">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="99"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="99.666666666666671"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ueA-6H-wQt">
-                                            <rect key="frame" x="15" y="32" width="34" height="21"/>
+                                            <rect key="frame" x="15" y="33" width="33.333333333333336" height="20.333333333333332"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ygy-cc-oIf">
-                                            <rect key="frame" x="15" y="53" width="44" height="15"/>
+                                            <rect key="frame" x="14.999999999999996" y="53.333333333333329" width="43.666666666666664" height="14.333333333333334"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
@@ -233,18 +263,18 @@
                         <viewControllerLayoutGuide type="bottom" id="J2n-Zh-CTU"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="15q-aS-76O">
-                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not a member yet?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qT-R4-KrE">
-                                <rect key="frame" x="103" y="229" width="207" height="57"/>
+                                <rect key="frame" x="103" y="253" width="207" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQI-xy-5Zz">
-                                <rect key="frame" x="122" y="196" width="168" height="33"/>
+                                <rect key="frame" x="122" y="216" width="168" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <state key="normal" title="Login">
@@ -255,7 +285,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RuH-qx-eVb">
-                                <rect key="frame" x="150" y="295" width="112" height="50"/>
+                                <rect key="frame" x="150" y="325" width="112" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Sign Up"/>
@@ -376,33 +406,41 @@
                                     <action selector="discardEvent:" destination="Wsd-3f-TMl" eventType="touchUpInside" id="YOL-lL-JnI"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hiking the Y" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZWh-KA-ahf">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Hiking the Y" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZWh-KA-ahf">
                                 <rect key="frame" x="20" y="89" width="373" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1AD-do-PcF">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="614"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            </scrollView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="noEventPic.png" translatesAutoresizingMaskIntoConstraints="NO" id="iJv-3B-Lka">
                                 <rect key="frame" x="0.0" y="49" width="414" height="469"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7eu-73-S8i">
+                                <rect key="frame" x="20" y="433" width="219" height="30"/>
+                                <state key="normal" title="Location"/>
+                                <connections>
+                                    <action selector="toMap:" destination="Wsd-3f-TMl" eventType="touchUpInside" id="HT4-7K-tGW"/>
+                                    <segue destination="dNL-ZA-kht" kind="presentation" identifier="toMapSegue" id="Vr6-1l-4BZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="7eu-73-S8i" firstAttribute="top" secondItem="ZWh-KA-ahf" secondAttribute="bottom" constant="297" id="TVo-AM-SMR"/>
+                            <constraint firstItem="7eu-73-S8i" firstAttribute="leading" secondItem="KxR-M2-SN9" secondAttribute="leadingMargin" id="fvJ-bk-cn4"/>
+                        </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="u5N-Af-ijB" appends="YES" id="7uv-NR-kuT"/>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="LZA-fI-DFB">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" style="plain" id="btC-lK-nfL">
+                        <barButtonItem key="leftBarButtonItem" title="Settings" style="plain" id="btC-lK-nfL">
                             <connections>
                                 <action selector="logout:" destination="Wsd-3f-TMl" id="vwJ-eu-muh"/>
+                                <segue destination="EAN-cb-Zqg" kind="show" id="sMp-Tm-Sgc"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Manage" style="plain" id="PZM-qf-ATG">
@@ -418,18 +456,35 @@
                         <outlet property="eventHost" destination="NhQ-ua-jpo" id="MgM-ZB-dap"/>
                         <outlet property="eventImage" destination="iJv-3B-Lka" id="buB-Pt-e02"/>
                         <outlet property="eventLocation" destination="s82-Ap-cuT" id="hHj-Ic-eUP"/>
+                        <outlet property="eventLocationBtn" destination="7eu-73-S8i" id="uLJ-5U-vyb"/>
                         <outlet property="eventTime" destination="7rX-yk-UEw" id="MhC-qE-dFQ"/>
                         <outlet property="eventTitle" destination="ZWh-KA-ahf" id="sDr-sU-GCI"/>
-                        <outlet property="scrollView" destination="1AD-do-PcF" id="Pt7-sG-Eje"/>
                         <outlet property="userImage" destination="sgo-no-Wal" id="mEm-Gd-U5j"/>
                         <segue destination="HSM-hd-2uH" kind="show" identifier="toManage" id="VYF-4i-pa7"/>
-                        <segue destination="law-HB-Kaz" kind="show" identifier="logoutSegue" id="IEd-5B-NFs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5GK-tJ-0Hk" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="u5N-Af-ijB"/>
             </objects>
             <point key="canvasLocation" x="724.63768115942037" y="770.38043478260875"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="jQE-uF-xs1">
+            <objects>
+                <viewController modalTransitionStyle="crossDissolve" id="dNL-ZA-kht" customClass="MapViewController" customModule="Tag" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eF7-0E-TPd"/>
+                        <viewControllerLayoutGuide type="bottom" id="aim-jd-ojn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gSD-fI-irn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7GG-Tp-7od" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="725" y="1481"/>
         </scene>
     </scenes>
     <resources>
@@ -438,9 +493,9 @@
         <image name="noEventPic.png" width="162" height="194"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="w7g-Dt-I8z"/>
-        <segue reference="VYF-4i-pa7"/>
         <segue reference="QpW-nn-om5"/>
-        <segue reference="IEd-5B-NFs"/>
+        <segue reference="VYF-4i-pa7"/>
+        <segue reference="w7g-Dt-I8z"/>
+        <segue reference="RlT-rq-ftw"/>
     </inferredMetricsTieBreakers>
 </document>
