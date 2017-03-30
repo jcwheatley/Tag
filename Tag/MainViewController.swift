@@ -64,7 +64,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var eventTime: UILabel!
     @IBOutlet weak var eventDescription: UITextView!
     @IBOutlet weak var eventHost: UILabel!
-    @IBOutlet weak var eventLocation: UILabel!
     @IBOutlet weak var eventLocationBtn: UIButton!
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var userImage: UIImageView!
@@ -136,18 +135,21 @@ class MainViewController: UIViewController {
                             } else {
                                 let image = UIImage(data: data!)
                                 self.userImage.image = image
+                                
                             }
                         }
                         
                     }
                 }
                 
+                //self.userImage.layer.cornerRadius = 10.0
+                
                 self.view.bringSubview(toFront: eventTitle)
-                self.view.bringSubview(toFront: eventLocation)
+                self.view.bringSubview(toFront: eventLocationBtn)
                 self.view.bringSubview(toFront: eventTime)
                 //self.view.bringSubview(toFront: scrollView)
                 
-                eventLocation.text = event.location
+                eventLocationBtn.setTitle(event.location, for: .normal)
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
