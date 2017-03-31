@@ -66,8 +66,6 @@ struct User {
             }else if(data.key == "friends"){
                 self.friends = data.value as! [String]
             }else if(data.key == "myEvents"){
-                print(username)
-                print(data.value)
                 self.myEvents = data.value as! [String]
             }
         }
@@ -101,7 +99,7 @@ struct User {
     }
     func toAnyObject() -> NSDictionary {
         
-        return ["uid":uid, "email":email, "username":username, "profilePicture":profilePicture, "facebookId":facebookID, "myEvents":myEvents, "taggedEvents":taggedEvents, "settings":settings, "friends":friends, "discardedEvents":discardedEvents, "itemRef":itemRef!]
+        return ["uid":uid, "email":email, "username":username, "profilePicture":profilePicture]
         
     }
     

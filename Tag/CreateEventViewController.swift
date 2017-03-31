@@ -10,18 +10,34 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import GooglePlaces
+import FirebaseStorage
 
 //this just gets rid of keyboard when tapped outside of textfield
 
-class CreateEventViewController: UIViewController, UITextFieldDelegate {
+class CreateEventViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var dbRefEvent:FIRDatabaseReference!
     var dbRefUser:FIRDatabaseReference!
+    var storageRef:FIRStorageReference!
+    let storage = FIRStorage.storage()
+    let eventPicStoragePath = "Images/EventImage/"
     var locationID:String = "-1"
     var event:Event?
+    var picName = "noEventPic.png"
+    let imagePicker = UIImagePickerController()
+    var eventRef:FIRDatabaseReference!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboard()
+        imagePicker.delegate = self
+        toggleMeetingLocation()
+        dbRefEvent = FIRDatabase.database().reference().child("events")
+        dbRefUser = FIRDatabase.database().reference().child("users")
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(imageTapped(tapGestureRecognizer:)))
+        inputPicture.isUserInteractionEnabled = true
+        inputPicture.addGestureRecognizer(tapGestureRecognizer)
+        storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
         if (event != nil){
             inputEventName.text = event?.eventName
             inputEventSummary.text = event?.eventSummary
@@ -32,14 +48,21 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
             let date = dateFormatter.date(from: (event?.time)!)
             inputTime.setDate(date!, animated: false)
             createButton.setTitle("Update",for: .normal)
-           
-            
+            let eventPic = event?.eventPicture
+            let imageRef = storageRef.child(eventPicStoragePath + eventPic!)
+            imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
+                if let error = error {
+                    self.inputPicture.image = #imageLiteral(resourceName: "noEventPic.png")
+                } else {
+                    let image = UIImage(data: data!)
+                    self.inputPicture.image = image
+                    
+                }
+            }
+            eventRef = (self.event?.itemRef)!
+        }else{
+            eventRef = self.dbRefEvent.childByAutoId()
         }
-        self.hideKeyboard()
-        toggleMeetingLocation()
-        dbRefEvent = FIRDatabase.database().reference().child("events")
-        dbRefUser = FIRDatabase.database().reference().child("users")
-        // Do any additional setup after loading the view.
     }
     @IBOutlet weak var inputEventName: UITextField!
     @IBOutlet weak var inputEventSummary: UITextField!
@@ -51,10 +74,19 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var hasMeetingLocation: UISwitch!
     @IBOutlet weak var inputMeetingLocation: UITextField!
     
+    
     @IBAction func manageEvents(_ sender: Any) {
         
-        
+        //make sure to delete
         self.performSegue(withIdentifier: "returnToMyEvents", sender: self)
+    }
+    
+    func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+        present(imagePicker, animated: true, completion: nil)
     }
     
     
@@ -97,22 +129,14 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
             }))
             self.present(errorAlert, animated: true, completion: nil)
         }else{
-            let eventRef:FIRDatabaseReference
-            if (self.event == nil){
-                eventRef = self.dbRefEvent.childByAutoId()
-            }
-            else{
-                eventRef = (self.event?.itemRef)!
-            }
-            
             let eventName = inputEventName.text
             let eventSummary = inputEventSummary.text
             let eventLocation = inputLocation.text
             let eventTime = inputTime.date.description
             let isPrivate = inputPrivate.isOn
             let eventOwner = FIRAuth.auth()?.currentUser?.uid
-            let eventPicture = inputPicture.image
-            let event = Event(eventName: eventName!, owner: eventOwner!, eventSummary: eventSummary!, location: eventLocation!, locationID: locationID, meetingLocation: "temp", meetingLocationID:"temp", privateEvent: isPrivate, eventPicture: "temp", time: eventTime)
+            let eventPicture = eventRef.key + ".png"
+            let event = Event(eventName: eventName!, owner: eventOwner!, eventSummary: eventSummary!, location: eventLocation!, locationID: locationID, meetingLocation: "temp", meetingLocationID:"temp", privateEvent: isPrivate, eventPicture: eventPicture, time: eventTime)
             eventRef.setValue(event.toAnyObject())
             let userRef = self.dbRefUser.child(eventOwner!)
             let userMyEvents = userRef.child("myEvents")
@@ -120,7 +144,7 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
                 userMyEvents.removeAllObservers()
                 let count = snapshot.childrenCount
                 let userNewEvent = userMyEvents.child(count.description)
-                userNewEvent.setValue(eventRef.key)
+                userNewEvent.setValue(self.eventRef.key)
                 
             })
             self.performSegue(withIdentifier: "returnToMyEvents", sender: self)
@@ -128,10 +152,27 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    
-    
-    @IBAction func changePicture(_ sender: Any) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
+        var image = info[UIImagePickerControllerOriginalImage]as! UIImage
+        image = ImageHelper.resizeImage(image: image, targetSize: CGSize(width: 100, height: 100))
+        let data = UIImagePNGRepresentation(image)
+        let picName = (eventRef.key) + ".png"
+        self.inputPicture.image = image
+        let picRef = storageRef.child(eventPicStoragePath+picName)
+        _ = picRef.put(data!, metadata: nil){ metadata, error in
+            if let error = error{
+                print(error)}
+            else{
+                
+            }
+        }
+        dismiss(animated:true, completion: nil) //5
     }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     
     /*
      // MARK: - Navigation
@@ -155,7 +196,6 @@ extension CreateEventViewController: GMSAutocompleteViewControllerDelegate {
         
         print("Place name: \(place.name)")
         print("Place address: \(place.formattedAddress)")
-        print("Place attributions: \(place.attributions)")
         locationID = place.placeID
         inputLocation.text = place.formattedAddress
         dismiss(animated: true, completion: nil)
@@ -171,6 +211,7 @@ extension CreateEventViewController: GMSAutocompleteViewControllerDelegate {
         dismiss(animated: true, completion: nil)
     }
     
+    
     // Turn the network activity indicator on and off again.
     func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -179,6 +220,11 @@ extension CreateEventViewController: GMSAutocompleteViewControllerDelegate {
     func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
+    
+    
+    
+    
+    
     
     
 }

@@ -24,6 +24,7 @@ class MainViewController: UIViewController {
     let storage = FIRStorage.storage()
     let currentUserFIR = FIRAuth.auth()?.currentUser
     let profilePicStoragePath = "Images/ProfileImage/"
+    let eventPicStoragePath = "Images/EventImage/"
     var currentEvent = "-1"
     
     
@@ -35,9 +36,7 @@ class MainViewController: UIViewController {
         dbRefEvents = FIRDatabase.database().reference().child("events")
         dbRefUser = FIRDatabase.database().reference().child("users")
         storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-        eventImage.isUserInteractionEnabled = true
-        eventImage.addGestureRecognizer(tapGestureRecognizer)
+        
         
         
         //let settingsView = SwipeDownSettingsViewController(nibName: "SwipeDownSettingsViewController", bundle: nil)
@@ -111,8 +110,8 @@ class MainViewController: UIViewController {
     
     func fillView(){
         if events.count == 0{
+            //TODO notify that there are no events
             LoadingHelper.doneLoading(ui: self)
-            AlertHelper.notImplemented(ui: self)
         }
         else{
             let i = Int(arc4random_uniform(UInt32(events.count)))
@@ -127,8 +126,7 @@ class MainViewController: UIViewController {
                         eventHost.text = "Hosted by: " + user.username
                         
                         let profilePic = user.profilePicture
-                        let imageRef = storageRef.child(profilePic)
-                        print(imageRef)
+                        var imageRef = storageRef.child(profilePicStoragePath + profilePic)
                         imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
                             if let error = error {
                                 print(error)
@@ -138,7 +136,17 @@ class MainViewController: UIViewController {
                                 
                             }
                         }
-                        
+                        let eventPic = event.eventPicture
+                        imageRef = storageRef.child(eventPicStoragePath + eventPic)
+                        imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
+                            if let error = error {
+                                self.eventImage.image = #imageLiteral(resourceName: "noEventPic.png")
+                            } else {
+                                let image = UIImage(data: data!)
+                                self.eventImage.image = image
+                                
+                            }
+                        }
                     }
                 }
                 
@@ -222,13 +230,6 @@ class MainViewController: UIViewController {
             
         })
         startObservingDBCompletion()
-    }
-    
-    func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        let tappedImage = tapGestureRecognizer.view as! UIImageView
-        
-        print("it worked!!")
     }
     
     func startObservingDBCompletion(){

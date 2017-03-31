@@ -21,11 +21,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V07-RA-Hcq">
-                                <rect key="frame" x="18" y="986" width="48" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <state key="normal" title="Cancel"/>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Event Description" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vXZ-XA-lJa">
                                 <rect key="frame" x="18" y="628" width="732" height="30"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -90,16 +85,6 @@
                                 <rect key="frame" x="684" y="169" width="68" height="68"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z97-oR-ZUv">
-                                <rect key="frame" x="683" y="986" width="69" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                <state key="normal" title="Create">
-                                    <color key="titleShadowColor" red="0.31672176718711853" green="0.57084441184997559" blue="0.91593271493911743" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="createEvent:" destination="kJv-bq-9Fh" eventType="touchUpInside" id="qGI-Nh-N41"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Event Title" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="Oln-9V-3wg">
                                 <rect key="frame" x="18" y="203" width="521" height="30"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -110,22 +95,20 @@
                                     <outlet property="delegate" destination="kJv-bq-9Fh" id="xEr-Sf-dy5"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z97-oR-ZUv">
+                                <rect key="frame" x="350" y="986" width="69" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <state key="normal" title="Create">
+                                    <color key="titleShadowColor" red="0.31672176718711853" green="0.57084441184997559" blue="0.91593271493911743" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="createEvent:" destination="kJv-bq-9Fh" eventType="touchUpInside" id="qGI-Nh-N41"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Event Editor" id="CKa-cm-rZQ">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="wh9-H7-KlS">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fqA-nJ-fDR">
-                                <rect key="frame" x="20" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <state key="normal" title="Manage Events"/>
-                                <connections>
-                                    <action selector="manageEvents:" destination="kJv-bq-9Fh" eventType="touchUpInside" id="0iB-0A-gVY"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Event Editor" id="CKa-cm-rZQ"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="createButton" destination="Z97-oR-ZUv" id="HHH-rU-1wW"/>
@@ -165,20 +148,28 @@
                                     <segue destination="law-HB-Kaz" kind="show" identifier="logoutFromSettingsSegue" id="sqO-Sm-hRc"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N4X-9n-MRY">
+                                <rect key="frame" x="146" y="305" width="106" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Change Picture"/>
+                                <connections>
+                                    <action selector="changeProfilePic:" destination="EAN-cb-Zqg" eventType="touchUpInside" id="iks-5L-gxB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IAe-xW-iGS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="507" y="-59"/>
+            <point key="canvasLocation" x="506.25" y="-59.179687499999993"/>
         </scene>
         <!--Manage-->
         <scene sceneID="1zQ-yn-JQj">
             <objects>
                 <tableViewController id="HSM-hd-2uH" customClass="MyEventsView" customModule="Tag" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" id="L53-n5-9Rd">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -226,15 +217,10 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Manage" id="dLl-OH-yIe">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="PE7-CO-34d">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="REU-Fk-mD1">
-                                <rect key="frame" x="20" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Main"/>
-                                <connections>
-                                    <action selector="toMain:" destination="HSM-hd-2uH" eventType="touchUpInside" id="TBo-tI-2Bx"/>
-                                </connections>
-                            </button>
+                        <barButtonItem key="leftBarButtonItem" title="&lt; Back" style="plain" id="bcH-XV-qQz">
+                            <connections>
+                                <action selector="toMain:" destination="HSM-hd-2uH" id="Ecm-xJ-htW"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="Xcg-io-jNi">
                             <connections>
@@ -487,9 +473,9 @@
         <image name="noEventPic.png" width="162" height="194"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QpW-nn-om5"/>
-        <segue reference="VYF-4i-pa7"/>
-        <segue reference="w7g-Dt-I8z"/>
         <segue reference="RlT-rq-ftw"/>
+        <segue reference="w7g-Dt-I8z"/>
+        <segue reference="VYF-4i-pa7"/>
+        <segue reference="QpW-nn-om5"/>
     </inferredMetricsTieBreakers>
 </document>

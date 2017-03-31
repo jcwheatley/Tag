@@ -17,7 +17,7 @@ class LoginViewController: UIViewController {
     
     var dbRefUser:FIRDatabaseReference!
     var displayName:String? = nil
-    
+    var needsLogin = true
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated:true);
@@ -27,37 +27,18 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        var needsLogin = true
         FIRAuth.auth()?.addStateDidChangeListener({ (auth:FIRAuth, user:FIRUser?) in
             if let user = user{
-                if (needsLogin){
+                if (self.needsLogin){
                     print("Welcome " + user.email!)
+                    self.needsLogin = false
+//                    try! FIRAuth.auth()!.signOut()
                     self.performSegue(withIdentifier: "segueToMain", sender: self)
-                    needsLogin = false
-                    
-                    let changeRequest = user.profileChangeRequest()
-                    changeRequest.photoURL = URL(string:"Images/ProfileImage/NoPic.gif")
-                    if (self.displayName != nil){
-                        changeRequest.displayName = self.displayName
-                        changeRequest.commitChanges { (error:Error?) in
-                            if let error = error {
-                                print("your error: " + error.localizedDescription)
-                            } else {
-                                let currentUser = FIRAuth.auth()?.currentUser
-                                let userRef = self.dbRefUser.child((currentUser!.uid))
-                                let user = User(uid: (currentUser?.uid)!, email: (currentUser?.email)!, username: (currentUser?.displayName)!, profilePicture: (currentUser?.photoURL?.absoluteString)!)
-                                userRef.setValue(user.toAnyObject())
-                            }
-                        }
-                    }
                 }
-            }else{
-                print("you need to login first")
             }
-            
-            
         })
     }
+    
     
     @IBAction func Login(_ sender: Any) {
         let userAlert = UIAlertController(title: "Login/Sign Up", message: "Enter email and password", preferredStyle: .alert)
@@ -122,8 +103,13 @@ class LoginViewController: UIViewController {
                     }))
                     print(error?.localizedDescription as Any)
                     self.present(errorAlert, animated: true, completion: nil)
+                }else if let user = user{
+                    let userRef = self.dbRefUser.child((user.uid))
+                    let user = User(uid: (user.uid), email: (user.email)!, username: (self.displayName)!, profilePicture: ("NoPic.gif"))
+                    userRef.setValue(user.toAnyObject())
                 }
             })
+           
         }))
         
         userAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action:UIAlertAction) in
@@ -135,18 +121,6 @@ class LoginViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }

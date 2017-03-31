@@ -22,6 +22,7 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
     let currentUser = FIRAuth.auth()?.currentUser
     let imagePicker = UIImagePickerController()
     let profilePicStoragePath = "Images/ProfileImage/"
+    let eventPicStoragePath = "Images/EventImage/"
     var sorter:SortHelper!
     var taggedEvents = [Event]()
     var hostedEvents = [Event]()
@@ -108,8 +109,17 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let event = events[indexPath.row]
-        self.performSegue(withIdentifier: "editEventSegue", sender: event)
+        let event:Event!
+        switch(filter.selectedSegmentIndex){
+        case 0: event = taggedEvents[indexPath.row]
+        case 1: event = hostedEvents[indexPath.row]
+        default: event = allEvents[indexPath.row]
+        }
+        if (event.owner == currentUser?.uid){
+            self.performSegue(withIdentifier: "editEventSegue", sender: event)
+        }else{
+            //TODO bring up uneditable view
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -124,18 +134,16 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
         cell.textLabel?.text = event.eventName
         cell.detailTextLabel?.text = event.eventSummary
         //todo change to event pic
-        let profilePic = currentUser?.photoURL?.absoluteString
-        if (true){
-            //  let imageRef = storageRef.child((currentUser?.photoURL?.absoluteString)!)
-            let imageRef = storageRef.child(profilePic!)
-            //imageRef.data(withMaxSize: 1 * 1024 * 1024) { data, error in
-            imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
-                if let error = error {
-                    print(error)
-                } else {
-                    let image = UIImage(data: data!)
-                    cell.imageView?.image = image
-                }
+        let eventPic = event.eventPicture
+        let imageRef = storageRef.child(eventPicStoragePath + eventPic)
+        
+        imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
+            if let error = error {
+                print(error)
+                cell.imageView?.image = #imageLiteral(resourceName: "noEventPic.png")
+            } else {
+                let image = UIImage(data: data!)
+                cell.imageView?.image = image
             }
         }
         cell.layoutSubviews()
@@ -146,17 +154,21 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
     }
     @IBAction func toMain(_ sender: Any) {
         self.performSegue(withIdentifier: "toMain", sender:self)
+        
     }
     @IBAction func controlAction(_ sender: Any) {
         viewDidAppear(true)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete{
-            let event = events[indexPath.row]
-            event.itemRef?.removeValue()
-        }
+        //        if editingStyle == .delete{
+        //            let event = events[indexPath.row]
+        //            event.itemRef?.removeValue()
+        //        }
     }
+    
+    
+    
     func startObservingDBCompletion(){
         self.startObservingDB(completion: {
             self.sorter = SortHelper(currentUser: (self.currentUser?.uid)!, users: self.users)
