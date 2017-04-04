@@ -33,6 +33,7 @@ class SweetsTableViewController: UITableViewController, UIImagePickerControllerD
         storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
         startObservingDB()
     }
+    
     @IBAction func ProfileChange(_ sender: Any) {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary

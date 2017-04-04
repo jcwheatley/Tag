@@ -111,6 +111,9 @@ class MainViewController: UIViewController {
     func fillView(){
         if events.count == 0{
             //TODO notify that there are no events
+            
+            self.performSegue(withIdentifier: "noMoreEventsSegue", sender: self)
+            
             LoadingHelper.doneLoading(ui: self)
         }
         else{
@@ -132,6 +135,11 @@ class MainViewController: UIViewController {
                                 print(error)
                             } else {
                                 let image = UIImage(data: data!)
+                                
+                                
+                                
+                                
+                                
                                 self.userImage.image = image
                                 
                             }
@@ -151,6 +159,11 @@ class MainViewController: UIViewController {
                 }
                 
                 //self.userImage.layer.cornerRadius = 10.0
+                self.userImage.layer.borderWidth = 1
+                self.userImage.layer.masksToBounds = false
+                self.userImage.layer.borderColor = UIColor.white.cgColor
+                self.userImage.layer.cornerRadius = userImage.frame.height/2
+                self.userImage.layer.masksToBounds = true
                 
                 self.view.bringSubview(toFront: eventTitle)
                 self.view.bringSubview(toFront: eventLocationBtn)
@@ -162,16 +175,16 @@ class MainViewController: UIViewController {
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
                 let date = dateFormatter.date(from: (event.time))
-                dateFormatter.dateFormat = "dd/MM/yyyy\nHH:mm"
+                dateFormatter.dateFormat = "E, MMM dd"
                 let dateString = dateFormatter.string(from: date!)
                 
-                
                 eventTime.text = dateString
+                
                 eventDescription.text = event.eventSummary
                 currentEvent = (event.itemRef?.key)!
             }else if(events.count == 1){
                 //only one left
-                AlertHelper.notImplemented(ui: self)
+                //AlertHelper.notImplemented(ui: self)
                 return
             }
             else{

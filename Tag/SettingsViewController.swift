@@ -22,9 +22,14 @@ class SettingsViewController: UIViewController, UIImagePickerControllerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = false
         imagePicker.delegate = self;
         dbRefUser = FIRDatabase.database().reference().child("users")
         storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     override func didReceiveMemoryWarning() {
