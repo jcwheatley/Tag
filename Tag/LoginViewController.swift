@@ -10,33 +10,46 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
+import FBSDKLoginKit
 
 
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     var dbRefUser:FIRDatabaseReference!
     var displayName:String? = nil
     var needsLogin = true
     override func viewDidLoad() {
         super.viewDidLoad()
+//        let fbLoginButton = FBSDKLoginButton()
+//        view.addSubview(fbLoginButton)
+//        fbLoginButton.frame = CGRect(x: 16, y: 100, width: view.frame.width - 32, height: 50)
+//        fbLoginButton.delegate = self
         self.navigationItem.setHidesBackButton(true, animated:true);
         dbRefUser = FIRDatabase.database().reference().child("users")
-    // Do any additional setup after loading the view.
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         FIRAuth.auth()?.addStateDidChangeListener({ (auth:FIRAuth, user:FIRUser?) in
             if let user = user{
                 if (self.needsLogin){
                     print("Welcome " + user.email!)
+                    print(self.needsLogin)
                     self.needsLogin = false
-//                    try! FIRAuth.auth()!.signOut()
+                    //                    try! FIRAuth.auth()!.signOut()
                     self.performSegue(withIdentifier: "segueToMain", sender: self)
                 }
             }
         })
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        
+    }
+    
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     
@@ -109,7 +122,7 @@ class LoginViewController: UIViewController {
                     userRef.setValue(user.toAnyObject())
                 }
             })
-           
+            
         }))
         
         userAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action:UIAlertAction) in

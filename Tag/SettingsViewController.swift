@@ -12,7 +12,11 @@ import FirebaseDatabase
 import FirebaseStorage
 
 class SettingsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    var image:UIImage?
+    var currentUserObj:User!
+    var sorter:SortHelper!
     var storageRef:FIRStorageReference!
+    var users = [User]()
     let storage = FIRStorage.storage()
     var dbRefUser:FIRDatabaseReference!
     let profilePicStoragePath = "Images/ProfileImage/"
@@ -20,6 +24,7 @@ class SettingsViewController: UIViewController, UIImagePickerControllerDelegate,
     let currentUser = FIRAuth.auth()?.currentUser
     var startLogout = true
     
+    @IBOutlet weak var imageView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
@@ -27,6 +32,12 @@ class SettingsViewController: UIViewController, UIImagePickerControllerDelegate,
         dbRefUser = FIRDatabase.database().reference().child("users")
         storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startObservingDBCompletion()
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
@@ -55,8 +66,9 @@ class SettingsViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func  imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         var image = info[UIImagePickerControllerOriginalImage]as! UIImage
-        image = ImageHelper.resizeImage(image: image, targetSize: CGSize(width: 100, height: 100))
+        //        image = ImageHelper.resizeImage(image: image, targetSize: CGSize(width: 600, height: 600))
         let data = UIImagePNGRepresentation(image)
+        self.performSegue(withIdentifier: "segueToCropper", sender: image)
         let picName = (currentUser?.uid)! + ".png"
         let picRef = storageRef.child(profilePicStoragePath+picName)
         _ = picRef.put(data!, metadata: nil){ metadata, error in
@@ -76,15 +88,50 @@ class SettingsViewController: UIViewController, UIImagePickerControllerDelegate,
         dismiss(animated: true, completion: nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "segueToCropper") {
+            let secondViewController = segue.destination as! ImageCropperViewController
+            let image = sender as! UIImage
+            secondViewController.image = image
+            
+        }
+    }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    func startObservingDBCompletion(){
+        self.startObservingDB(completion: {
+            self.sorter = SortHelper(currentUser: (self.currentUser?.uid)!, users: self.users)
+            self.currentUserObj = self.sorter.currentUser
+            if (self.currentUserObj != nil){
+                let imageRef = self.storageRef.child(self.profilePicStoragePath + self.currentUserObj.profilePicture)
+                imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        let image = UIImage(data: data!)
+                        self.imageView.image = image
+                        
+                    }
+                }
+            }
+        })
+    }
+    
+    func startObservingDB (completion: @escaping () -> Void) {
+        dbRefUser.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+            var newUsers = [User]()
+            for user in snapshot.children {
+                let userObject = User(snapshot: user as! FIRDataSnapshot)
+                newUsers.append(userObject)
+            }
+            self.users = newUsers
+            completion()
+            
+        }) { (error:Error) in
+            print(error.localizedDescription)
+        }
+        
+        
+    }
+    
     
 }

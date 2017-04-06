@@ -39,6 +39,7 @@
 		B67045561E8185DF00AC9BF9 /* SortHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67045551E8185DF00AC9BF9 /* SortHelper.swift */; };
 		B69A1F8E1E84B14100B6F1DB /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */; };
 		B6BA131C1E8C33EE008E4605 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BA131B1E8C33EE008E4605 /* MapViewController.swift */; };
+		B6C5E1591E96C09A004CAF0C /* ImageCropperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C5E1581E96C09A004CAF0C /* ImageCropperViewController.swift */; };
 		D5863FD8FEF17D8C5E51D6DC /* Pods_Tag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E422EE05B4CCB23B573457A /* Pods_Tag.framework */; };
 		DDE6DDAF18FCCE40CAA652DA /* Pods_TagUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0BD98E60F0DBE7FC93638C /* Pods_TagUITests.framework */; };
 /* End PBXBuildFile section */
@@ -104,6 +105,7 @@
 		B67045551E8185DF00AC9BF9 /* SortHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortHelper.swift; sourceTree = "<group>"; };
 		B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
 		B6BA131B1E8C33EE008E4605 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		B6C5E1581E96C09A004CAF0C /* ImageCropperViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperViewController.swift; sourceTree = "<group>"; };
 		C803A3A002B864CB86C3B94B /* Pods-Tag.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tag.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tag/Pods-Tag.debug.xcconfig"; sourceTree = "<group>"; };
 		CEE506921665EE1EB1DB532A /* Pods-TagTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TagTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TagTests/Pods-TagTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EC8F41619EC70F71A694D02E /* Pods-TagTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TagTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TagTests/Pods-TagTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				1A38BEFF1E83CBD900DFCF47 /* SwipeDownSettingsViewController.xib */,
 				B6BA131B1E8C33EE008E4605 /* MapViewController.swift */,
 				1AB8D03A1E9382860076132A /* NoEventsViewController.swift */,
+				B6C5E1581E96C09A004CAF0C /* ImageCropperViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 			files = (
 				B621C3F81E510B44008AB327 /* LoginViewController.swift in Sources */,
 				B62277791E7F2F32009974FA /* MainViewController.swift in Sources */,
+				B6C5E1591E96C09A004CAF0C /* ImageCropperViewController.swift in Sources */,
 				B6336D411E592B4700996CC1 /* Event.swift in Sources */,
 				B67045561E8185DF00AC9BF9 /* SortHelper.swift in Sources */,
 				B62277831E7F9A5F009974FA /* AlertHelper.swift in Sources */,
@@ -725,6 +729,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = W7T93FBGLQ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Tag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tagalongnow.TagAlong;
@@ -740,6 +748,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = W7T93FBGLQ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Tag/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tagalongnow.TagAlong;

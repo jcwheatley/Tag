@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="LgM-fV-DXd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="LgM-fV-DXd">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -201,13 +202,21 @@
                                     <action selector="changeProfilePic:" destination="EAN-cb-Zqg" eventType="touchUpInside" id="iks-5L-gxB"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N21-rg-ghH">
+                                <rect key="frame" x="149" y="128" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="N21-rg-ghH" id="6JU-KP-fNX"/>
+                        <segue destination="3Ta-uu-h0q" kind="show" identifier="segueToCropper" id="zZv-Hq-q1t"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IAe-xW-iGS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="406" y="-60"/>
+            <point key="canvasLocation" x="405.79710144927537" y="-60.326086956521742"/>
         </scene>
         <!--Manage-->
         <scene sceneID="1zQ-yn-JQj">
@@ -518,6 +527,72 @@
             </objects>
             <point key="canvasLocation" x="725" y="1481"/>
         </scene>
+        <!--Image Cropper View Controller-->
+        <scene sceneID="SZq-8v-Fzf">
+            <objects>
+                <viewController id="3Ta-uu-h0q" customClass="ImageCropperViewController" customModule="Tag" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fCS-Uw-38c"/>
+                        <viewControllerLayoutGuide type="bottom" id="zIs-Fu-L6D"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="W1m-mQ-Bn2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2RM-1v-xAJ">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TagIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="iHQ-SY-C3N">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="iHQ-SY-C3N" firstAttribute="centerX" secondItem="2RM-1v-xAJ" secondAttribute="centerX" id="FhK-KU-8cd"/>
+                                    <constraint firstItem="iHQ-SY-C3N" firstAttribute="leading" secondItem="2RM-1v-xAJ" secondAttribute="leading" id="bPt-jk-hXy"/>
+                                    <constraint firstItem="iHQ-SY-C3N" firstAttribute="centerY" secondItem="2RM-1v-xAJ" secondAttribute="centerY" id="dFj-cK-bHh"/>
+                                    <constraint firstItem="iHQ-SY-C3N" firstAttribute="top" secondItem="2RM-1v-xAJ" secondAttribute="top" id="k9z-Ol-BxM"/>
+                                    <constraint firstAttribute="bottom" secondItem="iHQ-SY-C3N" secondAttribute="bottom" id="tIP-cv-1P3"/>
+                                    <constraint firstAttribute="trailing" secondItem="iHQ-SY-C3N" secondAttribute="trailing" id="xtc-5S-Nfo"/>
+                                </constraints>
+                            </scrollView>
+                            <view opaque="NO" alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uQd-xW-bOO" customClass="CropAreaView" customModule="Tag" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="161" width="414" height="414"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="uQd-xW-bOO" secondAttribute="height" multiplier="1:1" id="igt-Bf-WyK"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZp-OX-YrY">
+                                <rect key="frame" x="186.66666666666666" y="686" width="41" height="30"/>
+                                <state key="normal" title="CROP"/>
+                                <connections>
+                                    <action selector="crop:" destination="3Ta-uu-h0q" eventType="touchUpInside" id="xud-dK-fFh"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.55199873447418213" green="0.79699373245239258" blue="0.91724461317062378" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="uQd-xW-bOO" firstAttribute="leading" secondItem="W1m-mQ-Bn2" secondAttribute="leading" id="7LI-N0-4Ov"/>
+                            <constraint firstItem="QZp-OX-YrY" firstAttribute="centerX" secondItem="W1m-mQ-Bn2" secondAttribute="centerX" id="GBb-cR-NXk"/>
+                            <constraint firstAttribute="trailing" secondItem="uQd-xW-bOO" secondAttribute="trailing" id="SYB-9K-pEw"/>
+                            <constraint firstItem="2RM-1v-xAJ" firstAttribute="top" secondItem="W1m-mQ-Bn2" secondAttribute="top" id="aXH-uf-ET3"/>
+                            <constraint firstItem="2RM-1v-xAJ" firstAttribute="bottom" secondItem="zIs-Fu-L6D" secondAttribute="top" id="krl-Ef-Jyr"/>
+                            <constraint firstItem="zIs-Fu-L6D" firstAttribute="top" secondItem="QZp-OX-YrY" secondAttribute="bottom" constant="20" id="n9O-hy-elG"/>
+                            <constraint firstItem="2RM-1v-xAJ" firstAttribute="leading" secondItem="W1m-mQ-Bn2" secondAttribute="leading" id="p9S-tx-VDZ"/>
+                            <constraint firstItem="uQd-xW-bOO" firstAttribute="centerY" secondItem="W1m-mQ-Bn2" secondAttribute="centerY" id="q6X-aE-YFM"/>
+                            <constraint firstAttribute="trailing" secondItem="2RM-1v-xAJ" secondAttribute="trailing" id="zQe-iD-2s4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cropAreaView" destination="uQd-xW-bOO" id="z3K-9T-JiE"/>
+                        <outlet property="imageView" destination="iHQ-SY-C3N" id="igj-yA-TWU"/>
+                        <outlet property="scrollView" destination="2RM-1v-xAJ" id="Yrc-QA-f9U"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZdM-xc-nSx" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-796" y="-60"/>
+        </scene>
     </scenes>
     <resources>
         <image name="NoPic.gif" width="74" height="74"/>
@@ -525,10 +600,10 @@
         <image name="noEventPic.png" width="162" height="194"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="sqO-Sm-hRc"/>
+        <segue reference="tGN-Cq-DGd"/>
         <segue reference="w7g-Dt-I8z"/>
         <segue reference="VYF-4i-pa7"/>
         <segue reference="QpW-nn-om5"/>
-        <segue reference="sMp-Tm-Sgc"/>
-        <segue reference="sqO-Sm-hRc"/>
     </inferredMetricsTieBreakers>
 </document>
