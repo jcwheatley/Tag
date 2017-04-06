@@ -131,6 +131,7 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate, UIImageP
         }else{
             let eventName = inputEventName.text
             let eventSummary = inputEventSummary.text
+            print("InputLocation.text = \(inputLocation.text)")
             let eventLocation = inputLocation.text
             let eventTime = inputTime.date.description
             let isPrivate = inputPrivate.isOn
@@ -194,10 +195,14 @@ extension CreateEventViewController: GMSAutocompleteViewControllerDelegate {
         
         
         
+        
+        
+        locationID = place.name
+        inputLocation.text = place.name
+        
         print("Place name: \(place.name)")
         print("Place address: \(place.formattedAddress)")
-        locationID = place.placeID
-        inputLocation.text = place.formattedAddress
+        
         dismiss(animated: true, completion: nil)
     }
     
