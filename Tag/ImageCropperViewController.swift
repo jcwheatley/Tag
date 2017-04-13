@@ -11,7 +11,7 @@ import FirebaseStorage
 import FirebaseAuth
 import FirebaseDatabase
 
-class ImageCropperViewController: UIViewController, UIScrollViewDelegate {
+class ImageCropperViewController: UIViewController, UIScrollViewDelegate, UINavigationControllerDelegate {
     var image:UIImage?
     let currentUser = FIRAuth.auth()?.currentUser
     let profilePicStoragePath = "Images/ProfileImage/"
@@ -63,9 +63,14 @@ class ImageCropperViewController: UIViewController, UIScrollViewDelegate {
     
     
     @IBAction func crop(_ sender: UIButton) {
+        self.view.isUserInteractionEnabled = false
+        LoadingHelper.loading(ui: self)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.cropAreaView.alpha = 0.8
+        })
         let croppedCGImage = imageView.image?.cgImage?.cropping(to: cropArea)
-        let croppedImage = UIImage(cgImage: croppedCGImage!)
-        imageView.image = croppedImage
+        var croppedImage = UIImage(cgImage: croppedCGImage!)
+        croppedImage = ImageHelper.resizeImage(image: croppedImage, targetSize: CGSize(width: 100, height: 100))
         let data = UIImagePNGRepresentation(croppedImage)
         let picName = (currentUser?.uid)! + ".png"
         let picRef = storageRef.child(profilePicStoragePath+picName)
@@ -77,7 +82,8 @@ class ImageCropperViewController: UIViewController, UIScrollViewDelegate {
                 var userRef = self.dbRefUser.child((currentUser!.uid))
                 userRef = userRef.child("profilePicture")
                 userRef.setValue(picName)
-                
+                LoadingHelper.doneLoading(ui: self)
+                _ = self.navigationController?.popViewController(animated: true)
                 self.scrollView.zoomScale = 1
             }
             
@@ -112,4 +118,6 @@ class CropAreaView: UIView {
     }
     
 }
+
+
 

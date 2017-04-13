@@ -39,6 +39,7 @@ class SettingsViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -65,22 +66,9 @@ class SettingsViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     func  imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        var image = info[UIImagePickerControllerOriginalImage]as! UIImage
-        //        image = ImageHelper.resizeImage(image: image, targetSize: CGSize(width: 600, height: 600))
-        let data = UIImagePNGRepresentation(image)
+        let image = info[UIImagePickerControllerOriginalImage]as! UIImage
+        self.imageView.image = #imageLiteral(resourceName: "loading.gif")
         self.performSegue(withIdentifier: "segueToCropper", sender: image)
-        let picName = (currentUser?.uid)! + ".png"
-        let picRef = storageRef.child(profilePicStoragePath+picName)
-        _ = picRef.put(data!, metadata: nil){ metadata, error in
-            if let error = error{
-                print(error)}
-            else{
-                let currentUser = FIRAuth.auth()?.currentUser
-                var userRef = self.dbRefUser.child((currentUser!.uid))
-                userRef = userRef.child("profilePicture")
-                userRef.setValue(picName)
-            }
-        }
         dismiss(animated:true, completion: nil) //5
     }
     
@@ -132,6 +120,8 @@ class SettingsViewController: UIViewController, UIImagePickerControllerDelegate,
         
         
     }
+    
+    
     
     
 }

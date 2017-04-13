@@ -10,12 +10,13 @@ import Foundation
 import UIKit
 
 class AlertHelper {
-    static func notImplemented(ui:UIViewController){
+    static func notImplemented(ui:UIViewController)->UIAlertController{
         let errorAlert = UIAlertController(title: "Sorry", message: "This feature has not yet been implemented", preferredStyle: .alert)
         errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action:UIAlertAction) in
             errorAlert.dismiss(animated: true, completion: nil)
         }))
         ui.present(errorAlert, animated: true, completion: nil)
+        return errorAlert
     }
     
     static func noMoreEvents(ui:UIViewController){
@@ -25,4 +26,5 @@ class AlertHelper {
         }))
         ui.present(errorAlert, animated: true, completion: nil)
     }
+    
 }

@@ -11,6 +11,7 @@
 		1A38BF011E83CBD900DFCF47 /* SwipeDownSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A38BEFF1E83CBD900DFCF47 /* SwipeDownSettingsViewController.xib */; };
 		1AB8D03B1E9382860076132A /* NoEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8D03A1E9382860076132A /* NoEventsViewController.swift */; };
 		473677B4496F3D79545D5630 /* Pods_TagTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60411AAC28EFA6356796D75D /* Pods_TagTests.framework */; };
+		B6102EE51E9F34F700E4528C /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = B6102EE41E9F34F700E4528C /* loading.gif */; };
 		B621C3BE1E503A25008AB327 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621C3BD1E503A25008AB327 /* AppDelegate.swift */; };
 		B621C3C01E503A25008AB327 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621C3BF1E503A25008AB327 /* ViewController.swift */; };
 		B621C3C51E503A25008AB327 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B621C3C41E503A25008AB327 /* Assets.xcassets */; };
@@ -71,6 +72,7 @@
 		60411AAC28EFA6356796D75D /* Pods_TagTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TagTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E422EE05B4CCB23B573457A /* Pods_Tag.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tag.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A286194435DEBC76192BCF0F /* Pods-TagUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TagUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TagUITests/Pods-TagUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		B6102EE41E9F34F700E4528C /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		B621C3BA1E503A25008AB327 /* Tag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B621C3BD1E503A25008AB327 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B621C3BF1E503A25008AB327 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 		B621C3FB1E5123E8008AB327 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B6102EE41E9F34F700E4528C /* loading.gif */,
 				B6336D441E5B689900996CC1 /* TagIcon.png */,
 				B622777E1E7F83A9009974FA /* noEventPic.png */,
 				B621C3FE1E514689008AB327 /* gav.jpg */,
@@ -398,6 +401,7 @@
 				B621C3EC1E503AE2008AB327 /* GoogleService-Info.plist in Resources */,
 				B622777F1E7F83A9009974FA /* noEventPic.png in Resources */,
 				B621C3C51E503A25008AB327 /* Assets.xcassets in Resources */,
+				B6102EE51E9F34F700E4528C /* loading.gif in Resources */,
 				B6336D451E5B689900996CC1 /* TagIcon.png in Resources */,
 				B621C3FD1E51241C008AB327 /* NoPic.gif in Resources */,
 			);
