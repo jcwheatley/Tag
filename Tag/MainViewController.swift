@@ -66,6 +66,8 @@ class MainViewController: UIViewController {
     @IBOutlet weak var eventLocationBtn: UIButton!
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var thumbImageView: UIImageView!
+    @IBOutlet weak var poster: UIView!
     
     
     
@@ -180,6 +182,7 @@ class MainViewController: UIViewController {
                 
                 eventTime.text = dateString
                 
+                
                 eventDescription.text = event.eventSummary
                 currentEvent = (event.itemRef?.key)!
             }else if(events.count == 1){
@@ -194,12 +197,75 @@ class MainViewController: UIViewController {
         }
     }
     
+    @IBAction func panPoster(_ sender: UIPanGestureRecognizer) {
+        let poster = sender.view!
+        let point = sender.translation(in: view)
+        let xFromCenter = poster.center.x - view.center.x
+        
+        poster.center = CGPoint(x: view.center.x + point.x, y: view.center.y + point.y)
+        
+        if xFromCenter > 0 {
+            thumbImageView.image = #imageLiteral(resourceName: "thumbsup")
+            thumbImageView.tintColor = UIColor.green
+        }
+        else {
+            thumbImageView.image = #imageLiteral(resourceName: "thumbsdown")
+            thumbImageView.tintColor = UIColor.red
+        }
+        
+        thumbImageView.alpha = abs(xFromCenter) / view.center.x
+        
+        
+        //when finger comes off screen
+        if sender.state == UIGestureRecognizerState.ended {
+            
+            //when the poster is let go to either tag along or trash
+            if poster.center.x < 75 {
+                //move off to the left side of screen
+                UIView.animate(withDuration: 0.3, animations: {
+                    poster.center = CGPoint(x: poster.center.x - 200, y: poster.center.y + 75)
+                    poster.alpha = 0
+                })
+                //action to trash goes here!!!!!
+                discardEvent(Any)
+                resetPoster()
+                return
+            }
+            else if poster.center.x > (view.frame.width - 75) {
+                //move off to the right side
+                UIView.animate(withDuration: 0.3, animations: {
+                    poster.center = CGPoint(x: poster.center.x + 200, y: poster.center.y + 75)
+                    poster.alpha = 0
+                })
+                //action to tag along goes here!!!!!
+                tagAlong(Any)
+                resetPoster()
+                return
+                
+            }
+            
+            UIView.animate(withDuration: 0.2, animations: {
+                poster.center = self.view.center
+                self.thumbImageView.alpha = 0
+            })
+            
+        }
+        
+    }
+    
+    func resetPoster() {
+        self.poster.center = self.view.center
+        self.thumbImageView.alpha = 0
+        self.poster.alpha = 1
+        
+    }
     
     
     @IBAction func refresh(_ sender: Any) {
         self.fillView()
     }
     @IBAction func discardEvent(_ sender: Any) {
+        print ("discard event called")
         currentUser.discardedEvents.append(currentEvent)
         let userRef = self.dbRefUser.child(currentUser.uid)
         let userMyDiscardedEvents = userRef.child("discardedEvents")
@@ -231,6 +297,7 @@ class MainViewController: UIViewController {
     
     
     @IBAction func tagAlong(_ sender: Any) {
+        print ("tag along event called")
         
         currentUser.taggedEvents.append(currentEvent)
         let userRef = self.dbRefUser.child(currentUser.uid)
