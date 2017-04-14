@@ -33,7 +33,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                     print("Welcome " + user.email!)
                     print(self.needsLogin)
                     self.needsLogin = false
-                    //                    try! FIRAuth.auth()!.signOut()
+//                                       try! FIRAuth.auth()!.signOut()
                     self.performSegue(withIdentifier: "segueToMain", sender: self)
                 }
             }

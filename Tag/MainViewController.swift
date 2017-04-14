@@ -199,10 +199,14 @@ class MainViewController: UIViewController {
     
     @IBAction func panPoster(_ sender: UIPanGestureRecognizer) {
         let poster = sender.view!
+        
+        //var newPoster = UIView(frame: )
+        
+        
         let point = sender.translation(in: view)
         let xFromCenter = poster.center.x - view.center.x
         
-        poster.center = CGPoint(x: view.center.x + point.x, y: view.center.y + point.y)
+        poster.center = CGPoint(x: view.center.x + point.x, y: view.center.y)
         
         if xFromCenter > 0 {
             thumbImageView.image = #imageLiteral(resourceName: "thumbsup")
@@ -221,29 +225,40 @@ class MainViewController: UIViewController {
             
             //when the poster is let go to either tag along or trash
             if poster.center.x < 75 {
+                self.refresh((Any).self)
+                
                 //move off to the left side of screen
                 UIView.animate(withDuration: 0.3, animations: {
-                    poster.center = CGPoint(x: poster.center.x - 200, y: poster.center.y + 75)
-                    poster.alpha = 0
+                    poster.center = CGPoint(x: poster.center.x - 2000, y: poster.center.y)
+                    //poster.alpha = 0
+                }, completion: {(finished:Bool) in
+                    
+                    //TODO: sleep until image loads
+                    sleep(UInt32(0.4))
+                    self.resetPoster(direction: false)
                 })
-                //action to trash goes here!!!!!
-                discardEvent(Any)
-                resetPoster()
+                
                 return
             }
             else if poster.center.x > (view.frame.width - 75) {
                 //move off to the right side
-                UIView.animate(withDuration: 0.3, animations: {
-                    poster.center = CGPoint(x: poster.center.x + 200, y: poster.center.y + 75)
-                    poster.alpha = 0
-                })
-                //action to tag along goes here!!!!!
-                tagAlong(Any)
-                resetPoster()
-                return
                 
+                self.refresh((Any).self)
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    poster.center = CGPoint(x: poster.center.x + 2000, y: poster.center.y)
+                    //poster.alpha = 0
+                }, completion: {(finished:Bool) in
+                    
+                    //TODO: sleep until image loads
+                    sleep(UInt32(0.4))
+                    self.resetPoster(direction: true)
+                })
+                
+                return
             }
             
+            //If the swipe wasn't drastic enough, reset the poster to middle
             UIView.animate(withDuration: 0.2, animations: {
                 poster.center = self.view.center
                 self.thumbImageView.alpha = 0
@@ -253,10 +268,29 @@ class MainViewController: UIViewController {
         
     }
     
-    func resetPoster() {
-        self.poster.center = self.view.center
-        self.thumbImageView.alpha = 0
-        self.poster.alpha = 1
+    
+    //left = false, right = true
+    func resetPoster(direction: Bool) {
+        
+        //swiped right, move poster in from left
+        if(direction){
+            self.poster.center = CGPoint(x: self.view.center.x - 1000, y: self.view.center.y)
+            
+            UIView.animate(withDuration: 0.6, animations: {
+                self.poster.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
+                self.poster.alpha = 1
+            })
+            
+        }
+        //swiped left, move poster in from right
+        else{
+            self.poster.center = CGPoint(x: self.view.center.x + 1000, y: self.view.center.y)
+            
+            UIView.animate(withDuration: 0.6, animations: {
+                self.poster.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
+                self.poster.alpha = 1
+            })
+        }
         
     }
     
@@ -264,6 +298,7 @@ class MainViewController: UIViewController {
     @IBAction func refresh(_ sender: Any) {
         self.fillView()
     }
+    
     @IBAction func discardEvent(_ sender: Any) {
         print ("discard event called")
         currentUser.discardedEvents.append(currentEvent)
@@ -278,6 +313,7 @@ class MainViewController: UIViewController {
         })
         startObservingDBCompletion()
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
