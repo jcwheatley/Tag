@@ -18,6 +18,8 @@ class MainViewController: UIViewController {
     var dbRefUser:FIRDatabaseReference!
     var storageRef:FIRStorageReference!
     var events = [Event]()
+    var eventPics = [String:UIImage]()
+    var userPics = [String:UIImage]()
     var users = [User]()
     var sorter:SortHelper!
     var currentUser:User!
@@ -66,7 +68,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var eventLocationBtn: UIButton!
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var userImage: UIImageView!
-    @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var poster: UIView!
     
     
@@ -129,34 +130,8 @@ class MainViewController: UIViewController {
                     if (user.uid == event.owner){
                         
                         eventHost.text = "Hosted by: " + user.username
-                        
-                        let profilePic = user.profilePicture
-                        var imageRef = storageRef.child(profilePicStoragePath + profilePic)
-                        imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
-                            if let error = error {
-                                print(error)
-                            } else {
-                                let image = UIImage(data: data!)
-                                
-                                
-                                
-                                
-                                
-                                self.userImage.image = image
-                                
-                            }
-                        }
-                        let eventPic = event.eventPicture
-                        imageRef = storageRef.child(eventPicStoragePath + eventPic)
-                        imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
-                            if let error = error {
-                                self.eventImage.image = #imageLiteral(resourceName: "noEventPic.png")
-                            } else {
-                                let image = UIImage(data: data!)
-                                self.eventImage.image = image
-                                
-                            }
-                        }
+                        self.userImage.image = userPics[user.uid]
+                        self.eventImage.image = eventPics[(event.itemRef?.key)!]
                     }
                 }
                 
@@ -208,33 +183,19 @@ class MainViewController: UIViewController {
         
         poster.center = CGPoint(x: view.center.x + point.x, y: view.center.y)
         
-        if xFromCenter > 0 {
-            thumbImageView.image = #imageLiteral(resourceName: "thumbsup")
-            thumbImageView.tintColor = UIColor.green
-        }
-        else {
-            thumbImageView.image = #imageLiteral(resourceName: "thumbsdown")
-            thumbImageView.tintColor = UIColor.red
-        }
-        
-        thumbImageView.alpha = abs(xFromCenter) / view.center.x
-        
         
         //when finger comes off screen
         if sender.state == UIGestureRecognizerState.ended {
             
             //when the poster is let go to either tag along or trash
             if poster.center.x < 75 {
-                self.refresh((Any).self)
                 
                 //move off to the left side of screen
                 UIView.animate(withDuration: 0.3, animations: {
-                    poster.center = CGPoint(x: poster.center.x - 2000, y: poster.center.y)
+                    poster.center = CGPoint(x: poster.center.x - UIScreen.main.bounds.width, y: poster.center.y)
                     //poster.alpha = 0
                 }, completion: {(finished:Bool) in
                     
-                    //TODO: sleep until image loads
-                    sleep(UInt32(0.4))
                     self.resetPoster(direction: false)
                 })
                 
@@ -243,15 +204,11 @@ class MainViewController: UIViewController {
             else if poster.center.x > (view.frame.width - 75) {
                 //move off to the right side
                 
-                self.refresh((Any).self)
-                
                 UIView.animate(withDuration: 0.3, animations: {
-                    poster.center = CGPoint(x: poster.center.x + 2000, y: poster.center.y)
+                    poster.center = CGPoint(x: poster.center.x + UIScreen.main.bounds.width, y: poster.center.y)
                     //poster.alpha = 0
                 }, completion: {(finished:Bool) in
                     
-                    //TODO: sleep until image loads
-                    sleep(UInt32(0.4))
                     self.resetPoster(direction: true)
                 })
                 
@@ -261,7 +218,6 @@ class MainViewController: UIViewController {
             //If the swipe wasn't drastic enough, reset the poster to middle
             UIView.animate(withDuration: 0.2, animations: {
                 poster.center = self.view.center
-                self.thumbImageView.alpha = 0
             })
             
         }
@@ -271,22 +227,22 @@ class MainViewController: UIViewController {
     
     //left = false, right = true
     func resetPoster(direction: Bool) {
-        
+        self.refresh((Any).self)
         //swiped right, move poster in from left
         if(direction){
-            self.poster.center = CGPoint(x: self.view.center.x - 1000, y: self.view.center.y)
+            self.poster.center = CGPoint(x: self.view.center.x - UIScreen.main.bounds.width, y: self.view.center.y)
             
-            UIView.animate(withDuration: 0.6, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.poster.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
                 self.poster.alpha = 1
             })
             
         }
-        //swiped left, move poster in from right
+            //swiped left, move poster in from right
         else{
-            self.poster.center = CGPoint(x: self.view.center.x + 1000, y: self.view.center.y)
+            self.poster.center = CGPoint(x: self.view.center.x + UIScreen.main.bounds.width, y: self.view.center.y)
             
-            UIView.animate(withDuration: 0.6, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.poster.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
                 self.poster.alpha = 1
             })
@@ -355,8 +311,46 @@ class MainViewController: UIViewController {
             self.events = self.sorter.allButUserEvents(myevents: self.events)
             self.events = self.sorter.allButDiscardedEvents(myevents: self.events)
             self.events = self.sorter.allButTaggedEvents(myevents: self.events)
-            self.fillView()
+            
+            
+            self.organizePics()
         })
     }
+    
+    func organizePics(){
+        for user in users{
+            let profilePic = user.profilePicture
+            let imageRef = storageRef.child(profilePicStoragePath + profilePic)
+            imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
+                if let error = error {
+                    print(error)
+                    self.userPics[user.uid] = #imageLiteral(resourceName: "NoPic.gif")
+                } else {
+                    let image = UIImage(data: data!)
+                    self.userPics[user.uid] = image
+                }
+            }
+        }
+        for event in events{
+            let eventPic = event.eventPicture
+            let imageRef = self.storageRef.child(self.eventPicStoragePath + eventPic)
+            imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
+                if error != nil{
+                    print("error")
+                    self.eventPics[event.owner] = #imageLiteral(resourceName: "noEventPic.png")
+                }else{
+                    let image = UIImage(data: data!)
+                    self.eventPics[(event.itemRef?.key)!] = image!
+                }
+                if (self.eventPics.count == self.events.count){
+                    self.fillView()
+                }
+            }
+            
+        }
+        
+        
+    }
 }
+
 

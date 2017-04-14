@@ -155,7 +155,7 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate, UIImageP
     
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
         var image = info[UIImagePickerControllerOriginalImage]as! UIImage
-        image = ImageHelper.resizeImage(image: image, targetSize: CGSize(width: 100, height: 100))
+        image = ImageHelper.resizeImage(image: image, targetSize: CGSize(width: 600, height: 600))
         let data = UIImagePNGRepresentation(image)
         let picName = (eventRef.key) + ".png"
         self.inputPicture.image = image
