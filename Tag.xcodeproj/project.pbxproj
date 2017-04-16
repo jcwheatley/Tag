@@ -36,6 +36,7 @@
 		B6336D451E5B689900996CC1 /* TagIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = B6336D441E5B689900996CC1 /* TagIcon.png */; };
 		B6336D471E5B988600996CC1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6336D461E5B988600996CC1 /* SettingsViewController.swift */; };
 		B6336D491E5B9D8E00996CC1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6336D481E5B9D8E00996CC1 /* Main.storyboard */; };
+		B63CC3251EA161BD0025C1F5 /* PathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63CC3241EA161BD0025C1F5 /* PathHelper.swift */; };
 		B655FF201E59189A008040E9 /* MyEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B655FF1F1E59189A008040E9 /* MyEventsView.swift */; };
 		B67045561E8185DF00AC9BF9 /* SortHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67045551E8185DF00AC9BF9 /* SortHelper.swift */; };
 		B69A1F8E1E84B14100B6F1DB /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */; };
@@ -103,6 +104,7 @@
 		B6336D441E5B689900996CC1 /* TagIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TagIcon.png; sourceTree = "<group>"; };
 		B6336D461E5B988600996CC1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B6336D481E5B9D8E00996CC1 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B63CC3241EA161BD0025C1F5 /* PathHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathHelper.swift; sourceTree = "<group>"; };
 		B655FF1F1E59189A008040E9 /* MyEventsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventsView.swift; sourceTree = "<group>"; };
 		B67045551E8185DF00AC9BF9 /* SortHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortHelper.swift; sourceTree = "<group>"; };
 		B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				B62277821E7F9A5F009974FA /* AlertHelper.swift */,
 				B67045551E8185DF00AC9BF9 /* SortHelper.swift */,
 				B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */,
+				B63CC3241EA161BD0025C1F5 /* PathHelper.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -572,6 +575,7 @@
 				B6336D411E592B4700996CC1 /* Event.swift in Sources */,
 				B67045561E8185DF00AC9BF9 /* SortHelper.swift in Sources */,
 				B62277831E7F9A5F009974FA /* AlertHelper.swift in Sources */,
+				B63CC3251EA161BD0025C1F5 /* PathHelper.swift in Sources */,
 				B6336D471E5B988600996CC1 /* SettingsViewController.swift in Sources */,
 				B621C3EE1E510A02008AB327 /* SweetsTableViewController.swift in Sources */,
 				B6BA131C1E8C33EE008E4605 /* MapViewController.swift in Sources */,

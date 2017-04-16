@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="LgM-fV-DXd">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="LgM-fV-DXd">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +19,7 @@
                         <viewControllerLayoutGuide type="bottom" id="GoR-ag-8FX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="80n-2N-rKx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nyy-E9-JhO">
@@ -41,7 +41,7 @@
                                 </items>
                             </navigationBar>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Sorry, there are no more events. Check back soon or start your own event by clicking manage!" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SQk-5x-Wlm">
-                                <rect key="frame" x="87" y="335" width="240" height="66"/>
+                                <rect key="frame" x="87" y="303" width="240" height="66"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -225,11 +225,11 @@
                         <viewControllerLayoutGuide type="bottom" id="rH0-dJ-fQv"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="WFG-EB-QrE">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7i-WP-3rr">
-                                <rect key="frame" x="172" y="236" width="55" height="30"/>
+                                <rect key="frame" x="172" y="215" width="55" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Log Out"/>
                                 <connections>
@@ -238,7 +238,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N4X-9n-MRY">
-                                <rect key="frame" x="146" y="305" width="106" height="44"/>
+                                <rect key="frame" x="146" y="277" width="106" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Change Picture"/>
                                 <connections>
@@ -246,7 +246,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N21-rg-ghH">
-                                <rect key="frame" x="149" y="128" width="100" height="100"/>
+                                <rect key="frame" x="149" y="115" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -266,7 +266,7 @@
             <objects>
                 <tableViewController id="HSM-hd-2uH" customClass="MyEventsView" customModule="Tag" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" id="L53-n5-9Rd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -392,7 +392,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LgM-fV-DXd" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="At8-x7-xzD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="At8-x7-xzD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -415,12 +415,12 @@
         <!--Home-->
         <scene sceneID="95B-AB-WY3">
             <objects>
-                <viewController id="Wsd-3f-TMl" customClass="MainViewController" customModule="Tag" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="home" id="Wsd-3f-TMl" customClass="MainViewController" customModule="Tag" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yUr-5C-HjX"/>
                         <viewControllerLayoutGuide type="bottom" id="nJJ-sY-5su"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="KxR-M2-SN9">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="home" id="KxR-M2-SN9">
                         <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -590,20 +590,20 @@
         <!--Image Cropper View Controller-->
         <scene sceneID="SZq-8v-Fzf">
             <objects>
-                <viewController id="3Ta-uu-h0q" customClass="ImageCropperViewController" customModule="Tag" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="imageCropper" id="3Ta-uu-h0q" customClass="ImageCropperViewController" customModule="Tag" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fCS-Uw-38c"/>
                         <viewControllerLayoutGuide type="bottom" id="zIs-Fu-L6D"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="W1m-mQ-Bn2">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2RM-1v-xAJ">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TagIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="iHQ-SY-C3N">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -616,14 +616,14 @@
                                 </constraints>
                             </scrollView>
                             <view opaque="NO" alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uQd-xW-bOO" customClass="CropAreaView" customModule="Tag" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="161" width="414" height="414"/>
+                                <rect key="frame" x="0.0" y="129" width="414" height="414"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="uQd-xW-bOO" secondAttribute="height" multiplier="1:1" id="igt-Bf-WyK"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZp-OX-YrY">
-                                <rect key="frame" x="187" y="686" width="41" height="30"/>
+                                <rect key="frame" x="187" y="622" width="41" height="30"/>
                                 <state key="normal" title="CROP"/>
                                 <connections>
                                     <action selector="crop:" destination="3Ta-uu-h0q" eventType="touchUpInside" id="xud-dK-fFh"/>
@@ -660,10 +660,10 @@
         <image name="noEventPic.png" width="162" height="194"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="w7g-Dt-I8z"/>
-        <segue reference="VYF-4i-pa7"/>
-        <segue reference="QpW-nn-om5"/>
-        <segue reference="sMp-Tm-Sgc"/>
+        <segue reference="fUm-X4-yYY"/>
         <segue reference="RlT-rq-ftw"/>
+        <segue reference="VYF-4i-pa7"/>
+        <segue reference="sMp-Tm-Sgc"/>
+        <segue reference="QpW-nn-om5"/>
     </inferredMetricsTieBreakers>
 </document>

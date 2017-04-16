@@ -13,6 +13,9 @@ import FirebaseDatabase
 
 class ImageCropperViewController: UIViewController, UIScrollViewDelegate, UINavigationControllerDelegate {
     var image:UIImage?
+    var userImg:Bool = true;
+    var eventID:String?
+    var pathHelper:PathHelper!
     let currentUser = FIRAuth.auth()?.currentUser
     let profilePicStoragePath = "Images/ProfileImage/"
     var storageRef:FIRStorageReference!
@@ -46,6 +49,7 @@ class ImageCropperViewController: UIViewController, UIScrollViewDelegate, UINavi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        pathHelper = PathHelper()
         dbRefUser = FIRDatabase.database().reference().child("users")
         storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
     }
@@ -70,23 +74,45 @@ class ImageCropperViewController: UIViewController, UIScrollViewDelegate, UINavi
         })
         let croppedCGImage = imageView.image?.cgImage?.cropping(to: cropArea)
         var croppedImage = UIImage(cgImage: croppedCGImage!)
-        croppedImage = ImageHelper.resizeImage(image: croppedImage, targetSize: CGSize(width: 100, height: 100))
-        let data = UIImagePNGRepresentation(croppedImage)
-        let picName = (currentUser?.uid)! + ".png"
-        let picRef = storageRef.child(profilePicStoragePath+picName)
-        _ = picRef.put(data!, metadata: nil){ metadata, error in
-            if let error = error{
-                print(error)}
-            else{
-                let currentUser = FIRAuth.auth()?.currentUser
-                var userRef = self.dbRefUser.child((currentUser!.uid))
-                userRef = userRef.child("profilePicture")
-                userRef.setValue(picName)
-                LoadingHelper.doneLoading(ui: self)
-                _ = self.navigationController?.popViewController(animated: true)
-                self.scrollView.zoomScale = 1
+
+        if (userImg){
+            croppedImage = ImageHelper.resizeImage(image: croppedImage, targetSize: CGSize(width: 100, height: 100))
+            let data = UIImagePNGRepresentation(croppedImage)
+            let picName = (currentUser?.uid)! + ".png"
+            let picRef = storageRef.child(profilePicStoragePath+picName)
+            _ = picRef.put(data!, metadata: nil){ metadata, error in
+                if let error = error{
+                    print(error)}
+                else{
+                    let currentUser = FIRAuth.auth()?.currentUser
+                    var userRef = self.dbRefUser.child((currentUser!.uid))
+                    userRef = userRef.child("profilePicture")
+                    userRef.setValue(picName)
+                    LoadingHelper.doneLoading(ui: self)
+                    _ = self.navigationController?.popViewController(animated: true)
+                    self.scrollView.zoomScale = 1
+                }
+                
             }
-            
+        }else{
+            croppedImage = ImageHelper.resizeImage(image: croppedImage, targetSize: CGSize(width: 600, height: 600))
+            let data = UIImagePNGRepresentation(croppedImage)
+            let picName = (eventID)! + ".png"
+            let picRef = storageRef.child(pathHelper.eventPicStoragePath+picName)
+            print(picRef)
+            _ = picRef.put(data!, metadata: nil){ metadata, error in
+                if let error = error{
+                    print(error)}
+                else{
+                    var eventRef = self.pathHelper.dbRefEvents.child(self.eventID!)
+                    eventRef = eventRef.child("eventPicture")
+                    eventRef.setValue(picName)
+                    LoadingHelper.doneLoading(ui: self)
+                    _ = self.navigationController?.popViewController(animated: true)
+                    self.scrollView.zoomScale = 1
+                }
+                
+            }
         }
     }
 }

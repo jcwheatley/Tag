@@ -131,7 +131,7 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate, UIImageP
         }else{
             let eventName = inputEventName.text
             let eventSummary = inputEventSummary.text
-            print("InputLocation.text = \(inputLocation.text)")
+            print("InputLocation.text = \(String(describing: inputLocation.text))")
             let eventLocation = inputLocation.text
             let eventTime = inputTime.date.description
             let isPrivate = inputPrivate.isOn
@@ -155,19 +155,13 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate, UIImageP
     
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
         var image = info[UIImagePickerControllerOriginalImage]as! UIImage
-        image = ImageHelper.resizeImage(image: image, targetSize: CGSize(width: 600, height: 600))
-        let data = UIImagePNGRepresentation(image)
-        let picName = (eventRef.key) + ".png"
-        self.inputPicture.image = image
-        let picRef = storageRef.child(eventPicStoragePath+picName)
-        _ = picRef.put(data!, metadata: nil){ metadata, error in
-            if let error = error{
-                print(error)}
-            else{
-                
-            }
-        }
-        dismiss(animated:true, completion: nil) //5
+              dismiss(animated:true, completion: nil) //5
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier :"imageCropper") as! ImageCropperViewController
+        vc.image = image
+        vc.userImg = false
+        vc.eventID = eventRef.key
+        self.navigationController?.pushViewController(vc, animated:true)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -192,7 +186,6 @@ extension CreateEventViewController: GMSAutocompleteViewControllerDelegate {
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         self.locationID = place.placeID
-        
         
         
         

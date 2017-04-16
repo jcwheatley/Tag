@@ -14,20 +14,14 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    var dbRefEvents:FIRDatabaseReference!
-    var dbRefUser:FIRDatabaseReference!
-    var storageRef:FIRStorageReference!
     var events = [Event]()
     var eventPics = [String:UIImage]()
     var userPics = [String:UIImage]()
     var users = [User]()
     var sorter:SortHelper!
     var currentUser:User!
-    let storage = FIRStorage.storage()
-    let currentUserFIR = FIRAuth.auth()?.currentUser
-    let profilePicStoragePath = "Images/ProfileImage/"
-    let eventPicStoragePath = "Images/EventImage/"
     var currentEvent = "-1"
+    var pathHelper:PathHelper!
     
     
     
@@ -35,24 +29,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         LoadingHelper.loading(ui: self)
-        dbRefEvents = FIRDatabase.database().reference().child("events")
-        dbRefUser = FIRDatabase.database().reference().child("users")
-        storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
-        
-        
-        
-        //let settingsView = SwipeDownSettingsViewController(nibName: "SwipeDownSettingsViewController", bundle: nil)
-        
-        //var frame1 = settingsView.view.frame
-        //frame1.origin.x = self.view.frame.size.width
-        //settingsView.view.frame = frame1
-        
-        //self.addChildViewController(settingsView)
-        //self.scrollView.addSubview(settingsView.view)
-        //settingsView.didMove(toParentViewController: self)
-        
-        //self.scrollView.contentSize = CGSize(width: self.view.frame.width * 2, height: self.view.frame.size.height)
-        
+        pathHelper = PathHelper()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,7 +52,7 @@ class MainViewController: UIViewController {
     
     //creates arrays of events and users
     func startObservingDB (completion: @escaping () -> Void) {
-        dbRefEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+        pathHelper.dbRefEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
             var newEvents = [Event]()
             
             
@@ -91,7 +68,7 @@ class MainViewController: UIViewController {
             print(error.localizedDescription)
             
         }
-        dbRefUser.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+        pathHelper.dbRefUser.observe(.value, with: { (snapshot:FIRDataSnapshot) in
             var newUsers = [User]()
             
             //todo: seems like this is not actually creating users
@@ -179,7 +156,6 @@ class MainViewController: UIViewController {
         
         
         let point = sender.translation(in: view)
-        let xFromCenter = poster.center.x - view.center.x
         
         poster.center = CGPoint(x: view.center.x + point.x, y: view.center.y)
         
@@ -258,7 +234,7 @@ class MainViewController: UIViewController {
     @IBAction func discardEvent(_ sender: Any) {
         print ("discard event called")
         currentUser.discardedEvents.append(currentEvent)
-        let userRef = self.dbRefUser.child(currentUser.uid)
+        let userRef = self.pathHelper.dbRefUser.child(currentUser.uid)
         let userMyDiscardedEvents = userRef.child("discardedEvents")
         userMyDiscardedEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
             userMyDiscardedEvents.removeAllObservers()
@@ -292,7 +268,7 @@ class MainViewController: UIViewController {
         print ("tag along event called")
         
         currentUser.taggedEvents.append(currentEvent)
-        let userRef = self.dbRefUser.child(currentUser.uid)
+        let userRef = self.pathHelper.dbRefUser.child(currentUser.uid)
         let userMyTaggedEvents = userRef.child("taggedEvents")
         userMyTaggedEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
             userMyTaggedEvents.removeAllObservers()
@@ -306,7 +282,7 @@ class MainViewController: UIViewController {
     
     func startObservingDBCompletion(){
         self.startObservingDB(completion: {
-            self.sorter = SortHelper(currentUser: (self.currentUserFIR?.uid)!, users: self.users)
+            self.sorter = SortHelper(currentUser: (self.pathHelper.currentUserFIR?.uid)!, users: self.users)
             self.currentUser = self.sorter.currentUser
             self.events = self.sorter.allButUserEvents(myevents: self.events)
             self.events = self.sorter.allButDiscardedEvents(myevents: self.events)
@@ -320,7 +296,7 @@ class MainViewController: UIViewController {
     func organizePics(){
         for user in users{
             let profilePic = user.profilePicture
-            let imageRef = storageRef.child(profilePicStoragePath + profilePic)
+            let imageRef = pathHelper.storageRef.child(pathHelper.profilePicStoragePath + profilePic)
             imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
                 if let error = error {
                     print(error)
@@ -333,7 +309,7 @@ class MainViewController: UIViewController {
         }
         for event in events{
             let eventPic = event.eventPicture
-            let imageRef = self.storageRef.child(self.eventPicStoragePath + eventPic)
+            let imageRef = self.pathHelper.storageRef.child(self.pathHelper.eventPicStoragePath + eventPic)
             imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
                 if error != nil{
                     print("error")
