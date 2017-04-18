@@ -50,12 +50,8 @@ class SettingsViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     @IBAction func logoutFromSettings(_ sender: Any) {
-        if (startLogout){
-            try! FIRAuth.auth()!.signOut()
-            self.performSegue(withIdentifier: "logoutFromSettingsSegue", sender: self)
-            startLogout = false
-        }
-        
+        try! FIRAuth.auth()!.signOut()
+    
     }
     @IBAction func changeProfilePic(_ sender: Any) {
         imagePicker.allowsEditing = false
@@ -67,7 +63,6 @@ class SettingsViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func  imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerOriginalImage]as! UIImage
-        self.imageView.image = #imageLiteral(resourceName: "loading.gif")
         self.performSegue(withIdentifier: "segueToCropper", sender: image)
         dismiss(animated:true, completion: nil) //5
     }

@@ -22,6 +22,7 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate, UIImageP
     let eventPicStoragePath = "Images/EventImage/"
     var locationID:String = "-1"
     var event:Event?
+    var image:UIImage?
     var picName = "noEventPic.png"
     let imagePicker = UIImagePickerController()
     var eventRef:FIRDatabaseReference!
@@ -48,20 +49,15 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate, UIImageP
             let date = dateFormatter.date(from: (event?.time)!)
             inputTime.setDate(date!, animated: false)
             createButton.setTitle("Update",for: .normal)
-            let eventPic = event?.eventPicture
-            let imageRef = storageRef.child(eventPicStoragePath + eventPic!)
-            imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
-                if let error = error {
-                    self.inputPicture.image = #imageLiteral(resourceName: "noEventPic.png")
-                } else {
-                    let image = UIImage(data: data!)
-                    self.inputPicture.image = image
-                    
-                }
-            }
             eventRef = (self.event?.itemRef)!
         }else{
             eventRef = self.dbRefEvent.childByAutoId()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if (image != nil){
+            inputPicture.image = image
         }
     }
     @IBOutlet weak var inputEventName: UITextField!
@@ -75,11 +71,6 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate, UIImageP
     @IBOutlet weak var inputMeetingLocation: UITextField!
     
     
-    @IBAction func manageEvents(_ sender: Any) {
-        
-        //make sure to delete
-        self.performSegue(withIdentifier: "returnToMyEvents", sender: self)
-    }
     
     func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
@@ -148,14 +139,14 @@ class CreateEventViewController: UIViewController, UITextFieldDelegate, UIImageP
                 userNewEvent.setValue(self.eventRef.key)
                 
             })
-            self.performSegue(withIdentifier: "returnToMyEvents", sender: self)
+            navigationController?.popViewController(animated: true)
         }
     }
     
     
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
         var image = info[UIImagePickerControllerOriginalImage]as! UIImage
-              dismiss(animated:true, completion: nil) //5
+        dismiss(animated:true, completion: nil) //5
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier :"imageCropper") as! ImageCropperViewController
         vc.image = image

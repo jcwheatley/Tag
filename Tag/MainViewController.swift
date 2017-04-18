@@ -21,6 +21,7 @@ class MainViewController: UIViewController {
     var sorter:SortHelper!
     var currentUser:User!
     var currentEvent = "-1"
+    var iterator = 0;
     var pathHelper:PathHelper!
     
     
@@ -29,11 +30,14 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         LoadingHelper.loading(ui: self)
+        self.poster.alpha = 0
+        self.poster.center = CGPoint(x: self.view.center.x - UIScreen.main.bounds.width, y: self.view.center.y)
         pathHelper = PathHelper()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.poster.alpha = 0
         startObservingDBCompletion()
     }
     
@@ -87,8 +91,7 @@ class MainViewController: UIViewController {
         
     }
     
-    
-    func fillView(){
+    func fillView(direction:Bool){
         if events.count == 0{
             //TODO notify that there are no events
             
@@ -97,9 +100,18 @@ class MainViewController: UIViewController {
             LoadingHelper.doneLoading(ui: self)
         }
         else{
-            let i = Int(arc4random_uniform(UInt32(events.count)))
-            //make sure that we arent filling up the view with the same event
-            let event = events[i]
+            if (direction){
+                iterator -= 1
+                if (iterator == -1){
+                    iterator = events.count - 1
+                }
+            }else{
+                iterator += 1
+                if (iterator == events.count){
+                    iterator = 0
+                }
+            }
+            let event = events[iterator]
             if (event.itemRef?.key != currentEvent){
                 eventTitle.text = event.eventName
                 
@@ -143,7 +155,7 @@ class MainViewController: UIViewController {
                 return
             }
             else{
-                fillView()
+                fillView(direction: direction)
             }
             LoadingHelper.doneLoading(ui: self)
         }
@@ -203,9 +215,9 @@ class MainViewController: UIViewController {
     
     //left = false, right = true
     func resetPoster(direction: Bool) {
-        self.refresh((Any).self)
         //swiped right, move poster in from left
         if(direction){
+            fillView(direction: false)
             self.poster.center = CGPoint(x: self.view.center.x - UIScreen.main.bounds.width, y: self.view.center.y)
             
             UIView.animate(withDuration: 0.3, animations: {
@@ -216,6 +228,7 @@ class MainViewController: UIViewController {
         }
             //swiped left, move poster in from right
         else{
+            fillView(direction: true)
             self.poster.center = CGPoint(x: self.view.center.x + UIScreen.main.bounds.width, y: self.view.center.y)
             
             UIView.animate(withDuration: 0.3, animations: {
@@ -226,10 +239,6 @@ class MainViewController: UIViewController {
         
     }
     
-    
-    @IBAction func refresh(_ sender: Any) {
-        self.fillView()
-    }
     
     @IBAction func discardEvent(_ sender: Any) {
         print ("discard event called")
@@ -251,6 +260,12 @@ class MainViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     @IBAction func toManage(_ sender: Any) {
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers
+        for aViewController in viewControllers {
+            if aViewController is MyEventsView {
+                self.navigationController!.popToViewController(aViewController, animated: true)
+            }
+        }
         self.performSegue(withIdentifier: "toManage", sender: self)
     }
     @IBAction func logout(_ sender: Any) {
@@ -278,12 +293,14 @@ class MainViewController: UIViewController {
             
         })
         startObservingDBCompletion()
+        fillView(direction: true)
     }
     
     func startObservingDBCompletion(){
         self.startObservingDB(completion: {
             self.sorter = SortHelper(currentUser: (self.pathHelper.currentUserFIR?.uid)!, users: self.users)
             self.currentUser = self.sorter.currentUser
+            self.events = self.sorter.removeFaultyEvents(myevents: self.events)
             self.events = self.sorter.allButUserEvents(myevents: self.events)
             self.events = self.sorter.allButDiscardedEvents(myevents: self.events)
             self.events = self.sorter.allButTaggedEvents(myevents: self.events)
@@ -307,6 +324,10 @@ class MainViewController: UIViewController {
                 }
             }
         }
+        if (events.isEmpty){
+            LoadingHelper.doneLoading(ui: self)
+            self.performSegue(withIdentifier: "noMoreEventsSegue", sender: self)
+        }
         for event in events{
             let eventPic = event.eventPicture
             let imageRef = self.pathHelper.storageRef.child(self.pathHelper.eventPicStoragePath + eventPic)
@@ -319,7 +340,12 @@ class MainViewController: UIViewController {
                     self.eventPics[(event.itemRef?.key)!] = image!
                 }
                 if (self.eventPics.count == self.events.count){
-                    self.fillView()
+                    self.fillView(direction: true)
+                    self.poster.alpha = 1
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.poster.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
+                    })
+                    
                 }
             }
             

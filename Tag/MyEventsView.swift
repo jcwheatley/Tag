@@ -13,30 +13,26 @@ import FirebaseStorage
 
 class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    var dbRefEvent:FIRDatabaseReference!
-    var dbRefUser:FIRDatabaseReference!
-    var storageRef:FIRStorageReference!
     var events = [Event]()
     var users = [User]()
     let storage = FIRStorage.storage()
-    let currentUser = FIRAuth.auth()?.currentUser
     let imagePicker = UIImagePickerController()
-    let profilePicStoragePath = "Images/ProfileImage/"
-    let eventPicStoragePath = "Images/EventImage/"
     var sorter:SortHelper!
     var taggedEvents = [Event]()
     var hostedEvents = [Event]()
     var allEvents = [Event]()
+    var eventPics = [String:UIImage]()
+    var pathHelper:PathHelper!
+    var userPics = [String:UIImage]()
+    var taggedCount = 0
+    var hostedCount = 0
     @IBOutlet weak var filter: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        pathHelper = PathHelper()
         self.navigationController?.isNavigationBarHidden = false
         imagePicker.delegate = self;
-        dbRefEvent = FIRDatabase.database().reference().child("events")
-        dbRefUser = FIRDatabase.database().reference().child("users")
-        storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,7 +46,7 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
     }
     
     func startObservingDB (completion: @escaping () -> Void) {
-        dbRefEvent.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+        pathHelper.dbRefEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
             var newEvents = [Event]()
             
             
@@ -64,7 +60,7 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
         }) { (error:Error) in
             print(error.localizedDescription)
         }
-        dbRefUser.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+        pathHelper.dbRefUser.observe(.value, with: { (snapshot:FIRDataSnapshot) in
             var newUsers = [User]()
             
             //todo: seems like this is not actually creating users
@@ -82,9 +78,6 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
         }
     }
     
-    @IBAction func mainPress(_ sender: Any) {
-        self.performSegue(withIdentifier: "segueToMain", sender: self)
-    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -98,11 +91,12 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch(filter.selectedSegmentIndex){
-        case 0: return taggedEvents.count
-        case 1: return hostedEvents.count
-        default: return allEvents.count
+        switch(self.filter.selectedSegmentIndex){
+        case 0: return self.taggedEvents.count
+        case 1: return self.hostedEvents.count
+        default: return self.allEvents.count
         }
+        //        return eventPics.count
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -121,8 +115,13 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
         case 1: event = hostedEvents[indexPath.row]
         default: event = allEvents[indexPath.row]
         }
-        if (event.owner == currentUser?.uid){
-            self.performSegue(withIdentifier: "editEventSegue", sender: event)
+        if (event.owner == pathHelper.currentUserFIR?.uid){
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier :"eventEditor") as! CreateEventViewController
+            vc.event = event
+            vc.viewDidLoad()
+            vc.inputPicture.image = eventPics[(event.itemRef?.key)!]
+            self.navigationController?.pushViewController(vc, animated:true)
         }else{
             //TODO bring up uneditable view
         }
@@ -130,7 +129,6 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
-        //        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "LabelCell")
         let event:Event!
         switch(filter.selectedSegmentIndex){
         case 0: event = taggedEvents[indexPath.row]
@@ -139,19 +137,8 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
         }
         cell.textLabel?.text = event.eventName
         cell.detailTextLabel?.text = event.eventSummary
-        //todo change to event pic
-        let eventPic = event.eventPicture
-        let imageRef = storageRef.child(eventPicStoragePath + eventPic)
         
-        imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
-            if let error = error {
-                print(error)
-                cell.imageView?.image = #imageLiteral(resourceName: "noEventPic.png")
-            } else {
-                let image = UIImage(data: data!)
-                cell.imageView?.image = image
-            }
-        }
+        cell.imageView?.image = eventPics[(event.itemRef?.key)!]
         cell.layoutSubviews()
         return cell
     }
@@ -177,11 +164,44 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
     
     func startObservingDBCompletion(){
         self.startObservingDB(completion: {
-            self.sorter = SortHelper(currentUser: (self.currentUser?.uid)!, users: self.users)
+            self.sorter = SortHelper(currentUser: (self.pathHelper.currentUserFIR!.uid), users: self.users)
             self.taggedEvents = self.sorter.onlyTaggedEvents(myevents: self.events)
             self.hostedEvents = self.sorter.onlyUserEvents(myevents: self.events)
             self.allEvents = self.taggedEvents + self.hostedEvents
+            self.organizePics(events: self.allEvents)
         })
+    }
+    
+    func organizePics(events:[Event]){
+        for user in users{
+            let profilePic = user.profilePicture
+            let imageRef = pathHelper.storageRef.child(pathHelper.profilePicStoragePath + profilePic)
+            imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
+                if let error = error {
+                    print(error)
+                    self.userPics[user.uid] = #imageLiteral(resourceName: "NoPic.gif")
+                } else {
+                    let image = UIImage(data: data!)
+                    self.userPics[user.uid] = image
+                }
+            }
+        }
+        for event in events{
+            let eventPic = event.eventPicture
+            let imageRef = self.pathHelper.storageRef.child(self.pathHelper.eventPicStoragePath + eventPic)
+            imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
+                if error != nil{
+                    print("error")
+                    self.eventPics[event.owner] = #imageLiteral(resourceName: "noEventPic.png")
+                }else{
+                    let image = UIImage(data: data!)
+                    self.eventPics[(event.itemRef?.key)!] = image!
+                }
+                    self.tableView.reloadData()
+            }
+            
+        }
+        
     }
     
 }

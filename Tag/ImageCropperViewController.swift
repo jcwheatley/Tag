@@ -74,7 +74,7 @@ class ImageCropperViewController: UIViewController, UIScrollViewDelegate, UINavi
         })
         let croppedCGImage = imageView.image?.cgImage?.cropping(to: cropArea)
         var croppedImage = UIImage(cgImage: croppedCGImage!)
-
+        
         if (userImg){
             croppedImage = ImageHelper.resizeImage(image: croppedImage, targetSize: CGSize(width: 100, height: 100))
             let data = UIImagePNGRepresentation(croppedImage)
@@ -89,8 +89,12 @@ class ImageCropperViewController: UIViewController, UIScrollViewDelegate, UINavi
                     userRef = userRef.child("profilePicture")
                     userRef.setValue(picName)
                     LoadingHelper.doneLoading(ui: self)
+                    let viewController = self.navigationController?.viewControllers
+                    let count = viewController?.count
+                    if let setVC = viewController?[count! - 2] as? SettingsViewController {
+                        setVC.imageView.image = croppedImage
+                    }
                     _ = self.navigationController?.popViewController(animated: true)
-                    self.scrollView.zoomScale = 1
                 }
                 
             }
@@ -99,14 +103,18 @@ class ImageCropperViewController: UIViewController, UIScrollViewDelegate, UINavi
             let data = UIImagePNGRepresentation(croppedImage)
             let picName = (eventID)! + ".png"
             let picRef = storageRef.child(pathHelper.eventPicStoragePath+picName)
-            print(picRef)
-            _ = picRef.put(data!, metadata: nil){ metadata, error in
+                _ = picRef.put(data!, metadata: nil){ metadata, error in
                 if let error = error{
                     print(error)}
                 else{
                     var eventRef = self.pathHelper.dbRefEvents.child(self.eventID!)
                     eventRef = eventRef.child("eventPicture")
                     eventRef.setValue(picName)
+                    let viewController = self.navigationController?.viewControllers
+                    let count = viewController?.count
+                    if let setVC = viewController?[count! - 2] as? CreateEventViewController {
+                        setVC.image = croppedImage
+                    }
                     LoadingHelper.doneLoading(ui: self)
                     _ = self.navigationController?.popViewController(animated: true)
                     self.scrollView.zoomScale = 1

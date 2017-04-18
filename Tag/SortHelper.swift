@@ -19,9 +19,9 @@ class SortHelper{
                 self.currentUser = user
             }
         }
-
+        
     }
-     func allButUserEvents(myevents:[Event]) -> [Event]{
+    func allButUserEvents(myevents:[Event]) -> [Event]{
         var events = myevents
         print(currentUser.uid)
         events = events.filter{$0.owner != currentUser.uid}
@@ -34,7 +34,7 @@ class SortHelper{
         return events
     }
     
-     func onlyTaggedEvents(myevents:[Event])-> [Event]{
+    func onlyTaggedEvents(myevents:[Event])-> [Event]{
         var events = [Event]()
         let taggedEvents = currentUser.taggedEvents
         for event in myevents{
@@ -45,7 +45,7 @@ class SortHelper{
         return events
     }
     
-     func allButTaggedEvents(myevents:[Event])-> [Event]{
+    func allButTaggedEvents(myevents:[Event])-> [Event]{
         var events:[Event] = []
         let taggedEvents = currentUser.taggedEvents
         print(taggedEvents.count)
@@ -57,7 +57,7 @@ class SortHelper{
         return events
     }
     
-     func allButDiscardedEvents(myevents:[Event])-> [Event]{
+    func allButDiscardedEvents(myevents:[Event])-> [Event]{
         var events:[Event] = []
         let discardedEvents = currentUser.discardedEvents
         for event in myevents{
@@ -69,18 +69,28 @@ class SortHelper{
         
     }
     
-     func onlyDiscardedEvents(myevents:[Event])-> [Event]{
+    func removeFaultyEvents(myevents:[Event]) -> [Event]{
+        var events:[Event] = []
+        for event in myevents{
+            if event.isValid(){
+                events.append(event)
+            }
+        }
+        return events
+    }
+    
+    func onlyDiscardedEvents(myevents:[Event])-> [Event]{
         //TODO FIX
         var events = myevents
         events = events.filter{$0.owner == currentUser.uid}
         return events
     }
     
-     func allEventsInRadius(radius:Int, myevents:[Event])-> [Event]{
+    func allEventsInRadius(radius:Int, myevents:[Event])-> [Event]{
         //TODO FIX
         return myevents
     }
-     func organizeByRadius(myevents:[Event])-> [Event]{
+    func organizeByRadius(myevents:[Event])-> [Event]{
         //TODO FIX
         return myevents
     }

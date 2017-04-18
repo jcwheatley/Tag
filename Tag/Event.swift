@@ -109,5 +109,11 @@ struct Event {
         return ["eventName":eventName, "owner":owner, "eventSummary":eventSummary, "location":location, "locationID": locationID, "meetingLocation":meetingLocation, "meetingLocationID":meetingLocationID, "privateEvent":privateEvent, "eventPicture":eventPicture, "time":time]
         
     }
+    func isValid() -> Bool{
+        if (eventName != "" && owner != "" && eventSummary != "" && location != "" && locationID != "" && meetingLocation != "" && eventPicture != "" && time != ""){
+            return true
+        }
+        return false
+    }
     
 }
