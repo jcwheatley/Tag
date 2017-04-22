@@ -22,6 +22,7 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
     var hostedEvents = [Event]()
     var allEvents = [Event]()
     var eventPics = [String:UIImage]()
+    
     var pathHelper:PathHelper!
     var userPics = [String:UIImage]()
     var taggedCount = 0
@@ -123,7 +124,13 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
             vc.inputPicture.image = eventPics[(event.itemRef?.key)!]
             self.navigationController?.pushViewController(vc, animated:true)
         }else{
+            var newView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "home") as! MainViewController
+            newView.eventViewOnly = event
+            print(event.eventName)
+            newView.viewDidLoad()
+            self.navigationController?.pushViewController(newView, animated: true)
             //TODO bring up uneditable view
+            
         }
     }
     

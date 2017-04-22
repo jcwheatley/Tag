@@ -487,6 +487,10 @@
                                         <rect key="frame" x="670" y="732" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="TA_logo_stamp.png" translatesAutoresizingMaskIntoConstraints="NO" id="Zoi-Vg-gnB">
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="591"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
@@ -494,30 +498,6 @@
                                     <outletCollection property="gestureRecognizers" destination="N8D-oa-qSi" appends="YES" id="ofl-3Q-Brq"/>
                                 </connections>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zqd-7S-fYc">
-                                <rect key="frame" x="683" y="910" width="69" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                <state key="normal" title="Tag Along"/>
-                                <connections>
-                                    <action selector="tagAlong:" destination="Wsd-3f-TMl" eventType="touchUpInside" id="XNk-aK-zuM"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1e7-z4-JhH">
-                                <rect key="frame" x="16" y="910" width="54" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <state key="normal" title="Dismiss"/>
-                                <connections>
-                                    <action selector="refresh:" destination="Wsd-3f-TMl" eventType="touchUpInside" id="AyN-RH-z4r"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qFX-Rm-Pt2">
-                                <rect key="frame" x="364" y="910" width="39" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <state key="normal" title="Trash"/>
-                                <connections>
-                                    <action selector="discardEvent:" destination="Wsd-3f-TMl" eventType="touchUpInside" id="YOL-lL-JnI"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -548,6 +528,7 @@
                         <outlet property="eventTime" destination="7rX-yk-UEw" id="MhC-qE-dFQ"/>
                         <outlet property="eventTitle" destination="ZWh-KA-ahf" id="sDr-sU-GCI"/>
                         <outlet property="poster" destination="rF8-sW-nCs" id="yTm-66-YYy"/>
+                        <outlet property="tagStamp" destination="Zoi-Vg-gnB" id="Cuj-G5-t6e"/>
                         <outlet property="userImage" destination="sgo-no-Wal" id="mEm-Gd-U5j"/>
                         <segue destination="HSM-hd-2uH" kind="show" identifier="toManage" id="VYF-4i-pa7"/>
                         <segue destination="QqP-bD-62D" kind="show" identifier="noMoreEventsSegue" id="K5J-QL-lhx"/>
@@ -561,7 +542,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="736.23188405797111" y="755.70652173913049"/>
+            <point key="canvasLocation" x="735.9375" y="755.2734375"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="jQE-uF-xs1">
@@ -650,6 +631,7 @@
     </scenes>
     <resources>
         <image name="NoPic.gif" width="74" height="74"/>
+        <image name="TA_logo_stamp.png" width="2006" height="2006"/>
         <image name="TagIcon.png" width="5006" height="5006"/>
         <image name="gav.jpg" width="1092" height="1092"/>
     </resources>

@@ -94,6 +94,7 @@ class ImageCropperViewController: UIViewController, UIScrollViewDelegate, UINavi
                     if let setVC = viewController?[count! - 2] as? SettingsViewController {
                         setVC.imageView.image = croppedImage
                     }
+                    PictureManager.sharedInstance.myProfilePic = croppedImage
                     _ = self.navigationController?.popViewController(animated: true)
                 }
                 

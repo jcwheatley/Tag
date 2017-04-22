@@ -23,22 +23,29 @@ class MainViewController: UIViewController {
     var currentEvent = "-1"
     var iterator = 0;
     var pathHelper:PathHelper!
+    var eventViewOnly:Event?
     
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        LoadingHelper.loading(ui: self)
-        self.poster.alpha = 0
-        self.poster.center = CGPoint(x: self.view.center.x - UIScreen.main.bounds.width, y: self.view.center.y)
-        pathHelper = PathHelper()
+        if (eventViewOnly == nil){
+            LoadingHelper.loading(ui: self)
+            self.poster.alpha = 0
+            self.poster.center = CGPoint(x: self.view.center.x - UIScreen.main.bounds.width, y: self.view.center.y)
+            pathHelper = PathHelper()
+            let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+            tap.numberOfTapsRequired = 2
+            view.addGestureRecognizer(tap)
+            self.poster.alpha = 0
+            startObservingDBCompletion()
+        }
     }
-    
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.poster.alpha = 0
-        startObservingDBCompletion()
+        if (eventViewOnly != nil){
+            eventTitle.text = eventViewOnly?.eventName
+        }
     }
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -50,10 +57,39 @@ class MainViewController: UIViewController {
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var poster: UIView!
+    @IBOutlet weak var tagStamp: UIImageView!
     
+    func doubleTapped(){
+        currentUser.taggedEvents.append(currentEvent)
+        let userRef = self.pathHelper.dbRefUser.child(currentUser.uid)
+        let userMyTaggedEvents = userRef.child("taggedEvents")
+        userMyTaggedEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
+            userMyTaggedEvents.removeAllObservers()
+            let count = snapshot.childrenCount
+            let userNewEvent = userMyTaggedEvents.child(count.description)
+            userNewEvent.setValue(self.currentEvent)
+            self.startObservingDBCompletion()
+            self.slideDownPoster()
+        })
+    }
     
-    
-    
+    func slideDownPoster(){
+        tagStamp.alpha = 1
+        UIView.animate(withDuration: 1, animations: {
+            self.poster.center = CGPoint(x: self.view.center.x, y: self.view.center.y+UIScreen.main.bounds.height)
+            
+        }, completion: {(finished:Bool) in
+            self.tagStamp.alpha = 0
+            self.fillView(direction: true)
+            self.poster.center = CGPoint(x: self.view.center.x - UIScreen.main.bounds.width, y: self.view.center.y)
+            UIView.animate(withDuration: 0.3, animations: {
+                self.poster.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
+                self.poster.alpha = 1
+            })
+        })
+        
+        
+    }
     //creates arrays of events and users
     func startObservingDB (completion: @escaping () -> Void) {
         pathHelper.dbRefEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
@@ -114,7 +150,6 @@ class MainViewController: UIViewController {
             let event = events[iterator]
             if (event.itemRef?.key != currentEvent){
                 eventTitle.text = event.eventName
-                
                 for user in users{
                     if (user.uid == event.owner){
                         
@@ -278,24 +313,6 @@ class MainViewController: UIViewController {
     }
     
     
-    
-    @IBAction func tagAlong(_ sender: Any) {
-        print ("tag along event called")
-        
-        currentUser.taggedEvents.append(currentEvent)
-        let userRef = self.pathHelper.dbRefUser.child(currentUser.uid)
-        let userMyTaggedEvents = userRef.child("taggedEvents")
-        userMyTaggedEvents.observe(.value, with: { (snapshot:FIRDataSnapshot) in
-            userMyTaggedEvents.removeAllObservers()
-            let count = snapshot.childrenCount
-            let userNewEvent = userMyTaggedEvents.child(count.description)
-            userNewEvent.setValue(self.currentEvent)
-            
-        })
-        startObservingDBCompletion()
-        fillView(direction: true)
-    }
-    
     func startObservingDBCompletion(){
         self.startObservingDB(completion: {
             self.sorter = SortHelper(currentUser: (self.pathHelper.currentUserFIR?.uid)!, users: self.users)
@@ -304,9 +321,30 @@ class MainViewController: UIViewController {
             self.events = self.sorter.allButUserEvents(myevents: self.events)
             self.events = self.sorter.allButDiscardedEvents(myevents: self.events)
             self.events = self.sorter.allButTaggedEvents(myevents: self.events)
-            
-            
-            self.organizePics()
+            if (self.events.isEmpty){
+                LoadingHelper.doneLoading(ui: self)
+                self.performSegue(withIdentifier: "noMoreEventsSegue", sender: self)
+            }else{
+                self.organizePics()
+            }
+        })
+    }
+    //calls fill view at the end as well
+    func startObservingDBCompletionWithFillView(){
+        self.startObservingDB(completion: {
+            self.sorter = SortHelper(currentUser: (self.pathHelper.currentUserFIR?.uid)!, users: self.users)
+            self.currentUser = self.sorter.currentUser
+            self.events = self.sorter.removeFaultyEvents(myevents: self.events)
+            self.events = self.sorter.allButUserEvents(myevents: self.events)
+            self.events = self.sorter.allButDiscardedEvents(myevents: self.events)
+            self.events = self.sorter.allButTaggedEvents(myevents: self.events)
+            if (self.events.isEmpty){
+                LoadingHelper.doneLoading(ui: self)
+                self.performSegue(withIdentifier: "noMoreEventsSegue", sender: self)
+            }else{
+                self.organizePics()
+                self.fillView(direction: true)
+            }
         })
     }
     
@@ -324,9 +362,16 @@ class MainViewController: UIViewController {
                 }
             }
         }
-        if (events.isEmpty){
-            LoadingHelper.doneLoading(ui: self)
-            self.performSegue(withIdentifier: "noMoreEventsSegue", sender: self)
+        let profilePic = currentUser.profilePicture
+        let imageRef = pathHelper.storageRef.child(pathHelper.profilePicStoragePath + profilePic)
+        imageRef.data(withMaxSize: 1 * 30000 * 30000) { data, error in
+            if let error = error {
+                print(error)
+                PictureManager.sharedInstance.myProfilePic = #imageLiteral(resourceName: "NoPic.gif")
+            } else {
+                let image = UIImage(data: data!)
+                PictureManager.sharedInstance.myProfilePic = image!
+            }
         }
         for event in events{
             let eventPic = event.eventPicture

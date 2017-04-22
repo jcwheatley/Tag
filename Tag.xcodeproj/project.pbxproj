@@ -37,8 +37,10 @@
 		B6336D471E5B988600996CC1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6336D461E5B988600996CC1 /* SettingsViewController.swift */; };
 		B6336D491E5B9D8E00996CC1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6336D481E5B9D8E00996CC1 /* Main.storyboard */; };
 		B63CC3251EA161BD0025C1F5 /* PathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63CC3241EA161BD0025C1F5 /* PathHelper.swift */; };
+		B64255D91EA9B2BA0053092D /* PictureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64255D81EA9B2BA0053092D /* PictureManager.swift */; };
 		B655FF201E59189A008040E9 /* MyEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B655FF1F1E59189A008040E9 /* MyEventsView.swift */; };
 		B67045561E8185DF00AC9BF9 /* SortHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67045551E8185DF00AC9BF9 /* SortHelper.swift */; };
+		B67F3A791EAAD4A400DFC117 /* TA_logo_stamp.png in Resources */ = {isa = PBXBuildFile; fileRef = B67F3A781EAAD4A400DFC117 /* TA_logo_stamp.png */; };
 		B69A1F8E1E84B14100B6F1DB /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */; };
 		B6BA131C1E8C33EE008E4605 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BA131B1E8C33EE008E4605 /* MapViewController.swift */; };
 		B6C5E1591E96C09A004CAF0C /* ImageCropperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C5E1581E96C09A004CAF0C /* ImageCropperViewController.swift */; };
@@ -105,8 +107,10 @@
 		B6336D461E5B988600996CC1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B6336D481E5B9D8E00996CC1 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B63CC3241EA161BD0025C1F5 /* PathHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathHelper.swift; sourceTree = "<group>"; };
+		B64255D81EA9B2BA0053092D /* PictureManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureManager.swift; sourceTree = "<group>"; };
 		B655FF1F1E59189A008040E9 /* MyEventsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventsView.swift; sourceTree = "<group>"; };
 		B67045551E8185DF00AC9BF9 /* SortHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortHelper.swift; sourceTree = "<group>"; };
+		B67F3A781EAAD4A400DFC117 /* TA_logo_stamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TA_logo_stamp.png; sourceTree = "<group>"; };
 		B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
 		B6BA131B1E8C33EE008E4605 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		B6C5E1581E96C09A004CAF0C /* ImageCropperViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperViewController.swift; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 		B621C3B11E503A25008AB327 = {
 			isa = PBXGroup;
 			children = (
+				B64255D71EA9B29A0053092D /* Manager */,
 				B621C3BC1E503A25008AB327 /* Tag */,
 				B621C3D11E503A25008AB327 /* TagTests */,
 				B621C3DC1E503A25008AB327 /* TagUITests */,
@@ -183,6 +188,7 @@
 				B655FF1E1E58ED3F008040E9 /* Model */,
 				B621C3FB1E5123E8008AB327 /* Resources */,
 				B621C3BD1E503A25008AB327 /* AppDelegate.swift */,
+				B67F3A781EAAD4A400DFC117 /* TA_logo_stamp.png */,
 				B6336D481E5B9D8E00996CC1 /* Main.storyboard */,
 				B621C3C41E503A25008AB327 /* Assets.xcassets */,
 				B621C3C61E503A25008AB327 /* LaunchScreen.storyboard */,
@@ -233,6 +239,14 @@
 				B63CC3241EA161BD0025C1F5 /* PathHelper.swift */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		B64255D71EA9B29A0053092D /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B64255D81EA9B2BA0053092D /* PictureManager.swift */,
+			);
+			name = Manager;
 			sourceTree = "<group>";
 		};
 		B655FF1E1E58ED3F008040E9 /* Model */ = {
@@ -407,6 +421,7 @@
 				B6102EE51E9F34F700E4528C /* loading.gif in Resources */,
 				B6336D451E5B689900996CC1 /* TagIcon.png in Resources */,
 				B621C3FD1E51241C008AB327 /* NoPic.gif in Resources */,
+				B67F3A791EAAD4A400DFC117 /* TA_logo_stamp.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,6 +594,7 @@
 				B6336D471E5B988600996CC1 /* SettingsViewController.swift in Sources */,
 				B621C3EE1E510A02008AB327 /* SweetsTableViewController.swift in Sources */,
 				B6BA131C1E8C33EE008E4605 /* MapViewController.swift in Sources */,
+				B64255D91EA9B2BA0053092D /* PictureManager.swift in Sources */,
 				B621C3C01E503A25008AB327 /* ViewController.swift in Sources */,
 				B655FF201E59189A008040E9 /* MyEventsView.swift in Sources */,
 				1A38BF001E83CBD900DFCF47 /* SwipeDownSettingsViewController.swift in Sources */,

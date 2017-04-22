@@ -31,6 +31,7 @@ class SettingsViewController: UIViewController, UIImagePickerControllerDelegate,
         imagePicker.delegate = self;
         dbRefUser = FIRDatabase.database().reference().child("users")
         storageRef = storage.reference(forURL: "gs://tag-along-6c539.appspot.com")
+        imageView.image = PictureManager.sharedInstance.myProfilePic
     }
     
     override func viewDidAppear(_ animated: Bool) {
