@@ -133,8 +133,9 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
             }
             let packagedEvent = PackagedEvent(event: event, ownerName: user.username, image: eventPics[(event.itemRef?.key)!]!, userImage: userPics[user.uid]!)
             newView.eventViewOnly = packagedEvent
-            print(event.eventName)
             newView.viewDidLoad()
+            newView.viewDidAppear(false)
+            newView.poster.alpha = 0
             self.navigationController?.pushViewController(newView, animated: true)
             //TODO bring up uneditable view
             

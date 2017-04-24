@@ -43,6 +43,7 @@ class MainViewController: UIViewController {
         }
     }
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         if (eventViewOnly != nil){
             eventTitle.text = eventViewOnly?.event.eventName
             eventDescription.text = eventViewOnly?.event.eventSummary
@@ -52,17 +53,14 @@ class MainViewController: UIViewController {
             dateFormatter.dateFormat = "E, MMM dd"
             let dateString = dateFormatter.string(from: date!)
             eventTime.text = dateString
+            location.text = eventViewOnly?.event.location
             eventImage.image = eventViewOnly?.image
             eventHost.text = eventViewOnly?.ownerName
             userImage.image = eventViewOnly?.userImage
             self.poster.isUserInteractionEnabled = false
-            let backButton = UIButton(type: .custom)
             self.navigationItem.rightBarButtonItem = nil
-            backButton.setTitle("Back", for: .normal)
-            backButton.setTitleColor(backButton.tintColor, for: .normal) // You can change the TitleColor
-            backButton.addTarget(self, action: #selector(self.backAction(_:)), for: .touchUpInside)
-            backButton.alpha = 1
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+            self.navigationItem.leftBarButtonItem?=UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(backAction))
+            self.poster.alpha = 1
         }
     }
     
@@ -75,7 +73,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var eventTime: UILabel!
     @IBOutlet weak var eventDescription: UITextView!
     @IBOutlet weak var eventHost: UILabel!
-    @IBOutlet weak var eventLocationBtn: UIButton!
+    @IBOutlet weak var location: UILabel!
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var poster: UIView!
@@ -192,11 +190,11 @@ class MainViewController: UIViewController {
                 self.userImage.layer.masksToBounds = true
                 
                 self.view.bringSubview(toFront: eventTitle)
-                self.view.bringSubview(toFront: eventLocationBtn)
+                self.view.bringSubview(toFront: location)
                 self.view.bringSubview(toFront: eventTime)
                 //self.view.bringSubview(toFront: scrollView)
                 
-                eventLocationBtn.setTitle(event.location, for: .normal)
+                location.text = event.location
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
@@ -333,9 +331,6 @@ class MainViewController: UIViewController {
         self.performSegue(withIdentifier: "logoutSegue", sender: self)
     }
     
-    @IBAction func toMap(_ sender: Any) {
-        self.performSegue(withIdentifier: "toMapSegue", sender: self)
-    }
     
     
     func startObservingDBCompletion(){
@@ -354,7 +349,7 @@ class MainViewController: UIViewController {
                     self.poster.alpha = 0
                     self.noMoreEventsMsg.alpha = 1
                 }
-            
+                
             }else{
                 self.organizePics()
             }
