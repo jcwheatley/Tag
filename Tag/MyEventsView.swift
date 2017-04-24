@@ -124,8 +124,15 @@ class MyEventsView: UITableViewController, UIImagePickerControllerDelegate, UINa
             vc.inputPicture.image = eventPics[(event.itemRef?.key)!]
             self.navigationController?.pushViewController(vc, animated:true)
         }else{
-            var newView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "home") as! MainViewController
-            newView.eventViewOnly = event
+            let newView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "home") as! MainViewController
+            var user:User!
+            for u in users{
+                if (u.uid == event.owner){
+                    user = u
+                }
+            }
+            let packagedEvent = PackagedEvent(event: event, ownerName: user.username, image: eventPics[(event.itemRef?.key)!]!, userImage: userPics[user.uid]!)
+            newView.eventViewOnly = packagedEvent
             print(event.eventName)
             newView.viewDidLoad()
             self.navigationController?.pushViewController(newView, animated: true)

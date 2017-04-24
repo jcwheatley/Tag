@@ -23,7 +23,7 @@ class MainViewController: UIViewController {
     var currentEvent = "-1"
     var iterator = 0;
     var pathHelper:PathHelper!
-    var eventViewOnly:Event?
+    var eventViewOnly:PackagedEvent?
     
     
     
@@ -44,8 +44,31 @@ class MainViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         if (eventViewOnly != nil){
-            eventTitle.text = eventViewOnly?.eventName
+            eventTitle.text = eventViewOnly?.event.eventName
+            eventDescription.text = eventViewOnly?.event.eventSummary
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+            let date = dateFormatter.date(from: (eventViewOnly?.event.time)!)
+            dateFormatter.dateFormat = "E, MMM dd"
+            let dateString = dateFormatter.string(from: date!)
+            eventTime.text = dateString
+            eventImage.image = eventViewOnly?.image
+            eventHost.text = eventViewOnly?.ownerName
+            userImage.image = eventViewOnly?.userImage
+            self.poster.isUserInteractionEnabled = false
+            let backButton = UIButton(type: .custom)
+            self.navigationItem.rightBarButtonItem = nil
+            self.navigationItem.leftBarButtonItem = back
+            backButton.setTitle("Back", for: .normal)
+            backButton.setTitleColor(backButton.tintColor, for: .normal) // You can change the TitleColor
+            backButton.addTarget(self, action: #selector(self.backAction(_:)), for: .touchUpInside)
+            backButton.alpha = 1
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         }
+    }
+    
+    @IBAction func backAction(_ sender: UIButton) {
+        let _ = self.navigationController?.popViewController(animated: true)
     }
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -326,24 +349,6 @@ class MainViewController: UIViewController {
                 self.performSegue(withIdentifier: "noMoreEventsSegue", sender: self)
             }else{
                 self.organizePics()
-            }
-        })
-    }
-    //calls fill view at the end as well
-    func startObservingDBCompletionWithFillView(){
-        self.startObservingDB(completion: {
-            self.sorter = SortHelper(currentUser: (self.pathHelper.currentUserFIR?.uid)!, users: self.users)
-            self.currentUser = self.sorter.currentUser
-            self.events = self.sorter.removeFaultyEvents(myevents: self.events)
-            self.events = self.sorter.allButUserEvents(myevents: self.events)
-            self.events = self.sorter.allButDiscardedEvents(myevents: self.events)
-            self.events = self.sorter.allButTaggedEvents(myevents: self.events)
-            if (self.events.isEmpty){
-                LoadingHelper.doneLoading(ui: self)
-                self.performSegue(withIdentifier: "noMoreEventsSegue", sender: self)
-            }else{
-                self.organizePics()
-                self.fillView(direction: true)
             }
         })
     }

@@ -41,6 +41,7 @@
 		B655FF201E59189A008040E9 /* MyEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B655FF1F1E59189A008040E9 /* MyEventsView.swift */; };
 		B67045561E8185DF00AC9BF9 /* SortHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67045551E8185DF00AC9BF9 /* SortHelper.swift */; };
 		B67F3A791EAAD4A400DFC117 /* TA_logo_stamp.png in Resources */ = {isa = PBXBuildFile; fileRef = B67F3A781EAAD4A400DFC117 /* TA_logo_stamp.png */; };
+		B67F3A7B1EAD936100DFC117 /* packagedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67F3A7A1EAD936100DFC117 /* packagedEvent.swift */; };
 		B69A1F8E1E84B14100B6F1DB /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */; };
 		B6BA131C1E8C33EE008E4605 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BA131B1E8C33EE008E4605 /* MapViewController.swift */; };
 		B6C5E1591E96C09A004CAF0C /* ImageCropperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C5E1581E96C09A004CAF0C /* ImageCropperViewController.swift */; };
@@ -111,6 +112,7 @@
 		B655FF1F1E59189A008040E9 /* MyEventsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEventsView.swift; sourceTree = "<group>"; };
 		B67045551E8185DF00AC9BF9 /* SortHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortHelper.swift; sourceTree = "<group>"; };
 		B67F3A781EAAD4A400DFC117 /* TA_logo_stamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TA_logo_stamp.png; sourceTree = "<group>"; };
+		B67F3A7A1EAD936100DFC117 /* packagedEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = packagedEvent.swift; sourceTree = "<group>"; };
 		B69A1F8D1E84B14100B6F1DB /* UserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
 		B6BA131B1E8C33EE008E4605 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		B6C5E1581E96C09A004CAF0C /* ImageCropperViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				B621C3F31E510AE2008AB327 /* Sweet.swift */,
 				B621C3F51E510B14008AB327 /* User.swift */,
 				B6336D401E592B4700996CC1 /* Event.swift */,
+				B67F3A7A1EAD936100DFC117 /* packagedEvent.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -597,6 +600,7 @@
 				B64255D91EA9B2BA0053092D /* PictureManager.swift in Sources */,
 				B621C3C01E503A25008AB327 /* ViewController.swift in Sources */,
 				B655FF201E59189A008040E9 /* MyEventsView.swift in Sources */,
+				B67F3A7B1EAD936100DFC117 /* packagedEvent.swift in Sources */,
 				1A38BF001E83CBD900DFCF47 /* SwipeDownSettingsViewController.swift in Sources */,
 				B621C3F41E510AE2008AB327 /* Sweet.swift in Sources */,
 				1AB8D03B1E9382860076132A /* NoEventsViewController.swift in Sources */,
