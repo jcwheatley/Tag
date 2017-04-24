@@ -58,7 +58,6 @@ class MainViewController: UIViewController {
             self.poster.isUserInteractionEnabled = false
             let backButton = UIButton(type: .custom)
             self.navigationItem.rightBarButtonItem = nil
-            self.navigationItem.leftBarButtonItem = back
             backButton.setTitle("Back", for: .normal)
             backButton.setTitleColor(backButton.tintColor, for: .normal) // You can change the TitleColor
             backButton.addTarget(self, action: #selector(self.backAction(_:)), for: .touchUpInside)
@@ -81,6 +80,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var poster: UIView!
     @IBOutlet weak var tagStamp: UIImageView!
+    @IBOutlet weak var noMoreEventsMsg: UITextView!
     
     func doubleTapped(){
         currentUser.taggedEvents.append(currentEvent)
@@ -154,8 +154,10 @@ class MainViewController: UIViewController {
         if events.count == 0{
             //TODO notify that there are no events
             
-            self.performSegue(withIdentifier: "noMoreEventsSegue", sender: self)
+            //self.performSegue(withIdentifier: "noMoreEventsSegue", sender: self)
             
+            self.poster.alpha = 0
+            self.noMoreEventsMsg.alpha = 1
             LoadingHelper.doneLoading(ui: self)
         }
         else{
@@ -199,7 +201,7 @@ class MainViewController: UIViewController {
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
                 let date = dateFormatter.date(from: (event.time))
-                dateFormatter.dateFormat = "E, MMM dd"
+                dateFormatter.dateFormat = "E, MMM dd\nh:mm a"
                 let dateString = dateFormatter.string(from: date!)
                 
                 eventTime.text = dateString
@@ -345,8 +347,14 @@ class MainViewController: UIViewController {
             self.events = self.sorter.allButDiscardedEvents(myevents: self.events)
             self.events = self.sorter.allButTaggedEvents(myevents: self.events)
             if (self.events.isEmpty){
-                LoadingHelper.doneLoading(ui: self)
-                self.performSegue(withIdentifier: "noMoreEventsSegue", sender: self)
+                
+                let when = DispatchTime.now() + 1
+                DispatchQueue.main.asyncAfter(deadline: when) {
+                    LoadingHelper.doneLoading(ui: self)
+                    self.poster.alpha = 0
+                    self.noMoreEventsMsg.alpha = 1
+                }
+            
             }else{
                 self.organizePics()
             }
